@@ -11,32 +11,12 @@ jobs:
           mkdir -p out && cd out
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"
           {
-          echo "== Meteo-France: get session cookie"
-          curl -sS -A "$UA" -c jar.txt -o mf_page.html -w "%{http_code}\n" https://meteofrance.re/fr/cyclone
-          grep -q mfsession jar.txt && echo "mfsession cookie: present" || echo "mfsession cookie: MISSING"
-          TOK=$(awk '$6=="mfsession"{print $7}' jar.txt | python3 -c "import sys,urllib.parse,codecs;print(codecs.decode(urllib.parse.unquote(sys.stdin.read().strip()),'rot13'))")
-          echo "token len ${#TOK}"
-          B=https://rwg.meteofrance.com/internet2018client/2.0
-          curl -sS -A "$UA" -H "Authorization: Bearer $TOK" -o mf_list.json -w "list %{http_code}\n" "$B/cyclone/list?basin=SWI&season=20252026"
-          curl -sS -A "$UA" -H "Authorization: Bearer $TOK" -o mf_list_current.json -w "current %{http_code}\n" "$B/cyclone/list?basin=SWI&current=true"
-          curl -sS -A "$UA" -H "Authorization: Bearer $TOK" -o mf_gezani.json -w "gezani %{http_code}\n" "$B/cyclone/trajectory?cyclone_id=SWI%2410%2F20252026"
-          curl -sS -A "$UA" -H "Authorization: Bearer $TOK" -o mf_belal.json -w "belal %{http_code}\n" "$B/cyclone/list?basin=SWI&season=20232024"
-          head -c 300 mf_list_current.json; echo; head -c 200 mf_gezani.json; echo
-          echo "== MMS"
-          for p in cyclone-bulletin-english-mauritius.php current-cyclone.php; do curl -sS -A "$UA" -L -o mms_$p.html -w "$p %{http_code}\n" "http://metservice.intnet.mu/$p"; done
-          echo "== JTWC"
-          curl -sS -A "$UA" -o jtwc.rss -w "rss %{http_code}\n" https://www.metoc.navy.mil/jtwc/rss/jtwc.rss; head -c 400 jtwc.rss; echo
-          echo "== Wayback CDX"
-          curl -sS "https://web.archive.org/cdx/search/cdx?url=metservice.intnet.mu/cyclone-bulletin-english-mauritius.php&from=2024&to=2026&output=json&limit=200" -o cdx_mms.json -w "cdx mms %{http_code}\n"
-          curl -sS "https://web.archive.org/cdx/search/cdx?url=metoc.navy.mil/jtwc/products/sh*&matchType=prefix&from=202401&to=202604&output=json&limit=300" -o cdx_jtwc.json -w "cdx jtwc %{http_code}\n"
-          curl -sS "https://web.archive.org/cdx/search/cdx?url=www.metoc.navy.mil/jtwc/products/sh*&from=202401&to=202604&output=json&limit=300" -o cdx_jtwc2.json -w "cdx jtwc2 %{http_code}\n"
-          python3 - <<'PY'
-          import json
-          for f in ['cdx_mms.json','cdx_jtwc.json','cdx_jtwc2.json']:
-              try:
-                  d=json.load(open(f)); print(f,len(d)); [print('  ',r[1],r[2],r[4]) for r in d[1:40]]
-              except Exception as e: print(f,'ERR',e, open(f).read()[:200])
-          PY
+          J=https://www.metoc.navy.mil/jtwc/products
+          for f in wp2726.tcw wp2726web.txt wp2826.tcw wp2826web.txt ep2026.tcw abioweb.txt; do curl -sS -A "$UA" -o jtwc_$f -w "$f %{http_code} %{size_download}\n" "$J/$f"; done
+          for ts in 20240114063855 20240114220947 20240115062430 20240115110449 20240116010351 20240125010556 20240221164021; do
+            curl -sS -o mms_$ts.html -w "mms $ts %{http_code} %{size_download}\n" "https://web.archive.org/web/${ts}id_/http://metservice.intnet.mu/cyclone-bulletin-english-mauritius.php"; sleep 2; done
+          curl -sS "https://web.archive.org/cdx/search/cdx?url=s3.amazonaws.com/www.metoc.navy.mil/jtwc/products/sh*&from=202401&to=202604&output=json&limit=200" -o cdx_jtwc3.json -w "cdx jtwc3 %{http_code}\n"
+          head -c 600 cdx_jtwc3.json; echo
           } 2>&1 | tee log.txt
       - name: Commit samples
         run: |
