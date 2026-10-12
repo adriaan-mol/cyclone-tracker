@@ -22,7 +22,14 @@ body, html, #app {
   width: 100%;
   height: 100%;
   z-index: 1;
-  filter: contrast(1.1) saturate(0.6) brightness(0.7);
+}
+
+/* Dark mode for free OSM tiles */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
 .leaflet-container {
@@ -233,10 +240,9 @@ body, html, #app {
 }
 
 /* Classification colors */
-.hu { border-left-color: #ff3366 !important; }
-.ts { border-left-color: #ffaa00 !important; }
-.td { border-left-color: #00ff88 !important; }
-.ptc { border-left-color: #aa66ff !important; }
+.alert-orange { border-left-color: #ffaa00 !important; }
+.alert-red { border-left-color: #ff3366 !important; }
+.alert-green { border-left-color: #00ff88 !important; }
 
 .leaflet-popup-content-wrapper {
   background: rgba(0,10,20,0.95) !important;
