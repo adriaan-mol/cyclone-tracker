@@ -8,41 +8,35 @@ jobs:
     steps:
       - name: Fetch samples
         run: |
-          mkdir out && cd out
-          B=https://www.gdacs.org/gdacsapi/api
-          curl -sS -D h_list.txt "$B/events/geteventlist/SEARCH?eventlist=TC" -o list_now.json || true
-          curl -sS "$B/events/geteventlist/SEARCH?eventlist=TC&fromdate=2024-01-10&todate=2024-01-20" -o list_belal.json || true
-          curl -sS "$B/events/geteventlist/SEARCH?eventlist=TC&fromdate=2025-01-10&todate=2025-03-20" -o list_2025.json || true
+          pip install shapely >/dev/null
+          mkdir -p out/ep && cd out
+          curl -sSL -o ne.zip https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip || curl -sSL -o ne.zip https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries.zip
+          ls -la ne.zip
+          pip install pyshp >/dev/null
           python3 - <<'PY'
-          import json,subprocess
-          for f in ["list_now.json","list_belal.json","list_2025.json"]:
-              try: d=json.load(open(f))
-              except Exception as e: print(f,"ERR",e); continue
-              for ft in d.get("features",[])[:40]:
-                  p=ft["properties"]
-                  print(f,p.get("eventid"),p.get("episodeid"),p.get("name"),ft["geometry"]["coordinates"])
+          import zipfile,shapefile,json
+          from shapely.geometry import shape,box,mapping
+          z=zipfile.ZipFile('ne.zip'); z.extractall('ne')
+          import glob
+          r=shapefile.Reader(glob.glob('ne/*.shp')[0])
+          fields=[f[0] for f in r.fields[1:]]
+          clip=box(25,-45,95,5)
+          feats=[]
+          for sr in r.iterShapeRecords():
+              rec=dict(zip(fields,sr.record))
+              g=shape(sr.shape.__geo_interface__)
+              if not g.intersects(clip): continue
+              g=g.intersection(clip).simplify(0.01,preserve_topology=True)
+              if g.is_empty: continue
+              feats.append({"type":"Feature","properties":{"name":rec.get("NAME") or rec.get("ADMIN"),"iso3":rec.get("ADM0_A3")},"geometry":mapping(g)})
+          json.dump({"type":"FeatureCollection","features":feats},open('region-land.geojson','w'))
+          print(len(feats),[f['properties']['name'] for f in feats])
           PY
-      - name: Geometry samples
-        run: |
-          cd out
-          python3 - <<'PY'
-          import json,subprocess
-          seen=0
-          for f in ["list_now.json","list_belal.json","list_2025.json"]:
-              try: d=json.load(open(f))
-              except: continue
-              for ft in d.get("features",[]):
-                  p=ft["properties"]; lon,lat=ft["geometry"]["coordinates"][:2]
-                  if not (-40<lat<5 and 30<lon<90): continue
-                  eid,ep=p["eventid"],p["episodeid"]
-                  u=f"https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid={eid}&episodeid={ep}"
-                  subprocess.run(["curl","-sS",u,"-o",f"geom_{eid}_{ep}.json"])
-                  u2=f"https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid={eid}"
-                  subprocess.run(["curl","-sS",u2,"-o",f"data_{eid}.json"])
-                  seen+=1
-                  if seen>=4: raise SystemExit
-          PY
-          ls -la
+          rm -rf ne ne.zip
+          B=https://www.gdacs.org/gdacsapi/api/polygons/getgeometry
+          for ep in $(seq 1 27); do curl -sS "$B?eventtype=TC&eventid=1001041&episodeid=$ep" -o ep/belal_$ep.json; done
+          for ep in $(seq 1 47); do curl -sS "$B?eventtype=TC&eventid=1001256&episodeid=$ep" -o ep/gezani_$ep.json; done
+          du -sh ep
       - name: Commit samples to probe branch
         run: |
           cd out
