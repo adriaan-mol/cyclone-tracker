@@ -285,3 +285,17 @@ body, html, #app {
 .leaflet-tooltip.place-label::before, .leaflet-tooltip.fc-label::before, .leaflet-tooltip.storm-label::before, .leaflet-tooltip.lf-label::before { display: none; }
 .landfall-star { color: #ffaa00; font-size: 22px; line-height: 22px; text-align: center; text-shadow: 0 0 8px #ffaa00; }
 
+
+/* ---- v5: warnings, JTWC, sources ---- */
+.warning { display: block; text-decoration: none; margin: 2px 0 10px; padding: 10px 12px; background: rgba(255,51,102,0.18);
+  border: 1px solid #ff3366; border-left: 4px solid #ff3366; color: #ffd0da; }
+.warning .w-title { color: #fff; font-weight: bold; font-size: 14px; letter-spacing: 1px; text-shadow: 0 0 8px #ff3366; }
+.warning .w-meta { font-size: 10px; color: #ff9fb4; margin: 3px 0 6px; letter-spacing: 1px; }
+.warning .w-text { font-size: 12px; line-height: 1.4; }
+.storm-item .row.jtwc { color: #e3cbff; }
+.storm-item .row.jtwc b { color: #c58cff; }
+.storm-meta.src { margin-top: 6px; opacity: 0.6; font-size: 10px; }
+.source-status { display: flex; justify-content: center; gap: 12px; margin-top: 8px; font-size: 9px; letter-spacing: 1px; }
+.source-status .ok { color: #00ff88; opacity: 0.7; }
+.source-status .bad { color: #ff3366; }
+.warning .w-text { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }

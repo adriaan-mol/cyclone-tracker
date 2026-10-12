@@ -91,7 +91,7 @@ def extent_for(storms, now):
             if T(p["t"]) >= cutoff:
                 xs.append(p["lon"]); ys.append(p["lat"])
         xs.append(s["position"]["lon"]); ys.append(s["position"]["lat"])
-        for p in s["forecast"]:
+        for p in s["forecast"] + ((s.get("jtwc") or {}).get("forecast") or []):
             xs.append(p["lon"]); ys.append(p["lat"])
     x0, x1, y0, y1 = min(xs) - 3, max(xs) + 3, min(ys) - 3, max(ys) + 3
     w, h = x1 - x0, y1 - y0
@@ -107,7 +107,7 @@ def extent_for(storms, now):
     return x0, x1, max(y0, -48), min(y1, 8)
 
 
-def render(storms, now, out_path, note=None):
+def render(storms, now, out_path, note=None, warnings=None):
     storms = [s for s in storms if s["closing_in"]] or storms
     plt.rcParams["hatch.color"] = FADED
     plt.rcParams["hatch.linewidth"] = 0.35
@@ -156,6 +156,14 @@ def render(storms, now, out_path, note=None):
             ax.plot(p["lon"], p["lat"], "o", ms=3.5, mfc=INK if p["cat"] == "TS" else PAPER, mec=INK, zorder=7)
         for seg in s.get("forecast_segments") or []:
             ax.plot([c[0] for c in seg], [c[1] for c in seg], color=INK, lw=1.8, ls=(0, (5, 3)), zorder=6)
+        jt = s.get("jtwc")
+        if jt and jt["forecast"]:
+            chain = [s["position"]] + jt["forecast"]
+            ax.plot([p["lon"] for p in chain], [p["lat"] for p in chain], color=FADED, lw=1.7, ls=(0, (6, 2, 1, 2)), zorder=5)
+            ax.plot([p["lon"] for p in jt["forecast"]], [p["lat"] for p in jt["forecast"]], "x", ms=4, color=FADED, zorder=5)
+            e = jt["forecast"][-1]
+            ax.annotate("JTWC", (e["lon"], e["lat"]), xytext=(5, 5), textcoords="offset points", fontsize=7.5,
+                        family=SERIF, style="italic", color=FADED, zorder=9)
 
         last = None
         labelled = [(s["position"]["lon"], s["position"]["lat"])]
@@ -218,22 +226,33 @@ def render(storms, now, out_path, note=None):
         ax.text((x0 + x1) / 2, y1 - 2.2, "No Cyclones Abroad", ha="center", fontsize=22, family=SC, color=INK, zorder=10,
                 bbox=dict(boxstyle="square,pad=0.4", fc=PAPER, ec=INK))
     fig.text(0.5, 0.865, sub, ha="center", fontsize=10.5, family=SERIF, style="italic", color=INK, wrap=True)
+    warns = [w for w in ((warnings or {}).get("mauritius"), (warnings or {}).get("rodrigues")) if w]
+    if warns:
+        txt = "   ·   ".join(f"CYCLONE WARNING CLASS {w['class']} IN FORCE IN {w['island'].upper()}" for w in warns)
+        ax.text(0.5, 0.965, txt, transform=ax.transAxes, ha="center", va="top", fontsize=12.5, family=SC,
+                color=PAPER, zorder=30, bbox=dict(boxstyle="square,pad=0.45", fc=INK, ec=INK))
 
     # legend + credit
     y = 0.05
-    fig.add_artist(plt.Line2D([0.06, 0.10], [y, y], color=INK, lw=2.2))
-    fig.text(0.105, y, "observed track", va="center", fontsize=8.5, family=SERIF, color=INK)
-    fig.add_artist(plt.Line2D([0.24, 0.28], [y, y], color=INK, lw=1.8, ls=(0, (5, 3))))
-    fig.text(0.285, y, "official forecast", va="center", fontsize=8.5, family=SERIF, color=INK)
-    fig.patches.append(Rectangle((0.42, y - 0.012), 0.035, 0.024, transform=fig.transFigure, fc="none", ec=INK,
-                                 hatch="xx", lw=0.6, ls=(0, (4, 2))))
-    fig.text(0.46, y, "cone of uncertainty", va="center", fontsize=8.5, family=SERIF, color=INK)
-    fig.add_artist(plt.Line2D([0.6, 0.64], [y, y], color=INK, lw=1, ls=(0, (1, 1.5))))
-    fig.text(0.645, y, "hurricane-force winds", va="center", fontsize=8.5, family=SERIF, color=INK)
+    items = [("line", dict(color=INK, lw=2.2), "observed track"),
+             ("line", dict(color=INK, lw=1.8, ls=(0, (5, 3))), "official forecast (La Réunion)"),
+             ("cone", None, "cone of uncertainty"),
+             ("line", dict(color=INK, lw=1, ls=(0, (1, 1.5))), "hurricane-force winds")]
+    if any(s.get("jtwc") for s in storms):
+        items.append(("line", dict(color=FADED, lw=1.7, ls=(0, (6, 2, 1, 2))), "JTWC forecast"))
+    x = 0.05
+    for kind, style, label in items:
+        if kind == "line":
+            fig.add_artist(plt.Line2D([x, x + 0.035], [y, y], **style))
+        else:
+            fig.patches.append(Rectangle((x, y - 0.011), 0.035, 0.022, transform=fig.transFigure, fc="none", ec=INK,
+                                         hatch="xx", lw=0.6, ls=(0, (4, 2))))
+        fig.text(x + 0.04, y, label, va="center", fontsize=7.5, family=SERIF, color=INK)
+        x += 0.045 + 0.0062 * len(label)
     stamp = note or f"As of {now.astimezone(MUT):%a %d %b %Y, %H:%M} Mauritius time"
     fig.text(0.06, 0.018, stamp + "  ·  times in Mauritius time (Madagascar is one hour behind)",
              fontsize=7.5, family=SERIF, style="italic", color=FADED)
-    fig.text(0.94, 0.018, "Data: GDACS · RSMC La Réunion / JTWC", ha="right", fontsize=7.5, family=SERIF,
+    fig.text(0.94, 0.018, "Data: GDACS (RSMC La Réunion) · JTWC · Mauritius Met Services", ha="right", fontsize=7.5, family=SERIF,
              style="italic", color=FADED)
     fig.patches.append(Rectangle((0.012, 0.008), 0.976, 0.984, transform=fig.transFigure, fill=False, ec=INK, lw=2))
     fig.patches.append(Rectangle((0.02, 0.0), 0.96, 0.0, transform=fig.transFigure, fill=False, ec=INK, lw=0))

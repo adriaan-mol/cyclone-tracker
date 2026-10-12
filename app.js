@@ -153,8 +153,10 @@ async function loadStorms() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     doc = await res.json();
     const n = doc.storms.length;
-    status.textContent = n ? `TRACKING ${n} TARGET${n > 1 ? 'S' : ''}` : 'NO ACTIVE CYCLONES';
-    status.classList.toggle('alert', doc.storms.some(s => s.closing_in));
+    const w = (doc.warnings || {}).mauritius;
+    status.textContent = w ? `CLASS ${w.class} WARNING // MAURITIUS`
+      : n ? `TRACKING ${n} TARGET${n > 1 ? 'S' : ''}` : 'NO ACTIVE CYCLONES';
+    status.classList.toggle('alert', !!w || doc.storms.some(s => s.closing_in));
     if (selected >= n) selected = 0;
     renderMap(true);
     renderPanel();
@@ -195,6 +197,17 @@ function renderMap(fit) {
 
     (s.forecast_segments || []).forEach(seg =>
       L.polyline(lonlat(seg), { color: '#ffaa00', weight: 2.5, dashArray: '8 6' }).addTo(layer));
+
+    if (s.jtwc && s.jtwc.forecast.length) {
+      const jt = [[s.position.lat, s.position.lon], ...s.jtwc.forecast.map(p => [p.lat, p.lon])];
+      L.polyline(jt, { color: '#c58cff', weight: 2, dashArray: '2 6', opacity: 0.9 }).addTo(layer);
+      s.jtwc.forecast.forEach(p => {
+        const t = new Date(p.t);
+        L.circleMarker([p.lat, p.lon], { radius: 3, color: '#c58cff', weight: 1.5, fillColor: '#000', fillOpacity: 1 })
+          .addTo(layer).bindTooltip(`JTWC · ${fmtTime(t, true)} · ${relHours(t)} · ${p.wind_kmh} km/h`);
+        bounds.push([p.lat, p.lon]);
+      });
+    }
 
     s.forecast.forEach(p => {
       const t = new Date(p.t);
@@ -271,7 +284,23 @@ function placeLine(p) {
   return `<b>${esc(p.name)}</b> closest ${km(p.closest_km)} · ${fmtTime(t, true)} · <em>${relHours(t)}</em>`;
 }
 
+function renderWarnings() {
+  const box = document.getElementById('warnings');
+  const ws = ['mauritius', 'rodrigues'].map(k => (doc.warnings || {})[k]).filter(Boolean);
+  box.innerHTML = ws.map(w => `
+    <a class="warning" href="${esc(w.url)}" target="_blank" rel="noopener">
+      <div class="w-title">CYCLONE WARNING CLASS ${esc(w.class)} // ${esc(w.island.toUpperCase())}</div>
+      <div class="w-meta">Mauritius Meteorological Services${w.issued ? ` · bulletin ${fmtTime(new Date(w.issued))}` : ''}${w.next_bulletin ? ` · next ${esc(w.next_bulletin)}` : ''}</div>
+      <div class="w-text">${esc(w.summary)}</div>
+    </a>`).join('');
+  const st = doc.sources || {};
+  const names = { gdacs: 'GDACS / LA RÉUNION', jtwc: 'JTWC', mms: 'MAURITIUS MET' };
+  document.getElementById('source-status').innerHTML = Object.keys(names).filter(k => st[k])
+    .map(k => `<span class="${st[k] === 'ok' ? 'ok' : 'bad'}">${names[k]} ${st[k] === 'ok' ? '✓' : '✕'}</span>`).join('');
+}
+
 function renderPanel() {
+  renderWarnings();
   const list = document.getElementById('storm-list');
   document.getElementById('count').textContent = doc.storms.length;
   document.getElementById('checked').textContent =
@@ -303,13 +332,23 @@ function renderPanel() {
     const zones = s.places.filter(p => p.wind_zone)
       .map(p => `<div class="row warn">⚠ ${esc(p.name)} inside forecast zone for ${esc(p.wind_zone)}</div>`).join('');
     const places = s.places.map(p => `<div class="row">${placeLine(p)}</div>`).join('');
+    let jt = '';
+    if (s.jtwc) {
+      const bits = s.jtwc.landfalls.map(lf => `landfall ${esc(lf.country)} near ${esc(lf.near)} · ${fmtTime(new Date(lf.time), true)} · <em>${relHours(new Date(lf.time))}</em>`);
+      const m = s.jtwc.mauritius;
+      bits.push(m.moving_away ? `Mauritius ${km(m.now_km)}, moving away`
+        : `Mauritius closest ${km(m.closest_km)} · ${fmtTime(new Date(m.closest_time), true)} · <em>${relHours(new Date(m.closest_time))}</em>`);
+      jt = `<div class="row jtwc"><b>JTWC forecast</b> (max wind ${s.jtwc.max_wind_kmh} km/h, 1-min): ${bits.join(' · ')}</div>`;
+    }
+    const src = s.source === 'JTWC' ? 'JTWC only (not yet in GDACS / La Réunion feed)' : 'La Réunion forecast via GDACS';
     return `
       <div class="storm-item ${i === selected ? 'active' : ''} alert-${esc((s.alert || 'green').toLowerCase())}" data-i="${i}">
         <div class="storm-name">${esc(s.name.toUpperCase())} ${s.closing_in ? '<span class="tag">CLOSING IN</span>' : ''}</div>
         <div class="storm-meta">${esc(s.status)} · max wind ${s.max_wind_kmh} km/h${mv}${s.over_land ? ` · over ${esc(s.over_land)}` : ''}</div>
         <div class="storm-meta">Position ${fmtTime(new Date(s.position.t))} (${relHours(new Date(s.position.t))}) · advisory ${fmtTime(new Date(s.advisory))}</div>
-        ${lfs}${zones}${places}${mdLine}
-        <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">GDACS REPORT →</a>
+        ${lfs}${zones}${places}${mdLine}${jt}
+        <div class="storm-meta src">Source: ${src}</div>
+        <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">${s.source === 'JTWC' ? 'JTWC' : 'GDACS REPORT'} →</a>
       </div>`;
   }).join('');
   list.querySelectorAll('.storm-item').forEach(el =>

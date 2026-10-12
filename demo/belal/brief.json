@@ -2,11 +2,24 @@
  "generated": "2024-01-15T10:00Z",
  "generated_mut": "Mon 15 Jan 2024 14:00",
  "closing_in": true,
+ "mauritius_warning": {
+  "island": "Mauritius",
+  "class": "III",
+  "class_num": 3,
+  "issued": "2024-01-15T09:30Z",
+  "summary": "At 13h00, the Tropical Cyclone Belal was centred at about 170 km almost to the west of Le Morne near latitude 21.1 degrees south and longitude 55.9 degrees east. It is moving towards the east-south-east at a speed of about 12 km/h. On this trajectory Belal is dangerously approaching Mauritius and it represents a direct threat for Mauritius. The radius of cyclonic winds is likely to cross the southern part of the island and Belal is expected to pass closer to the south of the island early tomorrow morning.",
+  "next_bulletin": null,
+  "url": "http://metservice.intnet.mu/cyclone-bulletin-english-mauritius.php"
+ },
+ "rodrigues_warning": null,
+ "warning_lines": [
+  "Cyclone warning Class III in force in Mauritius, bulletin of Mon 15 Jan 13:30."
+ ],
  "storm_count": 1,
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/demo/belal/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/demo/belal/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "Cyclone watch: Belal closing in",
+ "headline": "Cyclone warning Class III in force in Mauritius. Cyclone watch: Belal closing in",
  "storms": [
   {
    "name": "Belal",

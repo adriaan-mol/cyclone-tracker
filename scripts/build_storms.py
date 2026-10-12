@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
-"""Fetch current tropical cyclones from GDACS for the South-West Indian Ocean,
-work out tracks, forecasts, landfalls and closest approaches to Mauritius and
-Madagascar, and write:
+"""Build the cyclone picture for Mauritius and Madagascar from three public sources:
 
+  GDACS        current storms with the official forecast of RSMC La Reunion
+               (Meteo-France), cone and wind zones
+  JTWC         the US Joint Typhoon Warning Center forecast, as a second opinion
+               (and the only track for a storm GDACS has not picked up yet)
+  MMS          Mauritius Meteorological Services cyclone warning class (I to IV)
+               for Mauritius and Rodrigues
+
+and write:
   data/storms.json   full data for the phone app
   data/brief.json    compact summary for The Daily TradeWinds
   data/brief.md      the same as readable text
-  latest.png         newspaper-style map of the storms (TradeWinds picture)
+  latest.png         newspaper-style map (TradeWinds picture)
 
 Usage:
-  python scripts/build_storms.py            # live, from GDACS
+  python scripts/build_storms.py            # live
   python scripts/build_storms.py --demo     # historical samples -> demo/
 """
 import argparse
@@ -21,6 +27,9 @@ import sys
 import urllib.request
 
 from shapely.geometry import LineString, Point, shape
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sources as S  # noqa: E402
 from shapely.ops import nearest_points, unary_union
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -351,15 +360,86 @@ def storm_from(meta, gj, now, report_url=None, demo=False):
         "places": [dict(p, closest_time=iso(p["closest_time"])) for p in a["places"]],
         "madagascar": dict(a["madagascar"], closest_time=iso(a["madagascar"]["closest_time"])),
         "closing_in": a["closing_in"],
+        "jtwc": None,
         "report_url": report_url or f"https://www.gdacs.org/report.aspx?eventid={meta.get('eventid')}&eventtype=TC",
     }
+
+
+def _jt_cat(kt):
+    return "Tropical depression" if kt < 34 else "Tropical storm" if kt < 64 else "Tropical cyclone"
+
+
+def _jt_track(j):
+    past = [dict(p, cat="") for p in j["past"]]
+    fcst = [dict(p, cat="") for p in j["fcst"]]
+    return past, fcst
+
+
+def jtwc_view(j, now):
+    """JTWC's take on a storm GDACS already tracks: second forecast line and its timings."""
+    past, fcst = _jt_track(j)
+    a = analyse({"past": past, "fcst": fcst, "polys": {}}, now)
+    mu = next(p for p in a["places"] if p["id"] == "mauritius")
+    return {
+        "name": j["name"], "number": j["number"], "advisory": iso(j["advisory"]),
+        "max_wind_kmh": j["max_wind_kmh"], "wind_note": "1-minute mean",
+        "past": [{"t": iso(p["t"]), "lat": p["lat"], "lon": p["lon"]} for p in past
+                 if p["t"] >= now - dt.timedelta(hours=96)],
+        "forecast": [{"t": iso(p["t"]), "lat": p["lat"], "lon": p["lon"],
+                      "wind_kmh": round(p["wind_kt"] * 1.852)} for p in fcst],
+        "landfalls": [dict(lf, time=iso(lf["time"])) for lf in a["landfalls"]],
+        "mauritius": dict(mu, closest_time=iso(mu["closest_time"])),
+        "madagascar": dict(a["madagascar"], closest_time=iso(a["madagascar"]["closest_time"])),
+    }
+
+
+def storm_from_jtwc(j, now):
+    """A storm only JTWC is warning on (GDACS has not picked it up yet)."""
+    past, fcst = _jt_track(j)
+    a = analyse({"past": past, "fcst": fcst, "polys": {}}, now)
+    cur = past[-1]
+
+    def pt(p):
+        return {"t": iso(p["t"]), "lat": p["lat"], "lon": p["lon"], "cat": "TS" if p["wind_kt"] >= 34 else "TD"}
+
+    chain = [cur] + fcst
+    return {
+        "id": f"JTWC-{j['number']}", "name": j["name"],
+        "status": f"{_jt_cat(cur['wind_kt'])} (JTWC estimate)", "category": "",
+        "max_wind_kmh": j["max_wind_kmh"], "alert": "", "source": "JTWC",
+        "advisory": iso(j["advisory"]),
+        "position": {"lat": cur["lat"], "lon": cur["lon"], "t": iso(cur["t"])},
+        "over_land": a["over_land"], "motion": a["motion"],
+        "past": [pt(p) for p in past if p["t"] >= now - dt.timedelta(hours=120)],
+        "forecast": [pt(p) for p in fcst],
+        "forecast_segments": [[[p["lon"], p["lat"]] for p in chain]] if fcst else [],
+        "cone": None, "wind_zones": {},
+        "landfalls": [dict(lf, time=iso(lf["time"])) for lf in a["landfalls"]],
+        "places": [dict(p, closest_time=iso(p["closest_time"])) for p in a["places"]],
+        "madagascar": dict(a["madagascar"], closest_time=iso(a["madagascar"]["closest_time"])),
+        "closing_in": a["closing_in"], "jtwc": None,
+        "report_url": "https://www.metoc.navy.mil/jtwc/jtwc.html",
+    }
+
+
+def merge_jtwc(storms, jtwc, now):
+    for j in jtwc:
+        cur = j["past"][-1]
+        best = min(storms, key=lambda s: haversine(cur["lat"], cur["lon"], s["position"]["lat"], s["position"]["lon"]),
+                   default=None)
+        if best and haversine(cur["lat"], cur["lon"], best["position"]["lat"], best["position"]["lon"]) < 400 \
+                and not best.get("jtwc"):
+            best["jtwc"] = jtwc_view(j, now)
+        else:
+            storms.append(storm_from_jtwc(j, now))
+    return storms
 
 
 def in_region(lat, lon):
     return REGION["lat_min"] <= lat <= REGION["lat_max"] and REGION["lon_min"] <= lon <= REGION["lon_max"]
 
 
-def build_live(now):
+def gdacs_storms(now):
     data = fetch_json(f"{API}/events/geteventlist/SEARCH?eventlist=TC")
     storms, errors = [], []
     for f in data.get("features", []):
@@ -375,8 +455,40 @@ def build_live(now):
             gj = fetch_json(url)
             storms.append(storm_from(p, gj, now, (p.get("url") or {}).get("report")))
         except Exception as e:  # keep going with the other storms
-            errors.append(f"{p.get('eventname')}: {e}")
+            errors.append(f"GDACS {p.get('eventname')}: {e}")
     return storms, errors
+
+
+def build_live(now):
+    """GDACS (carries the La Reunion forecast) + JTWC + Mauritius warnings.
+    Each source can fail on its own; only all-tracks-failed is fatal."""
+    errors, status = [], {}
+    storms = None
+    try:
+        storms, errs = gdacs_storms(now)
+        errors += errs
+        status["gdacs"] = "ok"
+    except Exception as e:
+        errors.append(f"GDACS feed: {e}")
+        status["gdacs"] = "error"
+    jtwc = None
+    try:
+        jtwc = [j for j in S.fetch_jtwc() if in_region(j["past"][-1]["lat"], j["past"][-1]["lon"])]
+        status["jtwc"] = "ok"
+    except Exception as e:
+        errors.append(f"JTWC: {e}")
+        status["jtwc"] = "error"
+    warnings = None
+    try:
+        warnings = S.fetch_mms(now)
+        status["mms"] = "ok"
+    except Exception as e:
+        errors.append(f"Mauritius Meteorological Services: {e}")
+        status["mms"] = "error"
+    if storms is None and jtwc is None:
+        raise RuntimeError("; ".join(errors))
+    storms = merge_jtwc(storms or [], jtwc or [], now)
+    return storms, errors, warnings, status
 
 
 def build_demo():
@@ -385,7 +497,12 @@ def build_demo():
     for fn, eid in (("gezani.json", 1001256), ("belal.json", 1001041)):
         gj = json.load(open(os.path.join(ROOT, "demo", "raw", fn)))
         adv, *_ = parse_geometry(gj)
-        storms.append((adv, storm_from(metas[eid], gj, adv, demo=True)))
+        st = storm_from(metas[eid], gj, adv, demo=True)
+        warn = None
+        if fn == "belal.json":  # the real Class III bulletin issued 30 min before this advisory
+            raw = open(os.path.join(ROOT, "tests", "samples", "mms_20240115110449.html"), "rb").read()
+            warn = {"mauritius": S.parse_mms(raw, "Mauritius", adv), "rodrigues": None}
+        storms.append((adv, st, warn))
     return storms
 
 
@@ -413,32 +530,61 @@ def describe(s, now):
         parts.append(f"Closest to Mauritius: {mu['closest_km']:,} km, {mut(t(mu['closest_time']))} ({rel_hours(t(mu['closest_time']), now)}).")
     if mu["wind_zone"]:
         parts.append(f"Mauritius lies inside the forecast zone for {mu['wind_zone']}.")
+    j = s.get("jtwc")
+    if j:
+        bits = []
+        for lf in j["landfalls"]:
+            bits.append(f"landfall {lf['country']} near {lf['near']}, {mut(t(lf['time']))} ({rel_hours(t(lf['time']), now)})")
+        jm = j["mauritius"]
+        if not jm["moving_away"]:
+            bits.append(f"closest to Mauritius {jm['closest_km']:,} km, {mut(t(jm['closest_time']))} ({rel_hours(t(jm['closest_time']), now)})")
+        if bits:
+            parts.append("For comparison, the US Joint Typhoon Warning Center (JTWC) forecasts: " + "; ".join(bits) + ".")
     return " ".join(parts)
 
 
-def write_outputs(outdir, storms, now, errors, img_name, demo_note=None):
+def warning_line(w):
+    if not w:
+        return None
+    t = dt.datetime.fromisoformat(w["issued"].replace("Z", "+00:00")) if w.get("issued") else None
+    when = f", bulletin of {mut(t, '%a %d %b %H:%M')}" if t else ""
+    return f"Cyclone warning Class {w['class']} in force in {w['island']}{when}."
+
+
+def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warnings=None, status=None):
     os.makedirs(outdir, exist_ok=True)
-    doc = {"generated": iso(now), "source": "GDACS (gdacs.org), forecasts from RSMC La Reunion / JTWC",
+    warnings = warnings or {}
+    doc = {"generated": iso(now),
+           "source": "GDACS (forecast of RSMC La Reunion), JTWC, Mauritius Meteorological Services",
+           "sources": status or {}, "warnings": warnings,
            "demo": demo_note, "errors": errors, "storms": storms}
     json.dump(doc, open(os.path.join(outdir, "storms.json"), "w"), separators=(",", ":"))
 
     closing = [s for s in storms if s["closing_in"]]
+    wlines = [warning_line(w) for w in (warnings.get("mauritius"), warnings.get("rodrigues")) if w]
+    headline = (f"Cyclone watch: {', '.join(s['name'] for s in closing)} closing in"
+                if closing else ("No cyclone threatening Mauritius or Madagascar"
+                                 if storms else "No active cyclones in the South-West Indian Ocean"))
+    if wlines:
+        headline = wlines[0].rstrip(".").split(",")[0] + ". " + headline
     brief = {
         "generated": iso(now),
         "generated_mut": mut(now, "%a %d %b %Y %H:%M"),
-        "closing_in": bool(closing),
+        "closing_in": bool(closing or wlines),
+        "mauritius_warning": warnings.get("mauritius"),
+        "rodrigues_warning": warnings.get("rodrigues"),
+        "warning_lines": wlines,
         "storm_count": len(storms),
         "image_url": f"https://adriaan-mol.github.io/cyclone-tracker/{img_name}",
         "image_raw_url": f"https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/{img_name}",
         "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
-        "headline": (f"Cyclone watch: {', '.join(s['name'] for s in closing)} closing in"
-                     if closing else ("No cyclone threatening Mauritius or Madagascar"
-                                      if storms else "No active cyclones in the South-West Indian Ocean")),
+        "headline": headline,
         "storms": [{"name": s["name"], "closing_in": s["closing_in"], "summary": describe(s, now)} for s in storms],
         "feed_errors": errors,
     }
     json.dump(brief, open(os.path.join(outdir, "brief.json"), "w"), indent=1)
     md = [f"# {brief['headline']}", "", f"_Checked {brief['generated_mut']} Mauritius time._", ""]
+    md += [f"**{w}**" for w in wlines] + ([""] if wlines else [])
     md += [f"- {x['summary']}" for x in brief["storms"]] or ["- All quiet."]
     open(os.path.join(outdir, "brief.md"), "w").write("\n".join(md) + "\n")
     return brief
@@ -451,26 +597,26 @@ def main():
     from render_map import render  # noqa: E402
 
     if a.demo:
-        for adv, s in build_demo():
+        for adv, s, warn in build_demo():
             key = s["name"].lower()
             out = os.path.join(ROOT, "demo", key)
             note = f"Historical advisory for {s['name']}, {mut(adv, '%d %b %Y %H:%M')} Mauritius time"
-            write_outputs(out, [s], adv, [], f"demo/{key}/latest.png", note)
-            render([s], adv, os.path.join(out, "latest.png"), note)
+            write_outputs(out, [s], adv, [], f"demo/{key}/latest.png", note, warn)
+            render([s], adv, os.path.join(out, "latest.png"), note, warn)
             print("demo", key, describe(s, adv))
         return
 
     now = dt.datetime.now(UTC).replace(second=0, microsecond=0)
     try:
-        storms, errors = build_live(now)
+        storms, errors, warnings, status = build_live(now)
     except Exception as e:
-        print("GDACS feed failed:", e, file=sys.stderr)
+        print("All track sources failed:", e, file=sys.stderr)
         sys.exit(1)  # keep the previous good data in place
-    write_outputs(os.path.join(ROOT, "data"), storms, now, errors, "latest.png")
-    render(storms, now, os.path.join(ROOT, "latest.png"))
+    write_outputs(os.path.join(ROOT, "data"), storms, now, errors, "latest.png", None, warnings, status)
+    render(storms, now, os.path.join(ROOT, "latest.png"), None, warnings)
     for s in storms:
         print(describe(s, now))
-    print(f"{len(storms)} storm(s) in region; errors: {errors}")
+    print(f"{len(storms)} storm(s) in region; sources {status}; errors: {errors}")
 
 
 if __name__ == "__main__":

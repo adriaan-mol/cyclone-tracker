@@ -11,7 +11,7 @@
   <link rel="icon" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <div id="app">
@@ -34,6 +34,7 @@
         <span id="checked" class="checked"></span>
       </div>
 
+      <div id="warnings"></div>
       <div id="scrubber" class="scrubber hidden">
         <div class="scrub-label"><span>TIME</span><b id="scrub-time">NOW</b></div>
         <input type="range" id="scrub" min="0" max="120" step="1" value="0">
@@ -45,13 +46,15 @@
         <a href="http://metservice.intnet.mu/" target="_blank" rel="noopener">MAURITIUS MET SERVICES</a>
         <a href="https://meteofrance.re/fr/cyclone" target="_blank" rel="noopener">RSMC LA REUNION</a>
         <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>
+        <a href="https://www.metoc.navy.mil/jtwc/jtwc.html" target="_blank" rel="noopener">JTWC</a>
       </div>
+      <div id="source-status" class="source-status"></div>
     </div>
 
     <div class="scanline"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

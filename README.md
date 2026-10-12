@@ -3,6 +3,13 @@
 Tropical cyclones in the South-West Indian Ocean, focused on Mauritius and Madagascar.
 Live site: https://adriaan-mol.github.io/cyclone-tracker/
 
+## Sources
+- **GDACS**: current storms with the official forecast of RSMC La Réunion (Météo-France), its cone and wind zones.
+- **JTWC** (US Joint Typhoon Warning Center): second forecast track for comparison, and the only track for a storm GDACS has not picked up yet.
+- **Mauritius Meteorological Services**: the cyclone warning class (I to IV) in force for Mauritius and Rodrigues, with the bulletin text.
+
+Each source can fail on its own; the app shows which ones answered on the last run.
+
 ## What it shows
 - Observed track, official forecast track and cone of uncertainty
 - Forecast landfall (where and when, with "in X h")
@@ -15,8 +22,8 @@ Demo with historical advisories: `?demo=gezani` (Feb 2026) or `?demo=belal` (Jan
 
 ## How it works
 A GitHub Action (`.github/workflows/update.yml`) runs every 3 hours:
-1. `scripts/build_storms.py` fetches current cyclones from GDACS, keeps those in the
-   South-West Indian Ocean, and computes landfalls and closest approaches.
+1. `scripts/build_storms.py` (with `scripts/sources.py`) fetches GDACS, JTWC and the Mauritius
+   bulletins, keeps storms in the South-West Indian Ocean, and computes landfalls and closest approaches.
 2. It writes `data/storms.json` (phone app), `data/brief.json` + `data/brief.md`
    (Daily TradeWinds) and `latest.png` (newspaper-style map, via `scripts/render_map.py`).
 3. It commits when the data changed, and once a day regardless.
