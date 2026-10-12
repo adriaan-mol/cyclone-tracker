@@ -13,7 +13,7 @@ jobs:
           {
           echo "== Meteo-France: get session cookie"
           curl -sS -A "$UA" -c jar.txt -o mf_page.html -w "%{http_code}\n" https://meteofrance.re/fr/cyclone
-          grep -i mfsession jar.txt | cut -c1-120
+          grep -q mfsession jar.txt && echo "mfsession cookie: present" || echo "mfsession cookie: MISSING"
           TOK=$(awk '$6=="mfsession"{print $7}' jar.txt | python3 -c "import sys,urllib.parse,codecs;print(codecs.decode(urllib.parse.unquote(sys.stdin.read().strip()),'rot13'))")
           echo "token len ${#TOK}"
           B=https://rwg.meteofrance.com/internet2018client/2.0
@@ -41,7 +41,8 @@ jobs:
       - name: Commit samples
         run: |
           cd out
-          sed -i 's/mfsession.*/mfsession REDACTED/' jar.txt
+          rm -f jar.txt
+          sed -i 's/eyJ[A-Za-z0-9._-]*/REDACTED/g' log.txt
           git init -q -b probe-samples
           git config user.name probe; git config user.email probe@users.noreply.github.com
           git add -A; git commit -qm samples
