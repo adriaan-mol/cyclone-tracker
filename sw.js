@@ -19,7 +19,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   const sameOrigin = url.origin === location.origin;
   e.respondWith(
-    fetch(req).then(res => {
+    fetch(sameOrigin ? new Request(req, { cache: 'no-cache' }) : req).then(res => {
       if (res.ok && (sameOrigin || url.hostname.includes('unpkg.com'))) {
         const copy = res.clone();
         const key = sameOrigin ? url.pathname : req; // ignore ?t= cache-busters
