@@ -26,15 +26,16 @@ jobs:
           echo "::notice title=Storms::$(tail -1 build.log)"
       - name: Commit if something changed (and once a day regardless)
         run: |
-          python - <<'PY'
+          DO_COMMIT=$(python - <<'PY'
           import json, hashlib, os, datetime
           d = json.load(open("data/storms.json")); d.pop("generated", None)
           h = hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
           old = open("data/.hash").read().strip() if os.path.exists("data/.hash") else ""
           daily = datetime.datetime.now(datetime.timezone.utc).hour == 0
-          open(os.environ["GITHUB_ENV"], "a").write(f"DO_COMMIT={'1' if (h != old or daily) else '0'}\n")
           open("data/.hash", "w").write(h)
+          print("1" if (h != old or daily) else "0")
           PY
+          )
           if [ "$DO_COMMIT" = "1" ]; then
             git config user.name "cyclone-bot"
             git config user.email "cyclone-bot@users.noreply.github.com"
