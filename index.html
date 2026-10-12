@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>God's Eye // Cyclone Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.jpg">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="hud-header">
+      <div class="logo">GOD'S EYE</div>
+      <div class="subtitle">CYCLONE TRACKING SYSTEM</div>
+      <div class="status" id="status">SCANNING...</div>
+    </header>
+
+    <div id="map"></div>
+    <canvas id="radar-overlay"></canvas>
+
+    <div class="hud-panel" id="storm-panel">
+      <div class="panel-header">ACTIVE TARGETS <span id="count">0</span></div>
+      <div id="storm-list" class="storm-list"></div>
+    </div>
+
+    <div class="detail-panel hidden" id="detail-panel">
+      <button class="close-btn" id="close-detail">✕</button>
+      <div id="detail-content"></div>
+    </div>
+
+    <div class="scanline"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
