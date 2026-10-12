@@ -1,5 +1,7 @@
 name: probe-feeds
 on: workflow_dispatch
+permissions:
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -41,5 +43,10 @@ jobs:
                   if seen>=4: raise SystemExit
           PY
           ls -la
-      - uses: actions/upload-artifact@v4
-        with: { name: samples, path: out }
+      - name: Commit samples to probe branch
+        run: |
+          cd out
+          git init -q -b probe-samples
+          git config user.name probe; git config user.email probe@users.noreply.github.com
+          git add -A; git commit -qm samples
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" probe-samples
