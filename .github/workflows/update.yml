@@ -21,7 +21,9 @@ jobs:
           cache-dependency-path: scripts/requirements.txt
       - run: pip install -r scripts/requirements.txt
       - name: Build storms.json, brief and map
-        run: python scripts/build_storms.py
+        run: |
+          python scripts/build_storms.py | tee build.log
+          echo "::notice title=Storms::$(tail -1 build.log)"
       - name: Commit if something changed (and once a day regardless)
         run: |
           python - <<'PY'
@@ -37,9 +39,14 @@ jobs:
             git config user.name "cyclone-bot"
             git config user.email "cyclone-bot@users.noreply.github.com"
             git add data latest.png
-            git commit -m "Storm update $(date -u +%Y-%m-%dT%H:%MZ)" || exit 0
-            git pull --rebase -q || true
-            git push
+            git status --short
+            if git commit -q -m "Storm update $(date -u +%Y-%m-%dT%H:%MZ)"; then
+              git pull --rebase -q
+              git push
+              echo "::notice title=Commit::pushed storm update"
+            else
+              echo "::warning title=Commit::nothing to commit"
+            fi
           else
-            echo "No change in storm data; skipping commit."
+            echo "::notice title=Commit::no change in storm data"
           fi
