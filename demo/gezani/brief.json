@@ -1,0 +1,18 @@
+{
+ "generated": "2026-02-10T06:00Z",
+ "generated_mut": "Tue 10 Feb 2026 10:00",
+ "closing_in": true,
+ "storm_count": 1,
+ "image_url": "https://adriaan-mol.github.io/cyclone-tracker/demo/gezani/latest.png",
+ "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/demo/gezani/latest.png",
+ "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
+ "headline": "Cyclone watch: Gezani closing in",
+ "storms": [
+  {
+   "name": "Gezani",
+   "closing_in": true,
+   "summary": "Gezani (historical advisory (demo), max wind 211 km/h) is 711 km from Mauritius, moving W at 16 km/h. Forecast landfall: Madagascar near Toamasina, Tue 10 Feb ~21:30 Mauritius time (in 12 h). Mauritius: closest point already passed, moving away."
+  }
+ ],
+ "feed_errors": []
+}

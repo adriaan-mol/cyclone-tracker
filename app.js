@@ -1,46 +1,108 @@
-// God's Eye Cyclone Tracker — focused on Eastern Indian Ocean / Madagascar–Mauritius
-const GDACS_URL = 'https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=TC&alertlevel=green;orange;red';
+// God's Eye Cyclone Tracker: South-West Indian Ocean (Mauritius / Madagascar)
+// Data: data/storms.json, refreshed every 3 h by a GitHub Action from GDACS.
+// Demo: ?demo=gezani or ?demo=belal (historical advisories).
 
-let map;
-let radarCanvas;
-let radarCtx;
-let storms = [];
-let markers = [];
-let selectedStorm = null;
+const params = new URLSearchParams(location.search);
+const DEMO = params.get('demo');
+const DATA_URL = DEMO ? `demo/${DEMO}/storms.json` : 'data/storms.json';
+const MUT_OFFSET_MIN = 240; // Mauritius is UTC+4
+
+const PLACES = [
+  { id: 'mauritius', name: 'Mauritius', lat: -20.16, lon: 57.50 },
+  { id: 'antananarivo', name: 'Antananarivo', lat: -18.88, lon: 47.51 },
+  { id: 'fort-dauphin', name: 'Fort Dauphin', lat: -25.03, lon: 46.98 },
+  { id: 'toamasina', name: 'Toamasina', lat: -18.15, lon: 49.40 },
+];
+
+let map, radarCanvas, radarCtx, layer, ghost;
+let doc = null;
 let sweepAngle = 0;
+let selected = 0;
+
+// ------------------------------------------------------------- time helpers
+
+function nowRef() {
+  // In demo mode "now" is the advisory time of the historical data.
+  return doc && doc.demo ? new Date(doc.generated) : new Date();
+}
+
+function mutParts(d) {
+  const m = new Date(d.getTime() + MUT_OFFSET_MIN * 60000);
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const mons = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return { day: days[m.getUTCDay()], date: m.getUTCDate(), mon: mons[m.getUTCMonth()],
+           hh: String(m.getUTCHours()).padStart(2, '0'), mm: String(m.getUTCMinutes()).padStart(2, '0') };
+}
+
+function fmtShort(d) {
+  d = new Date(Math.round(d.getTime() / 1800000) * 1800000);
+  const p = mutParts(d);
+  return `${p.day} ${p.hh}:${p.mm}`;
+}
+
+function fmtTime(d, approx) {
+  if (approx) d = new Date(Math.round(d.getTime() / 1800000) * 1800000); // forecasts: nearest 30 min
+  const p = mutParts(d);
+  return `${p.day} ${p.date} ${p.mon} ${approx ? '~' : ''}${p.hh}:${p.mm}`;
+}
+
+function relHours(d) {
+  const h = Math.round((d - nowRef()) / 3600000);
+  if (h === 0) return 'now';
+  return h > 0 ? `in ${h} h` : `${-h} h ago`;
+}
+
+function km(n) { return `${Math.round(n).toLocaleString('en')} km`; }
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const r = 6371, rad = Math.PI / 180;
+  const dp = (lat2 - lat1) * rad, dl = (lon2 - lon1) * rad;
+  const a = Math.sin(dp / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dl / 2) ** 2;
+  return 2 * r * Math.asin(Math.sqrt(a));
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ------------------------------------------------------------- init
 
 function init() {
   initMap();
   initRadar();
-  loadStorms();
-  setInterval(loadStorms, 5 * 60 * 1000);
   animateRadar();
+  loadStorms();
+  setInterval(loadStorms, 10 * 60 * 1000);
+  setInterval(() => { if (doc) { renderMap(false); renderPanel(); } }, 60 * 1000); // keep "in X h" current
+  document.getElementById('scrub').addEventListener('input', onScrub);
 
-  document.getElementById('close-detail').addEventListener('click', closeDetail);
-
+  if (DEMO) {
+    const b = document.getElementById('demo-banner');
+    b.classList.remove('hidden');
+    b.innerHTML = `DEMO: HISTORICAL ADVISORY // <a href="./">BACK TO LIVE</a>`;
+  }
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
 }
 
 function initMap() {
-  // Default view: centered on Madagascar / Mauritius / Eastern Indian Ocean
-  map = L.map('map', {
-    zoomControl: false,
-    attributionControl: true,
-    minZoom: 3,
-    maxZoom: 8,
-    worldCopyJump: true
-  }).setView([-19.5, 52], 4.5);
-
-  // Free OSM tiles + CSS dark filter (no API key needed)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 19
+  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 3, maxZoom: 9, worldCopyJump: true })
+    .setView([-19.5, 52], 5);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
   }).addTo(map);
+  layer = L.layerGroup().addTo(map);
+  map.on('zoomend', () => doc && drawForecastLabels());
 
-  L.control.zoom({ position: 'bottomright' }).addTo(map);
+  PLACES.forEach(p => {
+    L.circleMarker([p.lat, p.lon], { radius: 4, color: '#ffffff', weight: 1, fillColor: '#00e5ff', fillOpacity: 0.9 })
+      .addTo(map)
+      .bindTooltip(p.name, { permanent: true, direction: 'right', className: 'place-label', offset: [6, 0] });
+  });
 }
+
+// ------------------------------------------------------------- radar look
 
 function initRadar() {
   radarCanvas = document.getElementById('radar-overlay');
@@ -56,258 +118,247 @@ function resizeRadar() {
 
 function animateRadar() {
   requestAnimationFrame(animateRadar);
-  drawRadar();
-  sweepAngle = (sweepAngle + 1.2) % 360;
-}
-
-function drawRadar() {
-  if (!radarCtx) return;
-  const w = radarCanvas.width;
-  const h = radarCanvas.height;
-  const cx = w / 2;
-  const cy = h / 2;
-  const maxR = Math.min(w, h) * 0.42;
-
-  radarCtx.clearRect(0, 0, w, h);
-
-  // Concentric rings
-  radarCtx.strokeStyle = 'rgba(0, 229, 255, 0.25)';
-  radarCtx.lineWidth = 1;
-  for (let r = 40; r < maxR; r += 50) {
-    radarCtx.beginPath();
-    radarCtx.arc(cx, cy, r, 0, Math.PI * 2);
-    radarCtx.stroke();
-  }
-
-  // Crosshairs
-  radarCtx.strokeStyle = 'rgba(0, 229, 255, 0.15)';
-  radarCtx.beginPath();
-  radarCtx.moveTo(cx, cy - maxR);
-  radarCtx.lineTo(cx, cy + maxR);
-  radarCtx.moveTo(cx - maxR, cy);
-  radarCtx.lineTo(cx + maxR, cy);
-  radarCtx.stroke();
-
-  // Sweep fan
+  if (document.hidden) return;
+  sweepAngle = (sweepAngle + 0.8) % 360;
+  const w = radarCanvas.width, h = radarCanvas.height;
+  const cx = w / 2, cy = h * 0.4, maxR = Math.min(w, h) * 0.42;
+  const c = radarCtx;
+  c.clearRect(0, 0, w, h);
+  c.strokeStyle = 'rgba(0,229,255,0.10)';
+  c.lineWidth = 1;
+  for (let r = 60; r < maxR; r += 60) { c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.stroke(); }
   const rad = (sweepAngle - 90) * Math.PI / 180;
-  const gradient = radarCtx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
-  gradient.addColorStop(0, 'rgba(0, 229, 255, 0.35)');
-  gradient.addColorStop(0.7, 'rgba(0, 229, 255, 0.08)');
-  gradient.addColorStop(1, 'rgba(0, 229, 255, 0)');
-
-  radarCtx.fillStyle = gradient;
-  radarCtx.beginPath();
-  radarCtx.moveTo(cx, cy);
-  radarCtx.arc(cx, cy, maxR, rad - 0.35, rad, false);
-  radarCtx.closePath();
-  radarCtx.fill();
-
-  // Sweep line
-  radarCtx.strokeStyle = 'rgba(0, 255, 200, 0.6)';
-  radarCtx.lineWidth = 2;
-  radarCtx.beginPath();
-  radarCtx.moveTo(cx, cy);
-  radarCtx.lineTo(cx + Math.cos(rad) * maxR, cy + Math.sin(rad) * maxR);
-  radarCtx.stroke();
-
-  // Center dot
-  radarCtx.fillStyle = '#00e5ff';
-  radarCtx.beginPath();
-  radarCtx.arc(cx, cy, 4, 0, Math.PI * 2);
-  radarCtx.fill();
+  const g = c.createRadialGradient(cx, cy, 0, cx, cy, maxR);
+  g.addColorStop(0, 'rgba(0,229,255,0.16)');
+  g.addColorStop(1, 'rgba(0,229,255,0)');
+  c.fillStyle = g;
+  c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, maxR, rad - 0.35, rad); c.closePath(); c.fill();
 }
+
+// ------------------------------------------------------------- data
 
 async function loadStorms() {
   const status = document.getElementById('status');
-  status.textContent = 'ACQUIRING TARGETS...';
-
   try {
-    const res = await fetch(GDACS_URL);
-    if (!res.ok) throw new Error('GDACS feed unavailable');
-    const data = await res.json();
-    const features = data.features || [];
-
-    // Focus on Eastern Indian Ocean / Madagascar–Mauritius region (roughly 0–40°S, 30–90°E)
-    storms = features
-      .filter(f => {
-        const [lon, lat] = f.geometry?.coordinates || [];
-        return lat <= 5 && lat >= -40 && lon >= 30 && lon <= 90;
-      })
-      .map(f => {
-        const [lon, lat] = f.geometry.coordinates;
-        const props = f.properties || {};
-        const severity = props.severitydata || {};
-        const windKmh = severity.severity || 0;
-        const windKt = Math.round(windKmh / 1.852);
-
-        return {
-          id: props.eventid || Math.random().toString(36).slice(2),
-          name: (props.eventname || props.name || 'Unnamed').replace(/-\d+$/, ''),
-          classification: severity.severitytext?.includes('Hurricane') || severity.severitytext?.includes('Typhoon') ? 'HU' :
-                          severity.severitytext?.includes('Tropical Storm') ? 'TS' : 'TC',
-          intensity: windKt,
-          pressure: '—',
-          latitudeNumeric: lat,
-          longitudeNumeric: lon,
-          movementDir: null,
-          movementSpeed: null,
-          lastUpdate: props.datemodified || props.todate || new Date().toISOString(),
-          alertlevel: props.alertlevel || 'Green',
-          reportUrl: props.url?.report || 'https://www.gdacs.org/',
-          severityText: severity.severitytext || ''
-        };
-      });
-
-    renderStorms();
-    status.textContent = storms.length
-      ? `TRACKING ${storms.length} TARGET${storms.length > 1 ? 'S' : ''} (INDIAN OCEAN)`
-      : 'NO ACTIVE CYCLONES IN REGION';
+    const res = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    doc = await res.json();
+    const n = doc.storms.length;
+    status.textContent = n ? `TRACKING ${n} TARGET${n > 1 ? 'S' : ''}` : 'NO ACTIVE CYCLONES';
+    status.classList.toggle('alert', doc.storms.some(s => s.closing_in));
+    if (selected >= n) selected = 0;
+    renderMap(true);
+    renderPanel();
   } catch (err) {
     console.error(err);
-    status.textContent = 'FEED ERROR — USING DEMO';
-    storms = getDemoStorms();
-    renderStorms();
+    status.textContent = doc ? 'OFFLINE // SHOWING LAST DATA' : 'FEED ERROR // NO DATA';
+    if (!doc) {
+      document.getElementById('storm-list').innerHTML =
+        '<div class="empty">Could not load cyclone data. Check your connection and reopen the app.</div>';
+    }
   }
 }
 
-function getDemoStorms() {
-  return [
-    {
-      id: 'demo1',
-      name: 'Madagascar Demo',
-      classification: 'TS',
-      intensity: 55,
-      pressure: '995',
-      latitudeNumeric: -18.5,
-      longitudeNumeric: 48.5,
-      movementDir: 220,
-      movementSpeed: 12,
-      lastUpdate: new Date().toISOString(),
-      alertlevel: 'Orange',
-      reportUrl: 'https://www.gdacs.org/',
-      severityText: 'Tropical Storm'
-    },
-    {
-      id: 'demo2',
-      name: 'Mauritius Demo',
-      classification: 'HU',
-      intensity: 75,
-      pressure: '980',
-      latitudeNumeric: -19.8,
-      longitudeNumeric: 58.0,
-      movementDir: 280,
-      movementSpeed: 8,
-      lastUpdate: new Date().toISOString(),
-      alertlevel: 'Red',
-      reportUrl: 'https://www.gdacs.org/',
-      severityText: 'Hurricane'
-    }
-  ];
+// ------------------------------------------------------------- map drawing
+
+function lonlat(coords) { return coords.map(c => [c[1], c[0]]); }
+
+function addGeoPolygon(geom, style) {
+  if (!geom) return;
+  const polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
+  polys.forEach(rings => L.polygon(rings.map(lonlat), style).addTo(layer));
 }
 
-function renderStorms() {
-  markers.forEach(m => map.removeLayer(m));
-  markers = [];
+function renderMap(fit) {
+  layer.clearLayers();
+  ghost = null;
+  const bounds = [];
+  doc.storms.forEach((s, i) => {
+    const sel = i === selected;
+    addGeoPolygon(s.cone, { color: '#00e5ff', weight: 1, dashArray: '4 4', fillColor: '#00e5ff', fillOpacity: sel ? 0.10 : 0.05, interactive: false });
+    addGeoPolygon(s.wind_zones && s.wind_zones.hurricane, { color: '#ff3366', weight: 1, dashArray: '2 4', fillColor: '#ff3366', fillOpacity: 0.08, interactive: false });
 
-  const list = document.getElementById('storm-list');
-  list.innerHTML = '';
-  document.getElementById('count').textContent = storms.length;
+    const past = s.past.map(p => [p.lat, p.lon]);
+    L.polyline(past, { color: '#00e5ff', weight: 3, opacity: 0.9 }).addTo(layer);
+    s.past.slice(0, -1).forEach(p => L.circleMarker([p.lat, p.lon], {
+      radius: 3, color: '#00e5ff', weight: 1, fillColor: p.cat === 'TS' ? '#00e5ff' : '#000', fillOpacity: 1,
+    }).addTo(layer).bindTooltip(`${fmtTime(new Date(p.t))} (observed)`));
 
-  storms.forEach((storm) => {
-    const lat = storm.latitudeNumeric;
-    const lon = storm.longitudeNumeric;
-    if (lat == null || lon == null) return;
+    (s.forecast_segments || []).forEach(seg =>
+      L.polyline(lonlat(seg), { color: '#ffaa00', weight: 2.5, dashArray: '8 6' }).addTo(layer));
 
-    const icon = L.divIcon({
-      className: 'storm-marker',
-      iconSize: [24, 24],
-      iconAnchor: [12, 12]
+    s.forecast.forEach(p => {
+      const t = new Date(p.t);
+      L.circleMarker([p.lat, p.lon], { radius: 4, color: '#ffaa00', weight: 2, fillColor: '#000', fillOpacity: 1 })
+        .addTo(layer).bindTooltip(`${fmtTime(t, true)} · ${relHours(t)}`);
+      bounds.push([p.lat, p.lon]);
     });
 
-    const marker = L.marker([lat, lon], { icon })
-      .addTo(map)
-      .bindPopup(`<b>${storm.name}</b><br>${storm.severityText || storm.classification}<br>${storm.intensity} kt`);
+    const pos = s.position;
+    const icon = L.divIcon({ className: '', html: `<div class="storm-marker ${s.closing_in ? 'hot' : ''}"></div>`, iconSize: [26, 26], iconAnchor: [13, 13] });
+    L.marker([pos.lat, pos.lon], { icon }).addTo(layer)
+      .bindTooltip(s.name.toUpperCase(), { permanent: true, direction: 'top', className: 'storm-label', offset: [0, -12] })
+      .on('click', () => select(i));
+    bounds.push([pos.lat, pos.lon]);
+    s.past.slice(-8).forEach(p => bounds.push([p.lat, p.lon]));
 
-    marker.on('click', () => selectStorm(storm));
-    markers.push(marker);
-
-    const latStr = `${Math.abs(lat).toFixed(1)}°${lat < 0 ? 'S' : 'N'}`;
-    const lonStr = `${Math.abs(lon).toFixed(1)}°${lon < 0 ? 'W' : 'E'}`;
-
-    const item = document.createElement('div');
-    item.className = `storm-item ${(storm.classification || 'tc').toLowerCase()} alert-${(storm.alertlevel || 'green').toLowerCase()}`;
-    item.innerHTML = `
-      <div class="storm-name">${storm.name}</div>
-      <div class="storm-meta">
-        ${storm.severityText || storm.classification} • 
-        ${storm.intensity} kt • 
-        ${latStr} ${lonStr} • 
-        ${storm.alertlevel || ''}
-      </div>
-    `;
-    item.addEventListener('click', () => selectStorm(storm));
-    list.appendChild(item);
+    s.landfalls.forEach(lf => {
+      const t = new Date(lf.time);
+      const star = L.divIcon({ className: '', html: '<div class="landfall-star">★</div>', iconSize: [22, 22], iconAnchor: [11, 11] });
+      L.marker([lf.lat, lf.lon], { icon: star }).addTo(layer)
+        .bindTooltip(`LANDFALL ${fmtShort(t)} · ${relHours(t).replace('in ', '+')}`,
+          { permanent: sel, direction: 'bottom', className: 'lf-label', offset: [0, 10] });
+      bounds.push([lf.lat, lf.lon]);
+    });
   });
 
-  if (storms.length === 0) {
-    list.innerHTML = '<div style="opacity:0.6; text-align:center; padding:20px;">No active tropical cyclones in the Eastern Indian Ocean region.</div>';
+  if (fit) fitMap(bounds);
+  drawForecastLabels();
+}
+
+function fitMap(bounds) {
+  {
+    if (bounds.length) {
+      bounds.push([-20.16, 57.5]);
+      map.fitBounds(bounds, { paddingTopLeft: [20, 70], paddingBottomRight: [20, window.innerHeight * 0.42] });
+    } else {
+      map.setView([-19.5, 52], 5);
+    }
   }
 }
 
-function selectStorm(storm) {
-  selectedStorm = storm;
-  const lat = storm.latitudeNumeric;
-  const lon = storm.longitudeNumeric;
-
-  map.flyTo([lat, lon], 5, { duration: 1.2 });
-
-  // Highlight
-  document.querySelectorAll('.storm-item').forEach(el => el.classList.remove('active'));
-  const items = document.querySelectorAll('.storm-item');
-  const idx = storms.indexOf(storm);
-  if (items[idx]) items[idx].classList.add('active');
-
-  showDetail(storm);
+// Permanent time labels on forecast points of the selected storm, skipping any
+// that would overlap at the current zoom.
+let labelLayer = null;
+function drawForecastLabels() {
+  if (labelLayer) map.removeLayer(labelLayer);
+  labelLayer = L.layerGroup().addTo(map);
+  if (!doc || !doc.storms.length) return;
+  const s = doc.storms[selected];
+  const taken = [map.latLngToContainerPoint([s.position.lat, s.position.lon])];
+  s.forecast.forEach(p => {
+    const pt = map.latLngToContainerPoint([p.lat, p.lon]);
+    if (taken.some(q => Math.abs(q.x - pt.x) < 95 && Math.abs(q.y - pt.y) < 18)) return;
+    taken.push(pt);
+    const t = new Date(p.t);
+    L.tooltip({ permanent: true, direction: 'right', className: 'fc-label', offset: [6, 0], interactive: false })
+      .setLatLng([p.lat, p.lon]).setContent(`${fmtShort(t)} · ${relHours(t).replace('in ', '+')}`).addTo(labelLayer);
+  });
 }
 
-function showDetail(storm) {
-  const panel = document.getElementById('detail-panel');
-  const content = document.getElementById('detail-content');
-  const latStr = `${Math.abs(storm.latitudeNumeric).toFixed(1)}°${storm.latitudeNumeric < 0 ? 'S' : 'N'}`;
-  const lonStr = `${Math.abs(storm.longitudeNumeric).toFixed(1)}°${storm.longitudeNumeric < 0 ? 'W' : 'E'}`;
+// ------------------------------------------------------------- panel
 
-  content.innerHTML = `
-    <h2>${storm.name}</h2>
-    <div class="detail-row"><span>Type</span><span>${storm.severityText || storm.classification}</span></div>
-    <div class="detail-row"><span>Alert Level</span><span>${storm.alertlevel || 'N/A'}</span></div>
-    <div class="detail-row"><span>Max Wind</span><span>${storm.intensity} kt</span></div>
-    <div class="detail-row"><span>Position</span><span>${latStr}, ${lonStr}</span></div>
-    <div class="detail-row"><span>Last Update</span><span>${formatTime(storm.lastUpdate)}</span></div>
-    <div style="margin-top:12px;">
-      <a href="${storm.reportUrl}" target="_blank" style="color:#00e5ff; text-decoration:none; border:1px solid #00e5ff; padding:6px 12px; display:inline-block;">OPEN GDACS REPORT →</a>
-    </div>
-  `;
-
-  panel.classList.remove('hidden');
+function select(i) {
+  selected = i;
+  renderMap(false);
+  renderPanel();
+  const s = doc.storms[i];
+  map.flyTo([s.position.lat, s.position.lon], Math.max(map.getZoom(), 5), { duration: 0.8 });
 }
 
-function closeDetail() {
-  document.getElementById('detail-panel').classList.add('hidden');
-  selectedStorm = null;
-  document.querySelectorAll('.storm-item').forEach(el => el.classList.remove('active'));
+function placeLine(p) {
+  const t = new Date(p.closest_time);
+  if (p.moving_away) return `<b>${esc(p.name)}</b> ${km(p.now_km)} now, moving away`;
+  return `<b>${esc(p.name)}</b> closest ${km(p.closest_km)} · ${fmtTime(t, true)} · <em>${relHours(t)}</em>`;
 }
 
-function directionToCompass(deg) {
-  if (deg == null) return 'N/A';
-  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-  return dirs[Math.round(deg / 22.5) % 16];
+function renderPanel() {
+  const list = document.getElementById('storm-list');
+  document.getElementById('count').textContent = doc.storms.length;
+  document.getElementById('checked').textContent =
+    doc.demo ? 'DEMO' : `CHECKED ${fmtTime(new Date(doc.generated))}`;
+
+  if (!doc.storms.length) {
+    list.innerHTML = `
+      <div class="empty">No active tropical cyclones in the South-West Indian Ocean.
+        <div class="demo-links">See how it looks:
+          <a href="?demo=gezani">GEZANI (Feb 2026)</a>
+          <a href="?demo=belal">BELAL (Jan 2024)</a>
+        </div>
+      </div>`;
+    document.getElementById('scrubber').classList.add('hidden');
+    return;
+  }
+
+  list.innerHTML = doc.storms.map((s, i) => {
+    const mv = s.motion ? ` · moving ${s.motion.toward} ${s.motion.speed_kmh} km/h` : '';
+    const lfs = s.landfalls.map(lf => {
+      const t = new Date(lf.time);
+      return `<div class="row warn">★ LANDFALL <b>${esc(lf.country)}</b> near ${esc(lf.near)} · ${fmtTime(t, true)} · <em>${relHours(t)}</em></div>`;
+    }).join('');
+    const md = s.madagascar;
+    const mdAway = new Date(md.closest_time) <= new Date(s.position.t);
+    const mdLine = s.landfalls.some(l => l.country === 'Madagascar') || md.closest_km === 0 ? '' : mdAway
+      ? `<div class="row"><b>Madagascar coast</b> ${km(md.closest_km)} now, moving away</div>`
+      : `<div class="row"><b>Madagascar coast</b> closest ${km(md.closest_km)} · ${fmtTime(new Date(md.closest_time), true)} · <em>${relHours(new Date(md.closest_time))}</em></div>`;
+    const zones = s.places.filter(p => p.wind_zone)
+      .map(p => `<div class="row warn">⚠ ${esc(p.name)} inside forecast zone for ${esc(p.wind_zone)}</div>`).join('');
+    const places = s.places.map(p => `<div class="row">${placeLine(p)}</div>`).join('');
+    return `
+      <div class="storm-item ${i === selected ? 'active' : ''} alert-${esc((s.alert || 'green').toLowerCase())}" data-i="${i}">
+        <div class="storm-name">${esc(s.name.toUpperCase())} ${s.closing_in ? '<span class="tag">CLOSING IN</span>' : ''}</div>
+        <div class="storm-meta">${esc(s.status)} · max wind ${s.max_wind_kmh} km/h${mv}${s.over_land ? ` · over ${esc(s.over_land)}` : ''}</div>
+        <div class="storm-meta">Position ${fmtTime(new Date(s.position.t))} (${relHours(new Date(s.position.t))}) · advisory ${fmtTime(new Date(s.advisory))}</div>
+        ${lfs}${zones}${places}${mdLine}
+        <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">GDACS REPORT →</a>
+      </div>`;
+  }).join('');
+  list.querySelectorAll('.storm-item').forEach(el =>
+    el.addEventListener('click', e => { if (e.target.tagName !== 'A') select(+el.dataset.i); }));
+
+  setupScrubber();
 }
 
-function formatTime(iso) {
-  if (!iso) return 'N/A';
-  const d = new Date(iso);
-  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+// ------------------------------------------------------------- time scrubber
+
+function track(s) {
+  return [s.position, ...s.forecast].map(p => ({ lat: p.lat, lon: p.lon, t: new Date(p.t) }));
 }
 
-// Start
+function setupScrubber() {
+  const s = doc.storms[selected];
+  const box = document.getElementById('scrubber');
+  const tr = track(s);
+  const start = nowRef();
+  const end = tr[tr.length - 1].t;
+  const maxH = Math.floor((end - start) / 3600000);
+  if (!s.forecast.length || maxH < 1) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  const r = document.getElementById('scrub');
+  r.max = maxH;
+  if (+r.value > maxH) r.value = 0;
+  onScrub();
+}
+
+function positionAt(tr, t) {
+  if (t <= tr[0].t) return tr[0];
+  for (let i = 1; i < tr.length; i++) {
+    if (t <= tr[i].t) {
+      const a = tr[i - 1], b = tr[i];
+      const f = (t - a.t) / (b.t - a.t);
+      return { lat: a.lat + (b.lat - a.lat) * f, lon: a.lon + (b.lon - a.lon) * f, t };
+    }
+  }
+  return tr[tr.length - 1];
+}
+
+function onScrub() {
+  if (!doc || !doc.storms.length) return;
+  const s = doc.storms[selected];
+  const h = +document.getElementById('scrub').value;
+  const t = new Date(nowRef().getTime() + h * 3600000);
+  const p = positionAt(track(s), t);
+  document.getElementById('scrub-time').textContent = h === 0 ? 'NOW' : `+${h} H · ${fmtTime(t, true)}`;
+  const dMu = haversine(p.lat, p.lon, -20.16, 57.5);
+  const dTn = haversine(p.lat, p.lon, -18.88, 47.51);
+  document.getElementById('scrub-info').innerHTML =
+    `${esc(s.name)} ${Math.abs(p.lat).toFixed(1)}°S ${p.lon.toFixed(1)}°E · Mauritius ${km(dMu)} · Tana ${km(dTn)}`;
+  if (ghost) layer.removeLayer(ghost);
+  if (h > 0) {
+    ghost = L.circleMarker([p.lat, p.lon], { radius: 9, color: '#ffaa00', weight: 2, fillColor: '#ffaa00', fillOpacity: 0.35 }).addTo(layer);
+  } else {
+    ghost = null;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', init);

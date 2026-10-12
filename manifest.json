@@ -1,18 +1,17 @@
 {
   "name": "God's Eye Cyclone Tracker",
   "short_name": "God's Eye",
-  "description": "Holographic God's Eye inspired real-time cyclone tracking",
-  "start_url": "./index.html",
+  "description": "Tropical cyclones near Mauritius and Madagascar: track, forecast, landfall and closest approach",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#00e5ff",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "icons": [
-    {
-      "src": "icon.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

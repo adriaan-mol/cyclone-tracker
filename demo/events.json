@@ -1,0 +1,28 @@
+[
+ {
+  "eventid": 1001041,
+  "eventname": "BELAL-24",
+  "name": "Tropical Cyclone BELAL-24",
+  "alertlevel": "Orange",
+  "severitydata": {
+   "severity": 158.33232,
+   "severitytext": "Remnant Low (maximum wind speed of 158 km/h)",
+   "severityunit": "km/h"
+  },
+  "source": "RSMC",
+  "country": "Miscellaneous (French) Indian Ocean Islands, Mauritius, Madagascar"
+ },
+ {
+  "eventid": 1001256,
+  "eventname": "GEZANI-26",
+  "name": "Tropical Cyclone GEZANI-26",
+  "alertlevel": "Red",
+  "severitydata": {
+   "severity": 211.10976,
+   "severitytext": "Post-tropical Depression (maximum wind speed of 211 km/h)",
+   "severityunit": "km/h"
+  },
+  "source": "RSMC",
+  "country": "Madagascar, Mozambique"
+ }
+]

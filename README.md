@@ -1,35 +1,45 @@
 # God's Eye Cyclone Tracker
 
-A holographic, Fast & Furious "God's Eye" inspired real-time tropical cyclone tracking PWA for Android (and any modern browser).
+Tropical cyclones in the South-West Indian Ocean, focused on Mauritius and Madagascar.
+Live site: https://adriaan-mol.github.io/cyclone-tracker/
 
-## Features
-- Dark neon HUD with rotating radar sweep and concentric rings
-- Live data from NOAA National Hurricane Center (`CurrentStorms.json`)
-- Active storms plotted on a dark Carto basemap
-- Tap any storm for detailed vitals (wind, pressure, movement, advisory link)
-- Installable as a Progressive Web App on Android
-- Works offline with cached UI (live data requires network)
+## What it shows
+- Observed track, official forecast track and cone of uncertainty
+- Forecast landfall (where and when, with "in X h")
+- Closest approach to Mauritius, Antananarivo, Toamasina, Fort Dauphin and the Madagascar coast
+- Whether a place falls inside the forecast gale, storm or hurricane-force wind zone
+- A time slider: where the storm will be X hours from now
+- Times in Mauritius time (Madagascar is one hour behind)
 
-## How to use on Android
-1. Host these files on any static host (GitHub Pages, Netlify, Vercel, or even a simple local server).
-2. Open the site in Chrome on your phone.
-3. Tap the menu → "Add to Home screen" / "Install app".
-4. Launch from home screen for the full immersive experience.
+Demo with historical advisories: `?demo=gezani` (Feb 2026) or `?demo=belal` (Jan 2024).
 
-### Quick local test
+## How it works
+A GitHub Action (`.github/workflows/update.yml`) runs every 3 hours:
+1. `scripts/build_storms.py` fetches current cyclones from GDACS, keeps those in the
+   South-West Indian Ocean, and computes landfalls and closest approaches.
+2. It writes `data/storms.json` (phone app), `data/brief.json` + `data/brief.md`
+   (Daily TradeWinds) and `latest.png` (newspaper-style map, via `scripts/render_map.py`).
+3. It commits when the data changed, and once a day regardless.
+
+The phone app reads `data/storms.json` only, so it loads fast and works offline with the last data.
+
+## Daily TradeWinds
+- Summary: https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/data/brief.json
+  (`closing_in` is true when a storm threatens Mauritius or Madagascar)
+- Picture: https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png
+
+## Install on Android
+Open the site in Chrome, menu, "Add to Home screen" / "Install app".
+
+## Run locally
 ```bash
-cd cyclone-gods-eye
+pip install -r scripts/requirements.txt
+python scripts/build_storms.py          # live
+python scripts/build_storms.py --demo   # rebuild demo/
 python3 -m http.server 8080
 ```
-Then open http://localhost:8080 on your phone (same network) or desktop.
 
-## Data source
-- Primary: https://www.nhc.noaa.gov/CurrentStorms.json (Atlantic, Eastern & Central Pacific)
-- Covers current positions, classification, intensity, pressure, movement.
-- Links out to official NHC advisories and graphics.
-- Note: NHC covers US basins only. Western Pacific typhoons and Indian Ocean cyclones are tracked by JTWC / other centers (not in this feed).
-
-## Tech
-Pure HTML/CSS/JS + Leaflet. No build step. Fully client-side.
-
-Enjoy the vibe. Stay safe.
+## Data
+GDACS (gdacs.org); forecasts from RSMC La Reunion (Meteo-France) and JTWC.
+Coastlines: Natural Earth. Font: IM FELL English (SIL Open Font License, `fonts/OFL.txt`).
+Not an official warning service: follow Mauritius Meteorological Services and local authorities.

@@ -1,0 +1,45 @@
+name: update-storms
+on:
+  schedule:
+    - cron: "17 */3 * * *"   # every 3 hours (00:17, 03:17 ... UTC)
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-storms
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - name: Build storms.json, brief and map
+        run: python scripts/build_storms.py
+      - name: Commit if something changed (and once a day regardless)
+        run: |
+          python - <<'PY'
+          import json, hashlib, os, datetime
+          d = json.load(open("data/storms.json")); d.pop("generated", None)
+          h = hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
+          old = open("data/.hash").read().strip() if os.path.exists("data/.hash") else ""
+          daily = datetime.datetime.now(datetime.timezone.utc).hour == 0
+          open(os.environ["GITHUB_ENV"], "a").write(f"DO_COMMIT={'1' if (h != old or daily) else '0'}\n")
+          open("data/.hash", "w").write(h)
+          PY
+          if [ "$DO_COMMIT" = "1" ]; then
+            git config user.name "cyclone-bot"
+            git config user.email "cyclone-bot@users.noreply.github.com"
+            git add data latest.png
+            git commit -m "Storm update $(date -u +%Y-%m-%dT%H:%MZ)" || exit 0
+            git pull --rebase -q || true
+            git push
+          else
+            echo "No change in storm data; skipping commit."
+          fi
