@@ -1,0 +1,45 @@
+name: probe-feeds
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch samples
+        run: |
+          mkdir out && cd out
+          B=https://www.gdacs.org/gdacsapi/api
+          curl -sS -D h_list.txt "$B/events/geteventlist/SEARCH?eventlist=TC" -o list_now.json || true
+          curl -sS "$B/events/geteventlist/SEARCH?eventlist=TC&fromdate=2024-01-10&todate=2024-01-20" -o list_belal.json || true
+          curl -sS "$B/events/geteventlist/SEARCH?eventlist=TC&fromdate=2025-01-10&todate=2025-03-20" -o list_2025.json || true
+          python3 - <<'PY'
+          import json,subprocess
+          for f in ["list_now.json","list_belal.json","list_2025.json"]:
+              try: d=json.load(open(f))
+              except Exception as e: print(f,"ERR",e); continue
+              for ft in d.get("features",[])[:40]:
+                  p=ft["properties"]
+                  print(f,p.get("eventid"),p.get("episodeid"),p.get("name"),ft["geometry"]["coordinates"])
+          PY
+      - name: Geometry samples
+        run: |
+          cd out
+          python3 - <<'PY'
+          import json,subprocess
+          seen=0
+          for f in ["list_now.json","list_belal.json","list_2025.json"]:
+              try: d=json.load(open(f))
+              except: continue
+              for ft in d.get("features",[]):
+                  p=ft["properties"]; lon,lat=ft["geometry"]["coordinates"][:2]
+                  if not (-40<lat<5 and 30<lon<90): continue
+                  eid,ep=p["eventid"],p["episodeid"]
+                  u=f"https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid={eid}&episodeid={ep}"
+                  subprocess.run(["curl","-sS",u,"-o",f"geom_{eid}_{ep}.json"])
+                  u2=f"https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid={eid}"
+                  subprocess.run(["curl","-sS",u2,"-o",f"data_{eid}.json"])
+                  seen+=1
+                  if seen>=4: raise SystemExit
+          PY
+          ls -la
+      - uses: actions/upload-artifact@v4
+        with: { name: samples, path: out }
