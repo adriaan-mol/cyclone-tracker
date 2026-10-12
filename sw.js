@@ -1,6 +1,6 @@
 // Network first, cache as fallback: updates reach the phone on the next open,
 // and the last good version still works offline.
-const CACHE = 'gods-eye-v3';
+const CACHE = 'gods-eye-v4';
 const SHELL = ['./', './index.html', './style.css', './app.js', './manifest.json', './icon-192.png', './data/storms.json'];
 
 self.addEventListener('install', e => {

@@ -82,16 +82,25 @@ function init() {
     b.innerHTML = `DEMO: HISTORICAL ADVISORY // <a href="./">BACK TO LIVE</a>`;
   }
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    // When a new version takes over, reload once so the new code runs.
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!reloaded) { reloaded = true; location.reload(); }
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(r => r.update()).catch(() => {});
   }
 }
 
 function initMap() {
   map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 3, maxZoom: 9, worldCopyJump: true })
     .setView([-19.5, 52], 5);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  // Esri dark grey basemap: free, no API key. Labels come from a second layer.
+  const esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+  L.tileLayer(esri + 'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri', maxZoom: 16,
   }).addTo(map);
+  L.tileLayer(esri + 'World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, opacity: 0.8 }).addTo(map);
   layer = L.layerGroup().addTo(map);
   map.on('zoomend', () => doc && drawForecastLabels());
 
