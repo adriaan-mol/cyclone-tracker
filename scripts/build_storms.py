@@ -485,10 +485,40 @@ def build_live(now):
     except Exception as e:
         errors.append(f"Mauritius Meteorological Services: {e}")
         status["mms"] = "error"
+    disturbances = []
+    try:
+        disturbances = S.fetch_jtwc_disturbances()
+        status["jtwc_outlook"] = "ok"
+    except Exception as e:
+        errors.append(f"JTWC outlook: {e}")
+        status["jtwc_outlook"] = "error"
     if storms is None and jtwc is None:
         raise RuntimeError("; ".join(errors))
     storms = merge_jtwc(storms or [], jtwc or [], now)
-    return storms, errors, warnings, status
+    return storms, errors, warnings, status, watch_list(disturbances, storms)
+
+
+def watch_list(disturbances, storms):
+    """Disturbances (JTWC invests) in the region that are not yet a tracked storm."""
+    out = []
+    for d in disturbances:
+        if not in_region(d["lat"], d["lon"]):
+            continue
+        if any(haversine(d["lat"], d["lon"], s["position"]["lat"], s["position"]["lon"]) < 400 for s in storms):
+            continue
+        out.append(dict(d, issued=iso(d["issued"]) if d.get("issued") else None,
+                        mauritius_km=round(haversine(d["lat"], d["lon"], -20.16, 57.50)),
+                        antananarivo_km=round(haversine(d["lat"], d["lon"], -18.88, 47.51)),
+                        name=f"Invest {d['id']}"))
+    return out
+
+
+def disturbance_line(d):
+    w = f", winds {d['wind_kmh'][0]}-{d['wind_kmh'][1]} km/h" if d.get("wind_kmh") else ""
+    tcfa = ", formation alert issued" if d.get("tcfa") else ""
+    return (f"Watching {d['name']} near {abs(d['lat']):.1f}°{'S' if d['lat'] < 0 else 'N'} {d['lon']:.1f}°E{w}: "
+            f"{d['mauritius_km']:,} km from Mauritius, {d['antananarivo_km']:,} km from Antananarivo. "
+            f"JTWC chance of becoming a tropical cyclone within 24 h: {d['chance']}{tcfa}.")
 
 
 def build_demo():
@@ -551,13 +581,15 @@ def warning_line(w):
     return f"Cyclone warning Class {w['class']} in force in {w['island']}{when}."
 
 
-def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warnings=None, status=None):
+def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warnings=None, status=None,
+                  disturbances=None):
     os.makedirs(outdir, exist_ok=True)
     warnings = warnings or {}
+    disturbances = disturbances or []
     doc = {"generated": iso(now),
            "source": "GDACS (forecast of RSMC La Reunion), JTWC, Mauritius Meteorological Services",
            "sources": status or {}, "warnings": warnings,
-           "demo": demo_note, "errors": errors, "storms": storms}
+           "demo": demo_note, "errors": errors, "storms": storms, "disturbances": disturbances}
     json.dump(doc, open(os.path.join(outdir, "storms.json"), "w"), separators=(",", ":"))
 
     closing = [s for s in storms if s["closing_in"]]
@@ -565,6 +597,9 @@ def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warning
     headline = (f"Cyclone watch: {', '.join(s['name'] for s in closing)} closing in"
                 if closing else ("No cyclone threatening Mauritius or Madagascar"
                                  if storms else "No active cyclones in the South-West Indian Ocean"))
+    if not storms and disturbances:
+        headline = (f"No cyclones yet; watching {len(disturbances)} disturbance"
+                    f"{'s' if len(disturbances) > 1 else ''} ({', '.join(d['id'] for d in disturbances)})")
     if wlines:
         headline = wlines[0].rstrip(".").split(",")[0] + ". " + headline
     brief = {
@@ -580,12 +615,16 @@ def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warning
         "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
         "headline": headline,
         "storms": [{"name": s["name"], "closing_in": s["closing_in"], "summary": describe(s, now)} for s in storms],
+        "disturbances": [{"id": d["id"], "chance": d["chance"], "summary": disturbance_line(d)} for d in disturbances],
         "feed_errors": errors,
     }
     json.dump(brief, open(os.path.join(outdir, "brief.json"), "w"), indent=1)
     md = [f"# {brief['headline']}", "", f"_Checked {brief['generated_mut']} Mauritius time._", ""]
     md += [f"**{w}**" for w in wlines] + ([""] if wlines else [])
-    md += [f"- {x['summary']}" for x in brief["storms"]] or ["- All quiet."]
+    md += [f"- {x['summary']}" for x in brief["storms"]]
+    md += [f"- {x['summary']}" for x in brief["disturbances"]]
+    if not brief["storms"] and not brief["disturbances"]:
+        md += ["- All quiet."]
     open(os.path.join(outdir, "brief.md"), "w").write("\n".join(md) + "\n")
     return brief
 
@@ -608,15 +647,17 @@ def main():
 
     now = dt.datetime.now(UTC).replace(second=0, microsecond=0)
     try:
-        storms, errors, warnings, status = build_live(now)
+        storms, errors, warnings, status, watch = build_live(now)
     except Exception as e:
         print("All track sources failed:", e, file=sys.stderr)
         sys.exit(1)  # keep the previous good data in place
-    write_outputs(os.path.join(ROOT, "data"), storms, now, errors, "latest.png", None, warnings, status)
-    render(storms, now, os.path.join(ROOT, "latest.png"), None, warnings)
+    write_outputs(os.path.join(ROOT, "data"), storms, now, errors, "latest.png", None, warnings, status, watch)
+    render(storms, now, os.path.join(ROOT, "latest.png"), None, warnings, watch)
     for s in storms:
         print(describe(s, now))
-    print(f"{len(storms)} storm(s) in region; sources {status}; errors: {errors}")
+    for d in watch:
+        print(disturbance_line(d))
+    print(f"{len(storms)} storm(s), {len(watch)} disturbance(s) in region; sources {status}; errors: {errors}")
 
 
 if __name__ == "__main__":

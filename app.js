@@ -154,8 +154,10 @@ async function loadStorms() {
     doc = await res.json();
     const n = doc.storms.length;
     const w = (doc.warnings || {}).mauritius;
+    const nd = (doc.disturbances || []).length;
     status.textContent = w ? `CLASS ${w.class} WARNING // MAURITIUS`
-      : n ? `TRACKING ${n} TARGET${n > 1 ? 'S' : ''}` : 'NO ACTIVE CYCLONES';
+      : n ? `TRACKING ${n} TARGET${n > 1 ? 'S' : ''}`
+      : nd ? `WATCHING ${nd} DISTURBANCE${nd > 1 ? 'S' : ''}` : 'NO ACTIVE CYCLONES';
     status.classList.toggle('alert', !!w || doc.storms.some(s => s.closing_in));
     if (selected >= n) selected = 0;
     renderMap(true);
@@ -234,6 +236,13 @@ function renderMap(fit) {
     });
   });
 
+  (doc.disturbances || []).forEach(d => {
+    const icon = L.divIcon({ className: '', html: `<div class="dist-marker chance-${esc(d.chance)}"></div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+    L.marker([d.lat, d.lon], { icon }).addTo(layer)
+      .bindTooltip(`${esc(d.id)} · ${esc(d.chance.toUpperCase())}`, { permanent: true, direction: 'top', className: 'storm-label dist-label', offset: [0, -14] });
+    bounds.push([d.lat, d.lon]);
+  });
+
   if (fit) fitMap(bounds);
   drawForecastLabels();
 }
@@ -294,9 +303,22 @@ function renderWarnings() {
       <div class="w-text">${esc(w.summary)}</div>
     </a>`).join('');
   const st = doc.sources || {};
-  const names = { gdacs: 'GDACS / LA RÉUNION', jtwc: 'JTWC', mms: 'MAURITIUS MET' };
+  const names = { gdacs: 'GDACS / LA RÉUNION', jtwc: 'JTWC', jtwc_outlook: 'JTWC OUTLOOK', mms: 'MAURITIUS MET' };
   document.getElementById('source-status').innerHTML = Object.keys(names).filter(k => st[k])
     .map(k => `<span class="${st[k] === 'ok' ? 'ok' : 'bad'}">${names[k]} ${st[k] === 'ok' ? '✓' : '✕'}</span>`).join('');
+}
+
+function watchHtml() {
+  const ds = doc.disturbances || [];
+  if (!ds.length) return '';
+  return ds.map(d => `
+    <div class="storm-item watch">
+      <div class="storm-name">${esc(d.name.toUpperCase())} <span class="tag watch-tag">${esc(d.chance.toUpperCase())} CHANCE${d.tcfa ? ' · TCFA' : ''}</span></div>
+      <div class="storm-meta">Disturbance, not yet a cyclone · ${Math.abs(d.lat).toFixed(1)}°${d.lat < 0 ? 'S' : 'N'} ${d.lon.toFixed(1)}°E${d.wind_kmh ? ` · winds ${d.wind_kmh[0]}-${d.wind_kmh[1]} km/h` : ''}${d.pressure_mb ? ` · ${d.pressure_mb} hPa` : ''}</div>
+      <div class="row"><b>Mauritius</b> ${km(d.mauritius_km)} · <b>Tana</b> ${km(d.antananarivo_km)}</div>
+      <div class="storm-meta src">JTWC chance of becoming a tropical cyclone within 24 h${d.issued ? ` · outlook ${fmtTime(new Date(d.issued))}` : ''}. No forecast track until it develops.</div>
+      <a class="report" href="https://www.metoc.navy.mil/jtwc/products/abioweb.txt" target="_blank" rel="noopener">JTWC OUTLOOK →</a>
+    </div>`).join('');
 }
 
 function renderPanel() {
@@ -307,7 +329,7 @@ function renderPanel() {
     doc.demo ? 'DEMO' : `CHECKED ${fmtTime(new Date(doc.generated))}`;
 
   if (!doc.storms.length) {
-    list.innerHTML = `
+    list.innerHTML = watchHtml() + `
       <div class="empty">No active tropical cyclones in the South-West Indian Ocean.
         <div class="demo-links">See how it looks:
           <a href="?demo=gezani">GEZANI (Feb 2026)</a>
@@ -350,7 +372,7 @@ function renderPanel() {
         <div class="storm-meta src">Source: ${src}</div>
         <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">${s.source === 'JTWC' ? 'JTWC' : 'GDACS REPORT'} →</a>
       </div>`;
-  }).join('');
+  }).join('') + watchHtml();
   list.querySelectorAll('.storm-item').forEach(el =>
     el.addEventListener('click', e => { if (e.target.tagName !== 'A') select(+el.dataset.i); }));
 

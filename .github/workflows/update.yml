@@ -27,11 +27,12 @@ jobs:
       - name: Commit if something changed (and once a day regardless)
         run: |
           DO_COMMIT=$(python - <<'PY'
-          import json, hashlib, os, datetime
+          import json, hashlib, os, subprocess, time
           d = json.load(open("data/storms.json")); d.pop("generated", None)
           h = hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
           old = open("data/.hash").read().strip() if os.path.exists("data/.hash") else ""
-          daily = datetime.datetime.now(datetime.timezone.utc).hour == 0
+          last = int(subprocess.run(["git", "log", "-1", "--format=%ct"], capture_output=True, text=True).stdout or 0)
+          daily = time.time() - last > 20 * 3600  # GitHub delays scheduled runs, so don't rely on one exact hour
           open("data/.hash", "w").write(h)
           print("1" if (h != old or daily) else "0")
           PY

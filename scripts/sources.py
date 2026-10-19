@@ -20,6 +20,9 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 KT = 1.852  # km/h per knot
 
 JTWC_RSS = "https://www.metoc.navy.mil/jtwc/rss/jtwc.rss"
+# Significant Tropical Weather Advisory for the Indian Ocean (ABIO10): the
+# disturbances ("invests") JTWC is watching before they become numbered storms.
+JTWC_ABIO = "https://www.metoc.navy.mil/jtwc/products/abioweb.txt"
 MMS = "http://metservice.intnet.mu"
 MMS_PAGES = {"mauritius": f"{MMS}/cyclone-bulletin-english-mauritius.php",
              "rodrigues": f"{MMS}/cyclone-bulletin-english-rodrigues.php"}
@@ -83,6 +86,55 @@ def parse_tcw(text):
 def fetch_jtwc():
     rss = _get(JTWC_RSS).decode("utf-8", "ignore")
     return [parse_tcw(_get(url).decode("utf-8", "ignore")) for url in jtwc_links(rss)]
+
+
+def _pos(la, ns, lo, ew):
+    return round(float(la) * (-1 if ns == "S" else 1), 1), round(float(lo) * (-1 if ew == "W" else 1), 1)
+
+
+def parse_abio(text):
+    """JTWC ABIO10 advisory -> South Indian Ocean disturbances still suspect for development."""
+    t = re.sub(r"\s+", " ", text.upper())
+    issued = None
+    m = re.search(r"ABIO10 \w+ (\d{2})(\d{2})(\d{2})", t)
+    v = re.search(r"/(\d{6})Z-\d{6}Z([A-Z]{3})(\d{4})", t)
+    if m and v:
+        try:
+            issued = dt.datetime.strptime(f"{m.group(1)} {v.group(2)} {v.group(3)} {m.group(2)}{m.group(3)}",
+                                          "%d %b %Y %H%M").replace(tzinfo=UTC)
+        except ValueError:
+            issued = None
+    sio = re.search(r"SOUTH INDIAN OCEAN AREA.*?(?=\b3\. |NNNN|$)", t)
+    if not sio:
+        return []
+    dist = re.search(r"TROPICAL DISTURBANCE SUMMARY:(.*?)(?=\bC\. SUBTROPICAL|$)", sio.group(0))
+    if not dist:
+        return []
+    out = []
+    for para in re.split(r"\(\d\)\s", dist.group(1))[1:]:
+        inv = re.search(r"INVEST (\d{2}[A-Z])", para)
+        if not inv or re.search(r"DISSIPATED|NO LONGER (CONSIDERED )?SUSPECT|HAS BEEN (UPGRADED|DESIGNATED)|"
+                                r"SEE REF|REFER TO", para):
+            continue
+        pts = re.findall(r"(\d{1,2}\.\d)([NS]) (\d{1,3}\.\d)([EW])", para)
+        now = re.search(r"NOW LOCATED NEAR (\d{1,2}\.\d)([NS]) (\d{1,3}\.\d)([EW])", para)
+        if not pts:
+            continue
+        lat, lon = _pos(*(now.groups() if now else pts[0]))
+        ch = re.findall(r"WITHIN THE NEXT 24 HOURS IS (?:UPGRADED TO |DOWNGRADED TO |REMAINS? )?(LOW|MEDIUM|HIGH)", para)
+        wind = re.search(r"WINDS ARE ESTIMATED AT (\d+) TO (\d+) KNOTS", para)
+        mslp = re.search(r"NEAR (\d{3,4}) MB", para)
+        out.append({"id": inv.group(1), "lat": lat, "lon": lon,
+                    "chance": (ch[-1] if ch else "UNKNOWN").lower(),
+                    "tcfa": "FORMATION ALERT" in para,
+                    "wind_kmh": [round(int(wind.group(1)) * KT), round(int(wind.group(2)) * KT)] if wind else None,
+                    "pressure_mb": int(mslp.group(1)) if mslp else None,
+                    "issued": issued})
+    return out
+
+
+def fetch_jtwc_disturbances():
+    return parse_abio(_get(JTWC_ABIO).decode("utf-8", "ignore"))
 
 
 # ------------------------------------------------------------ Mauritius Met Services

@@ -107,8 +107,9 @@ def extent_for(storms, now):
     return x0, x1, max(y0, -48), min(y1, 8)
 
 
-def render(storms, now, out_path, note=None, warnings=None):
+def render(storms, now, out_path, note=None, warnings=None, watch=None):
     storms = [s for s in storms if s["closing_in"]] or storms
+    watch = watch or []
     plt.rcParams["hatch.color"] = FADED
     plt.rcParams["hatch.linewidth"] = 0.35
     fig = plt.figure(figsize=(9.6, 7.6), dpi=125, facecolor=PAPER)
@@ -117,6 +118,9 @@ def render(storms, now, out_path, note=None, warnings=None):
         x0, x1, y0, y1 = extent_for(storms, now)
     else:
         x0, x1, y0, y1 = 40, 66, -30, -10
+        for d in watch:
+            x0, x1 = min(x0, d["lon"] - 4), max(x1, d["lon"] + 4)
+            y0, y1 = min(y0, d["lat"] - 3), min(max(y1, d["lat"] + 3), 8)
     ax.set_xlim(x0, x1); ax.set_ylim(y0, y1)
     ax.set_aspect(1 / math.cos(math.radians((y0 + y1) / 2)))
     ax.set_xticks([]); ax.set_yticks([])
@@ -213,6 +217,15 @@ def render(storms, now, out_path, note=None, warnings=None):
                         family=SERIF, color=INK, zorder=22,
                         bbox=dict(boxstyle="square,pad=0.3", fc=PAPER, ec=INK, lw=1))
 
+    # disturbances JTWC is watching (not yet storms)
+    for d in watch:
+        if not (x0 <= d["lon"] <= x1 and y0 <= d["lat"] <= y1):
+            continue
+        ax.plot(d["lon"], d["lat"], "o", ms=16, mfc="none", mec=INK, mew=1.2, ls="none", zorder=20)
+        ax.plot(d["lon"], d["lat"], "o", ms=4, mfc=INK, mec=INK, zorder=21)
+        ax.text(d["lon"] + 0.7, d["lat"] + 0.4, f"{d['name']} ({d['chance']} chance)", fontsize=8.5, family=SERIF,
+                style="italic", color=INK, zorder=21, bbox=dict(boxstyle="square,pad=0.2", fc=PAPER, ec="none"))
+
     # masthead
     fig.text(0.5, 0.945, "CYCLONE WATCH", ha="center", va="center", fontsize=30, family=SC, color=INK)
     fig.add_artist(plt.Line2D([0.06, 0.94], [0.905, 0.905], color=INK, lw=1.6))
@@ -221,6 +234,9 @@ def render(storms, now, out_path, note=None, warnings=None):
         sub = "  ·  ".join(f"{s['name']}: {s['status'].lower()}, max wind {s['max_wind_kmh']} km/h"
                            + (f", heading {s['motion']['toward']} at {s['motion']['speed_kmh']} km/h" if s.get("motion") else "")
                            for s in storms)
+    elif watch:
+        sub = ("No cyclones yet. JTWC is watching " + ", ".join(f"{d['name']} ({d['chance']} chance)" for d in watch)
+               + " of becoming one within 24 h.")
     else:
         sub = "All quiet. No active tropical cyclones in the South-West Indian Ocean."
         ax.text((x0 + x1) / 2, y1 - 2.2, "No Cyclones Abroad", ha="center", fontsize=22, family=SC, color=INK, zorder=10,
