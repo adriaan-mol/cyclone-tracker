@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-19T14:46Z",
- "generated_mut": "Mon 19 Oct 2026 18:46",
+ "generated": "2026-10-19T14:53Z",
+ "generated_mut": "Mon 19 Oct 2026 18:53",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,8 +14,8 @@
  "disturbances": [
   {
    "id": "93S",
-   "chance": "unknown",
-   "summary": "Watching Invest 93S near 3.2\u00b0N 57.1\u00b0E: 2,598 km from Mauritius, 2,670 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: unknown."
+   "chance": "low",
+   "summary": "Watching Invest 93S near 3.2\u00b0N 57.1\u00b0E, winds 33-41 km/h: 2,598 km from Mauritius, 2,670 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low."
   }
  ],
  "feed_errors": []
