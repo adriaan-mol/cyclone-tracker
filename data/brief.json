@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-16T11:29Z",
- "generated_mut": "Fri 16 Oct 2026 15:29",
+ "generated": "2026-10-19T14:46Z",
+ "generated_mut": "Mon 19 Oct 2026 18:46",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -9,7 +9,14 @@
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No active cyclones in the South-West Indian Ocean",
+ "headline": "No cyclones yet; watching 1 disturbance (93S)",
  "storms": [],
+ "disturbances": [
+  {
+   "id": "93S",
+   "chance": "unknown",
+   "summary": "Watching Invest 93S near 3.2\u00b0N 57.1\u00b0E: 2,598 km from Mauritius, 2,670 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: unknown."
+  }
+ ],
  "feed_errors": []
 }
