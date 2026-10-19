@@ -1,5 +1,5 @@
-# No cyclones yet; watching 1 disturbance (93S)
+# No active cyclones in the South-West Indian Ocean
 
-_Checked Mon 19 Oct 2026 18:53 Mauritius time._
+_Checked Tue 20 Oct 2026 00:36 Mauritius time._
 
-- Watching Invest 93S near 3.2°N 57.1°E, winds 33-41 km/h: 2,598 km from Mauritius, 2,670 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low.
+- All quiet.
