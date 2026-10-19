@@ -487,7 +487,7 @@ def build_live(now):
         status["mms"] = "error"
     disturbances = []
     try:
-        disturbances = S.fetch_jtwc_disturbances()
+        disturbances = S.fetch_jtwc_disturbances(os.path.join(ROOT, "data", "jtwc_outlook.txt"))
         status["jtwc_outlook"] = "ok"
     except Exception as e:
         errors.append(f"JTWC outlook: {e}")

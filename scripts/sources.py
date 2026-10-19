@@ -121,9 +121,10 @@ def parse_abio(text):
         if not pts:
             continue
         lat, lon = _pos(*(now.groups() if now else pts[0]))
-        ch = re.findall(r"WITHIN THE NEXT 24 HOURS IS (?:UPGRADED TO |DOWNGRADED TO |REMAINS? )?(LOW|MEDIUM|HIGH)", para)
-        wind = re.search(r"WINDS ARE ESTIMATED AT (\d+) TO (\d+) KNOTS", para)
-        mslp = re.search(r"NEAR (\d{3,4}) MB", para)
+        ch = re.findall(r"24 HOURS (?:IS|REMAINS?) (?:\w+ TO )?(LOW|MEDIUM|HIGH)", para) or \
+            re.findall(r"\b(LOW|MEDIUM|HIGH)\b(?=[^A-Z]*$)", para.rstrip(". "))
+        wind = re.search(r"WINDS ARE ESTIMATED (?:AT|BETWEEN|TO BE)? ?(\d+) ?(?:TO|-) ?(\d+) ?(?:KNOTS|KTS|KT)", para)
+        mslp = re.search(r"NEAR (\d{3,4}) ?MB", para)
         out.append({"id": inv.group(1), "lat": lat, "lon": lon,
                     "chance": (ch[-1] if ch else "UNKNOWN").lower(),
                     "tcfa": "FORMATION ALERT" in para,
@@ -133,8 +134,11 @@ def parse_abio(text):
     return out
 
 
-def fetch_jtwc_disturbances():
-    return parse_abio(_get(JTWC_ABIO).decode("utf-8", "ignore"))
+def fetch_jtwc_disturbances(save_to=None):
+    raw = _get(JTWC_ABIO).decode("utf-8", "ignore")
+    if save_to:  # keep the raw outlook for checking the parser against the real wording
+        open(save_to, "w").write(raw)
+    return parse_abio(raw)
 
 
 # ------------------------------------------------------------ Mauritius Met Services
