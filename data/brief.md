@@ -1,5 +1,5 @@
-# Cyclone watch: Two closing in
+# Cyclone watch: Agueda closing in
 
-_Checked Tue 20 Oct 2026 12:37 Mauritius time._
+_Checked Tue 20 Oct 2026 23:19 Mauritius time._
 
-- Two (tropical storm (jtwc estimate), max wind 65 km/h) is 1,787 km from Mauritius, moving WSW at 15 km/h. Closest to Madagascar's coast: 565 km, Fri 23 Oct ~07:30 (in 67 h). Closest to Mauritius: 1,678 km, Thu 22 Oct ~10:00 (in 45 h).
+- Agueda (tropical storm (jtwc estimate), max wind 74 km/h) is 1,753 km from Mauritius, moving W at 11 km/h. Closest to Madagascar's coast: 565 km, Fri 23 Oct ~10:00 (in 59 h). Closest to Mauritius: 1,682 km, Thu 22 Oct ~10:00 (in 35 h).
