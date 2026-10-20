@@ -1,18 +1,22 @@
 {
- "generated": "2026-10-19T20:36Z",
- "generated_mut": "Tue 20 Oct 2026 00:36",
- "closing_in": false,
+ "generated": "2026-10-20T08:37Z",
+ "generated_mut": "Tue 20 Oct 2026 12:37",
+ "closing_in": true,
  "mauritius_warning": null,
  "rodrigues_warning": null,
  "warning_lines": [],
- "storm_count": 0,
+ "storm_count": 1,
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No active cyclones in the South-West Indian Ocean",
- "storms": [],
+ "headline": "Cyclone watch: Two closing in",
+ "storms": [
+  {
+   "name": "Two",
+   "closing_in": true,
+   "summary": "Two (tropical storm (jtwc estimate), max wind 65 km/h) is 1,787 km from Mauritius, moving WSW at 15 km/h. Closest to Madagascar's coast: 565 km, Fri 23 Oct ~07:30 (in 67 h). Closest to Mauritius: 1,678 km, Thu 22 Oct ~10:00 (in 45 h)."
+  }
+ ],
  "disturbances": [],
- "feed_errors": [
-  "JTWC: not a JTWC track file"
- ]
+ "feed_errors": []
 }
