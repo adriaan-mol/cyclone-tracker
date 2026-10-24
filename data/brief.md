@@ -1,5 +1,5 @@
 # Cyclone watch: Agueda closing in
 
-_Checked Sat 24 Oct 2026 01:27 Mauritius time._
+_Checked Sat 24 Oct 2026 08:41 Mauritius time._
 
-- Agueda (tropical depression (jtwc estimate), max wind 56 km/h) is 1,925 km from Mauritius, moving W at 18 km/h. Closest to Madagascar's coast: 716 km, Fri 23 Oct ~22:00 (3 h ago). Mauritius: closest point already passed, moving away.
+- Agueda (tropical depression (jtwc estimate), max wind 56 km/h) is 1,925 km from Mauritius, moving W at 18 km/h. Closest to Madagascar's coast: 716 km, Fri 23 Oct ~22:00 (11 h ago). Mauritius: closest point already passed, moving away.
