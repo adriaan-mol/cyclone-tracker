@@ -1,8 +1,15 @@
 name: update-storms
 on:
   schedule:
-    - cron: "12 * * * *"   # hourly: Meteo-France warnings land ~1 h after 00/06/12/18 UTC
+    # GitHub drops many scheduled runs, so each run polls hourly for ~6 h itself.
+    # Meteo-France warnings reach the relay ~1 h after 00/06/12/18 UTC.
+    - cron: "12 */6 * * *"
+    - cron: "42 2,8,14,20 * * *"   # backup start if one is dropped
   workflow_dispatch:
+    inputs:
+      passes:
+        description: "How many hourly passes (1 = single update)"
+        default: "1"
 permissions:
   contents: write
 concurrency:
@@ -11,7 +18,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 380
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -20,11 +27,22 @@ jobs:
           cache: pip
           cache-dependency-path: scripts/requirements.txt
       - run: pip install -r scripts/requirements.txt
-      - name: Build storms.json, brief and map
+      - name: Build, commit if changed, repeat hourly
+        env:
+          PASSES: ${{ github.event.inputs.passes || '6' }}
         run: |
-          python scripts/build_storms.py | tee build.log
-          echo "::notice title=Storms::$(tail -1 build.log)"
-      - name: Commit if something changed (and once a day regardless)
+          git config user.name "cyclone-bot"
+          git config user.email "cyclone-bot@users.noreply.github.com"
+          for i in $(seq 1 "$PASSES"); do
+            git pull --rebase -q || true
+            python scripts/build_storms.py | tee build.log || echo "::warning title=Build::pass $i failed"
+            echo "::notice title=Storms pass $i::$(tail -1 build.log)"
+            bash .github/commit_if_changed.sh
+            [ "$i" -lt "$PASSES" ] && sleep 3600
+          done
+          true
+      - name: (old single-pass commit step, kept for reference)
+        if: false
         run: |
           DO_COMMIT=$(python - <<'PY'
           import json, hashlib, os, subprocess, time

@@ -23,7 +23,7 @@ Each source can fail on its own; the app shows which ones answered on the last r
 Demo with historical advisories: `?demo=gezani` (Feb 2026) or `?demo=belal` (Jan 2024).
 
 ## How it works
-A GitHub Action (`.github/workflows/update.yml`) runs every hour:
+A GitHub Action (`.github/workflows/update.yml`) starts every 6 hours and checks hourly within each run (GitHub drops many scheduled runs):
 1. `scripts/build_storms.py` (with `scripts/sources.py`) fetches GDACS, JTWC and the Mauritius
    bulletins, keeps storms in the South-West Indian Ocean, and computes landfalls and closest approaches.
 2. It writes `data/storms.json` (phone app), `data/brief.json` + `data/brief.md`
