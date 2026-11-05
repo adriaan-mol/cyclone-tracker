@@ -207,13 +207,13 @@ def parse_mf_outlook(text):
         lat, lon = _mf_ll(*ll.groups())
         wind = re.search(r"(?:MAX(?:IMUM)?\s+(?:AVERAGE\s+)?WINDS?[^:\n]{0,40}[:=]?|WINDS? OF|WINDS? ESTIMATED (?:AT|TO)?)\s*(\d{2,3})\s*KT", para)
         pres = re.search(r"(\d{3,4})\s*HPA", para)
-        mv = re.search(r"MOVEMENT[^:\n]*:?\s*([A-Z -]+?)\s+(\d{1,2})\s*KT", para)
+        mv = re.search(r"MOVEMENT\s*:?\s*([A-Z -]+?)\s*,?\s+(\d{1,2})\s*KT", para)
         chance = None
         for word, val in (("VERY LOW", "very low"), ("LOW", "low"), ("MODERATE", "moderate"), ("HIGH", "high"), ("NIL", "nil")):
             if re.search(r"(?:RISK|PROBABILITY|POTENTIAL|CHANCE)S?[^.]{0,120}\b(?:IS|ARE|REMAINS?|BECOMES?)\s+(?:NOW\s+)?" + word + r"\b", para):
                 chance = val
                 break
-        out[num] = {"id": num, "stage": " ".join(m.group(1).split()).title(),
+        out[num] = {"id": num, "stage": " ".join(m.group(1).split()).capitalize(),
                     "name": (m.group(4) or "").strip().title() or None,
                     "lat": lat, "lon": lon, "t": _mf_time(para, issued),
                     "wind_kmh": round(int(wind.group(1)) * KT) if wind else None,
@@ -237,14 +237,14 @@ def parse_mf_warning(text):
     past = [{"t": adv, "lat": lat, "lon": lon, "wind_kt": int(w.group(1)) if w else 25}]
     fcst = []
     for fm in re.finditer(r"\b\d{1,3}H\s*:\s*(20\d\d/\d\d/\d\d\s+\d\d(?:\d\d)?\s*UTC)\s*:\s*" + _LL +
-                          r"[^\n]*?MAX WIND\s*=\s*(\d{2,3})\s*KT", t):
+                          r"[^\n]*?(?:MAX WIND|VENT MAX)\s*=\s*(\d{2,3})\s*KT", t):
         ft = _mf_time(fm.group(1), None)
         if ft and ft > adv:
             la, lo = _mf_ll(*fm.groups()[1:5])
             fcst.append({"t": ft, "lat": la, "lon": lo, "wind_kt": int(fm.group(6))})
     last = re.search(r"LAST (?:WARNING|BULLETIN)|LAST WARNING", t)
     name = (m.group(3) or "").strip().title() or f"Disturbance {int(m.group(2)):02d}"
-    return {"number": f"{int(m.group(2)):02d}", "name": name, "stage": " ".join(m.group(1).split()).title(),
+    return {"number": f"{int(m.group(2)):02d}", "name": name, "stage": " ".join(m.group(1).split()).capitalize(),
             "advisory": adv, "past": past, "fcst": fcst, "final": bool(last),
             "max_wind_kmh": round(past[-1]["wind_kt"] * KT)}
 
