@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-05T13:10Z",
- "generated_mut": "Thu 05 Nov 2026 17:10",
+ "generated": "2026-11-05T13:11Z",
+ "generated_mut": "Thu 05 Nov 2026 17:11",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -15,7 +15,7 @@
   {
    "id": "02-20262027",
    "chance": "unknown",
-   "summary": "Watching Disturbance 02 near 10.8\u00b0S 59.0\u00b0E, winds 46 km/h: 1,053 km from Mauritius, 1,526 km from Antananarivo. Monitored by Meteo-France La Reunion."
+   "summary": "Watching Disturbance 02 near 10.8\u00b0S 59.0\u00b0E, winds 46 km/h, moving south-west at 19 km/h: 1,053 km from Mauritius, 1,526 km from Antananarivo. Monitored by Meteo-France La Reunion."
   }
  ],
  "feed_errors": []
