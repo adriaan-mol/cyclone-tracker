@@ -223,7 +223,7 @@ def render(storms, now, out_path, note=None, warnings=None, watch=None):
             continue
         ax.plot(d["lon"], d["lat"], "o", ms=16, mfc="none", mec=INK, mew=1.2, ls="none", zorder=20)
         ax.plot(d["lon"], d["lat"], "o", ms=4, mfc=INK, mec=INK, zorder=21)
-        ax.text(d["lon"] + 0.7, d["lat"] + 0.4, f"{d['name']} ({d['chance']} chance)", fontsize=8.5, family=SERIF,
+        ax.text(d["lon"] + 0.7, d["lat"] + 0.4, f"{d['name']}" + (f" ({d['chance']} risk)" if d['chance'] != "unknown" else ""), fontsize=8.5, family=SERIF,
                 style="italic", color=INK, zorder=21, bbox=dict(boxstyle="square,pad=0.2", fc=PAPER, ec="none"))
 
     # masthead
@@ -235,8 +235,9 @@ def render(storms, now, out_path, note=None, warnings=None, watch=None):
                            + (f", heading {s['motion']['toward']} at {s['motion']['speed_kmh']} km/h" if s.get("motion") else "")
                            for s in storms)
     elif watch:
-        sub = ("No cyclones yet. JTWC is watching " + ", ".join(f"{d['name']} ({d['chance']} chance)" for d in watch)
-               + " of becoming one within 24 h.")
+        sub = ("No cyclones yet. Watching " + ", ".join(
+            f"{d['name']} ({'Météo-France' if d['source'] != 'JTWC' else 'JTWC'}"
+            + (f", {d['chance']} risk" if d['chance'] != "unknown" else "") + ")" for d in watch) + ".")
     else:
         sub = "All quiet. No active tropical cyclones in the South-West Indian Ocean."
         ax.text((x0 + x1) / 2, y1 - 2.2, "No Cyclones Abroad", ha="center", fontsize=22, family=SC, color=INK, zorder=10,
@@ -268,7 +269,7 @@ def render(storms, now, out_path, note=None, warnings=None, watch=None):
     stamp = note or f"As of {now.astimezone(MUT):%a %d %b %Y, %H:%M} Mauritius time"
     fig.text(0.06, 0.018, stamp + "  ·  times in Mauritius time (Madagascar is one hour behind)",
              fontsize=7.5, family=SERIF, style="italic", color=FADED)
-    fig.text(0.94, 0.018, "Data: GDACS (RSMC La Réunion) · JTWC · Mauritius Met Services", ha="right", fontsize=7.5, family=SERIF,
+    fig.text(0.94, 0.018, "Data: Météo-France La Réunion · GDACS · JTWC · Mauritius Met Services", ha="right", fontsize=7.5, family=SERIF,
              style="italic", color=FADED)
     fig.patches.append(Rectangle((0.012, 0.008), 0.976, 0.984, transform=fig.transFigure, fill=False, ec=INK, lw=2))
     fig.patches.append(Rectangle((0.02, 0.0), 0.96, 0.0, transform=fig.transFigure, fill=False, ec=INK, lw=0))

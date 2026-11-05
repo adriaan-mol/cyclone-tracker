@@ -393,8 +393,9 @@ def jtwc_view(j, now):
     }
 
 
-def storm_from_jtwc(j, now):
-    """A storm only JTWC is warning on (GDACS has not picked it up yet)."""
+def storm_from_jtwc(j, now, source="JTWC"):
+    """A storm GDACS has not picked up yet: from a JTWC or a Meteo-France warning."""
+    mf = source == "MF"
     past, fcst = _jt_track(j)
     a = analyse({"past": past, "fcst": fcst, "polys": {}}, now)
     cur = past[-1]
@@ -404,9 +405,9 @@ def storm_from_jtwc(j, now):
 
     chain = [cur] + fcst
     return {
-        "id": f"JTWC-{j['number']}", "name": j["name"],
-        "status": f"{_jt_cat(cur['wind_kt'])} (JTWC estimate)", "category": "",
-        "max_wind_kmh": j["max_wind_kmh"], "alert": "", "source": "JTWC",
+        "id": f"{'MF' if mf else 'JTWC'}-{j['number']}", "name": j["name"],
+        "status": j["stage"] if mf else f"{_jt_cat(cur['wind_kt'])} (JTWC estimate)", "category": "",
+        "max_wind_kmh": j["max_wind_kmh"], "alert": "", "source": source,
         "advisory": iso(j["advisory"]),
         "position": {"lat": cur["lat"], "lon": cur["lon"], "t": iso(cur["t"])},
         "over_land": a["over_land"], "motion": a["motion"],
@@ -418,7 +419,7 @@ def storm_from_jtwc(j, now):
         "places": [dict(p, closest_time=iso(p["closest_time"])) for p in a["places"]],
         "madagascar": dict(a["madagascar"], closest_time=iso(a["madagascar"]["closest_time"])),
         "closing_in": a["closing_in"], "jtwc": None,
-        "report_url": "https://www.metoc.navy.mil/jtwc/jtwc.html",
+        "report_url": "https://meteofrance.re/fr/cyclone" if mf else "https://www.metoc.navy.mil/jtwc/jtwc.html",
     }
 
 
@@ -485,6 +486,21 @@ def build_live(now):
     except Exception as e:
         errors.append(f"Mauritius Meteorological Services: {e}")
         status["mms"] = "error"
+    mf_watch, mf_track = [], None
+    try:
+        mf_watch, mf_track = S.fetch_mf(os.path.join(ROOT, "data"))
+        status["mf"] = "ok"
+    except Exception as e:
+        errors.append(f"Meteo-France La Reunion: {e}")
+        status["mf"] = "error"
+    if mf_track and not mf_track["final"] and now - mf_track["advisory"] < dt.timedelta(hours=18) \
+            and in_region(mf_track["past"][-1]["lat"], mf_track["past"][-1]["lon"]):
+        cur = mf_track["past"][-1]
+        if storms is None:
+            storms = []
+        if not any(haversine(cur["lat"], cur["lon"], x["position"]["lat"], x["position"]["lon"]) < 400 for x in storms):
+            storms.append(storm_from_jtwc(mf_track, now, source="MF"))
+    mf_watch = [d for d in mf_watch if d.get("issued") and now - d["issued"] < dt.timedelta(hours=36)]
     disturbances = []
     try:
         disturbances = S.fetch_jtwc_disturbances(os.path.join(ROOT, "data", "jtwc_outlook.txt"))
@@ -495,7 +511,10 @@ def build_live(now):
     if storms is None and jtwc is None:
         raise RuntimeError("; ".join(errors))
     storms = merge_jtwc(storms or [], jtwc or [], now)
-    return storms, errors, warnings, status, watch_list(disturbances, storms)
+    # Meteo-France first; a JTWC invest at the same spot is the same system
+    jt = [d for d in disturbances
+          if not any(haversine(d["lat"], d["lon"], m["lat"], m["lon"]) < 400 for m in mf_watch)]
+    return storms, errors, warnings, status, watch_list(mf_watch, storms) + watch_list(jt, storms)
 
 
 def watch_list(disturbances, storms):
@@ -506,19 +525,30 @@ def watch_list(disturbances, storms):
             continue
         if any(haversine(d["lat"], d["lon"], s["position"]["lat"], s["position"]["lon"]) < 400 for s in storms):
             continue
+        mf = d.get("source", "").startswith("Meteo")
+        w = d.get("wind_kmh")
         out.append(dict(d, issued=iso(d["issued"]) if d.get("issued") else None,
+                        t=iso(d["t"]) if d.get("t") else None,
+                        wind_kmh=[w, w] if isinstance(w, int) else w,
+                        chance=d.get("chance") or "unknown",
+                        source="Meteo-France La Reunion" if mf else "JTWC",
                         mauritius_km=round(haversine(d["lat"], d["lon"], -20.16, 57.50)),
                         antananarivo_km=round(haversine(d["lat"], d["lon"], -18.88, 47.51)),
-                        name=f"Invest {d['id']}"))
+                        name=(d.get("name") or f"Disturbance {d['id'].split('-')[0]}") if mf else f"Invest {d['id']}"))
     return out
 
 
 def disturbance_line(d):
-    w = f", winds {d['wind_kmh'][0]}-{d['wind_kmh'][1]} km/h" if d.get("wind_kmh") else ""
-    tcfa = ", formation alert issued" if d.get("tcfa") else ""
-    return (f"Watching {d['name']} near {abs(d['lat']):.1f}°{'S' if d['lat'] < 0 else 'N'} {d['lon']:.1f}°E{w}: "
-            f"{d['mauritius_km']:,} km from Mauritius, {d['antananarivo_km']:,} km from Antananarivo. "
-            f"JTWC chance of becoming a tropical cyclone within 24 h: {d['chance']}{tcfa}.")
+    wk = d.get("wind_kmh")
+    w = "" if not wk else f", winds {wk[0]} km/h" if wk[0] == wk[1] else f", winds {wk[0]}-{wk[1]} km/h"
+    mv = f", moving {d['moving']}" if d.get("moving") else ""
+    head = (f"Watching {d['name']} near {abs(d['lat']):.1f}°{'S' if d['lat'] < 0 else 'N'} {d['lon']:.1f}°E{w}{mv}: "
+            f"{d['mauritius_km']:,} km from Mauritius, {d['antananarivo_km']:,} km from Antananarivo.")
+    if d["source"] == "JTWC":
+        tcfa = ", formation alert issued" if d.get("tcfa") else ""
+        return head + f" JTWC chance of becoming a tropical cyclone within 24 h: {d['chance']}{tcfa}."
+    ch = f" Risk of becoming a moderate tropical storm: {d['chance']}." if d["chance"] != "unknown" else ""
+    return head + f" Monitored by Meteo-France La Reunion.{ch}"
 
 
 def build_demo():
@@ -587,7 +617,7 @@ def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warning
     warnings = warnings or {}
     disturbances = disturbances or []
     doc = {"generated": iso(now),
-           "source": "GDACS (forecast of RSMC La Reunion), JTWC, Mauritius Meteorological Services",
+           "source": "GDACS (forecast of RSMC La Reunion), Meteo-France La Reunion bulletins, JTWC, Mauritius Meteorological Services",
            "sources": status or {}, "warnings": warnings,
            "demo": demo_note, "errors": errors, "storms": storms, "disturbances": disturbances}
     json.dump(doc, open(os.path.join(outdir, "storms.json"), "w"), separators=(",", ":"))
@@ -599,7 +629,7 @@ def write_outputs(outdir, storms, now, errors, img_name, demo_note=None, warning
                                  if storms else "No active cyclones in the South-West Indian Ocean"))
     if not storms and disturbances:
         headline = (f"No cyclones yet; watching {len(disturbances)} disturbance"
-                    f"{'s' if len(disturbances) > 1 else ''} ({', '.join(d['id'] for d in disturbances)})")
+                    f"{'s' if len(disturbances) > 1 else ''} ({', '.join(d['name'] for d in disturbances)})")
     if wlines:
         headline = wlines[0].rstrip(".").split(",")[0] + ". " + headline
     brief = {

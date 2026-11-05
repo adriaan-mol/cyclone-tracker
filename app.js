@@ -237,9 +237,9 @@ function renderMap(fit) {
   });
 
   (doc.disturbances || []).forEach(d => {
-    const icon = L.divIcon({ className: '', html: `<div class="dist-marker chance-${esc(d.chance)}"></div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+    const icon = L.divIcon({ className: '', html: `<div class="dist-marker chance-${esc(d.chance === 'moderate' ? 'medium' : d.chance)}"></div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
     L.marker([d.lat, d.lon], { icon }).addTo(layer)
-      .bindTooltip(`${esc(d.id)} · ${esc(d.chance.toUpperCase())}`, { permanent: true, direction: 'top', className: 'storm-label dist-label', offset: [0, -14] });
+      .bindTooltip(`${esc(d.name.toUpperCase())}${d.chance !== 'unknown' ? ` · ${esc(d.chance.toUpperCase())}` : ''}`, { permanent: true, direction: 'top', className: 'storm-label dist-label', offset: [0, -14] });
     bounds.push([d.lat, d.lon]);
   });
 
@@ -303,7 +303,7 @@ function renderWarnings() {
       <div class="w-text">${esc(w.summary)}</div>
     </a>`).join('');
   const st = doc.sources || {};
-  const names = { gdacs: 'GDACS / LA RÉUNION', jtwc: 'JTWC', jtwc_outlook: 'JTWC OUTLOOK', mms: 'MAURITIUS MET' };
+  const names = { gdacs: 'GDACS / LA RÉUNION', jtwc: 'JTWC', mf: 'MÉTÉO-FRANCE', jtwc_outlook: 'JTWC OUTLOOK', mms: 'MAURITIUS MET' };
   document.getElementById('source-status').innerHTML = Object.keys(names).filter(k => st[k])
     .map(k => `<span class="${st[k] === 'ok' ? 'ok' : 'bad'}">${names[k]} ${st[k] === 'ok' ? '✓' : '✕'}</span>`).join('');
 }
@@ -311,14 +311,21 @@ function renderWarnings() {
 function watchHtml() {
   const ds = doc.disturbances || [];
   if (!ds.length) return '';
-  return ds.map(d => `
+  return ds.map(d => {
+    const mf = d.source !== 'JTWC';
+    const w = d.wind_kmh ? (d.wind_kmh[0] === d.wind_kmh[1] ? ` · winds ${d.wind_kmh[0]} km/h` : ` · winds ${d.wind_kmh[0]}-${d.wind_kmh[1]} km/h`) : '';
+    const tag = d.chance !== 'unknown' ? `<span class="tag watch-tag">${esc(d.chance.toUpperCase())} ${mf ? 'RISK' : 'CHANCE'}${d.tcfa ? ' · TCFA' : ''}</span>` : '';
+    const src = mf ? `Météo-France La Réunion is monitoring it${d.chance !== 'unknown' ? '; risk of becoming a moderate tropical storm' : ''}`
+      : 'JTWC chance of becoming a tropical cyclone within 24 h';
+    return `
     <div class="storm-item watch">
-      <div class="storm-name">${esc(d.name.toUpperCase())} <span class="tag watch-tag">${esc(d.chance.toUpperCase())} CHANCE${d.tcfa ? ' · TCFA' : ''}</span></div>
-      <div class="storm-meta">Disturbance, not yet a cyclone · ${Math.abs(d.lat).toFixed(1)}°${d.lat < 0 ? 'S' : 'N'} ${d.lon.toFixed(1)}°E${d.wind_kmh ? ` · winds ${d.wind_kmh[0]}-${d.wind_kmh[1]} km/h` : ''}${d.pressure_mb ? ` · ${d.pressure_mb} hPa` : ''}</div>
+      <div class="storm-name">${esc(d.name.toUpperCase())} ${tag}</div>
+      <div class="storm-meta">${esc(d.stage || 'Disturbance')}, not yet a cyclone · ${Math.abs(d.lat).toFixed(1)}°${d.lat < 0 ? 'S' : 'N'} ${d.lon.toFixed(1)}°E${w}${d.moving ? ` · moving ${esc(d.moving)}` : ''}${d.pressure_mb ? ` · ${d.pressure_mb} hPa` : ''}</div>
       <div class="row"><b>Mauritius</b> ${km(d.mauritius_km)} · <b>Tana</b> ${km(d.antananarivo_km)}</div>
-      <div class="storm-meta src">JTWC chance of becoming a tropical cyclone within 24 h${d.issued ? ` · outlook ${fmtTime(new Date(d.issued))}` : ''}. No forecast track until it develops.</div>
-      <a class="report" href="https://www.metoc.navy.mil/jtwc/products/abioweb.txt" target="_blank" rel="noopener">JTWC OUTLOOK →</a>
-    </div>`).join('');
+      <div class="storm-meta src">${src}${d.issued ? ` · bulletin ${fmtTime(new Date(d.issued))}` : ''}. Forecast track once warnings start.</div>
+      <a class="report" href="${mf ? 'https://meteofrance.re/fr/cyclone' : 'https://www.metoc.navy.mil/jtwc/products/abioweb.txt'}" target="_blank" rel="noopener">${mf ? 'MÉTÉO-FRANCE' : 'JTWC OUTLOOK'} →</a>
+    </div>`;
+  }).join('');
 }
 
 function renderPanel() {
@@ -362,7 +369,8 @@ function renderPanel() {
         : `Mauritius closest ${km(m.closest_km)} · ${fmtTime(new Date(m.closest_time), true)} · <em>${relHours(new Date(m.closest_time))}</em>`);
       jt = `<div class="row jtwc"><b>JTWC forecast</b> (max wind ${s.jtwc.max_wind_kmh} km/h, 1-min): ${bits.join(' · ')}</div>`;
     }
-    const src = s.source === 'JTWC' ? 'JTWC only (not yet in GDACS / La Réunion feed)' : 'La Réunion forecast via GDACS';
+    const src = s.source === 'JTWC' ? 'JTWC only (not yet in GDACS / La Réunion feed)'
+      : s.source === 'MF' ? 'Météo-France La Réunion warning (not yet in GDACS)' : 'La Réunion forecast via GDACS';
     return `
       <div class="storm-item ${i === selected ? 'active' : ''} alert-${esc((s.alert || 'green').toLowerCase())}" data-i="${i}">
         <div class="storm-name">${esc(s.name.toUpperCase())} ${s.closing_in ? '<span class="tag">CLOSING IN</span>' : ''}</div>
@@ -370,7 +378,7 @@ function renderPanel() {
         <div class="storm-meta">Position ${fmtTime(new Date(s.position.t))} (${relHours(new Date(s.position.t))}) · advisory ${fmtTime(new Date(s.advisory))}</div>
         ${lfs}${zones}${places}${mdLine}${jt}
         <div class="storm-meta src">Source: ${src}</div>
-        <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">${s.source === 'JTWC' ? 'JTWC' : 'GDACS REPORT'} →</a>
+        <a class="report" href="${esc(s.report_url)}" target="_blank" rel="noopener">${s.source === 'JTWC' ? 'JTWC' : s.source === 'MF' ? 'MÉTÉO-FRANCE' : 'GDACS REPORT'} →</a>
       </div>`;
   }).join('') + watchHtml();
   list.querySelectorAll('.storm-item').forEach(el =>

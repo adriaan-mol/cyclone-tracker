@@ -5,6 +5,7 @@ Live site: https://adriaan-mol.github.io/cyclone-tracker/
 
 ## Sources
 - **GDACS**: current storms with the official forecast of RSMC La Réunion (Météo-France), its cone and wind zones.
+- **Météo-France La Réunion bulletins** (via the US National Weather Service relay): the daily outlook (AWIO20 FMEE) lists every disturbance Météo-France is watching, days before GDACS or JTWC carry it; the warning (WTIO30 FMEE) gives the forecast track as soon as Météo-France takes charge of a system.
 - **JTWC** (US Joint Typhoon Warning Center): second forecast track for comparison, and the only track for a storm GDACS has not picked up yet.
 - **JTWC outlook** (Significant Tropical Weather Advisory, ABIO10): disturbances ("invests") with their chance of becoming a cyclone, shown before any storm is named or tracked.
 - **Mauritius Meteorological Services**: the cyclone warning class (I to IV) in force for Mauritius and Rodrigues, with the bulletin text.

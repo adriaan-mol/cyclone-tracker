@@ -141,6 +141,135 @@ def fetch_jtwc_disturbances(save_to=None):
     return parse_abio(raw)
 
 
+# ------------------------------------------------------------ Meteo-France La Reunion (RSMC)
+# The WMO text bulletins of RSMC La Reunion, as relayed by the US National Weather Service:
+#   AWIO20 FMEE  daily tropical weather outlook: every disturbance it is watching,
+#                long before GDACS or JTWC carry it
+#   WTIO30 FMEE  warning for a system it has taken charge of, with the forecast track
+MF_OUTLOOK = "https://tgftp.nws.noaa.gov/data/raw/aw/awio20.fmee..txt"
+MF_WARNING = "https://tgftp.nws.noaa.gov/data/raw/wt/wtio30.fmee..txt"
+MF_STAGES = ("ZONE OF DISTURBED WEATHER", "TROPICAL DISTURBANCE", "TROPICAL DEPRESSION",
+             "MODERATE TROPICAL STORM", "SEVERE TROPICAL STORM", "TROPICAL CYCLONE",
+             "INTENSE TROPICAL CYCLONE", "VERY INTENSE TROPICAL CYCLONE", "SUBTROPICAL DEPRESSION",
+             "POST-TROPICAL DEPRESSION", "FILLING UP", "REMNANT LOW")
+_STAGE_RE = "|".join(sorted(MF_STAGES, key=len, reverse=True)).replace(" ", r"\s+")
+_LL = r"(\d{1,2}[.,]\d)\s*([NS])\s*/\s*(\d{1,3}[.,]\d)\s*([EW])"
+
+
+def _mf_ll(la, ns, lo, ew):
+    return _pos(la.replace(",", "."), ns, lo.replace(",", "."), ew)
+
+
+def _mf_header_time(t):
+    """'AWIO20 FMEE 051200' + a date somewhere in the text -> datetime."""
+    h = re.search(r"FMEE (\d{2})(\d{2})(\d{2})", t)
+    d = re.search(r"(20\d\d)[/-](\d\d)[/-](\d\d)|(\d\d)/(\d\d)/(20\d\d)", t)
+    if not h or not d:
+        return None
+    y, mo = (int(d.group(1)), int(d.group(2))) if d.group(1) else (int(d.group(6)), int(d.group(5)))
+    try:
+        return dt.datetime(y, mo, int(h.group(1)), int(h.group(2)), int(h.group(3)), tzinfo=UTC)
+    except ValueError:
+        return None
+
+
+def _mf_time(s, ref):
+    """'2026/11/05 AT 0900 UTC', '05/11/2026 AT 09 UTC', '2026/11/06 00 UTC' -> datetime."""
+    m = re.search(r"(20\d\d)/(\d\d)/(\d\d)\D{0,6}?(\d\d)(\d\d)?\s*UTC", s) or \
+        re.search(r"(\d\d)/(\d\d)/(20\d\d)\D{0,6}?(\d\d)(\d\d)?\s*UTC", s)
+    if not m:
+        return None
+    a, b, c, hh, mm = m.groups()
+    y, mo, d = (int(a), int(b), int(c)) if len(a) == 4 else (int(c), int(b), int(a))
+    try:
+        return dt.datetime(y, mo, d, int(hh), int(mm or 0), tzinfo=UTC)
+    except ValueError:
+        return ref
+
+
+def parse_mf_outlook(text):
+    """AWIO20 FMEE -> systems RSMC La Reunion is watching, with position, wind and stage."""
+    t = re.sub(r"[ \t]+", " ", text.upper())
+    issued = _mf_header_time(t)
+    out = {}
+    for m in re.finditer(r"(" + _STAGE_RE + r")\s+(\d{1,2})-(20\d{6})(?:\s*\(([A-Z' -]+)\))?", t):
+        num = f"{int(m.group(2)):02d}-{m.group(3)}"
+        if num in out:
+            continue
+        # this system's paragraph: up to the next numbered system or section
+        rest = t[m.end():]
+        nxt = re.search(r"(" + _STAGE_RE + r")\s+\d{1,2}-20\d{6}(?!\s*\(?" + re.escape(m.group(2)) + ")", rest)
+        para = rest[:nxt.start()] if nxt and int(re.search(r"(\d{1,2})-20", rest[nxt.start():]).group(1)) != int(m.group(2)) \
+            else rest[:4000]
+        ll = re.search(_LL, para)
+        if not ll:
+            continue
+        lat, lon = _mf_ll(*ll.groups())
+        wind = re.search(r"(?:MAX(?:IMUM)?\s+(?:AVERAGE\s+)?WINDS?[^:\n]{0,40}[:=]?|WINDS? OF|WINDS? ESTIMATED (?:AT|TO)?)\s*(\d{2,3})\s*KT", para)
+        pres = re.search(r"(\d{3,4})\s*HPA", para)
+        mv = re.search(r"MOVEMENT[^:\n]*:?\s*([A-Z -]+?)\s+(\d{1,2})\s*KT", para)
+        chance = None
+        for word, val in (("VERY LOW", "very low"), ("LOW", "low"), ("MODERATE", "moderate"), ("HIGH", "high"), ("NIL", "nil")):
+            if re.search(r"(?:RISK|PROBABILITY|POTENTIAL|CHANCE)S?[^.]{0,120}\b(?:IS|ARE|REMAINS?|BECOMES?)\s+(?:NOW\s+)?" + word + r"\b", para):
+                chance = val
+                break
+        out[num] = {"id": num, "stage": " ".join(m.group(1).split()).title(),
+                    "name": (m.group(4) or "").strip().title() or None,
+                    "lat": lat, "lon": lon, "t": _mf_time(para, issued),
+                    "wind_kmh": round(int(wind.group(1)) * KT) if wind else None,
+                    "pressure_mb": int(pres.group(1)) if pres else None,
+                    "moving": f"{mv.group(1).strip().lower()} at {round(int(mv.group(2)) * KT)} km/h" if mv else None,
+                    "chance": chance, "issued": issued, "source": "Meteo-France La Reunion"}
+    return list(out.values())
+
+
+def parse_mf_warning(text):
+    """WTIO30 FMEE -> a track dict like parse_tcw (winds are 10-minute means, knots)."""
+    t = re.sub(r"[ \t]+", " ", text.upper())
+    issued = _mf_header_time(t)
+    m = re.search(r"(" + _STAGE_RE + r")\s+(\d{1,2})(?:\s*\(([A-Z' -]+)\))?", t)
+    pos = re.search(r"POSITION[^:\n]*?(20\d\d/\d\d/\d\d[^:\n]*UTC)\s*:?[\s\S]{0,80}?" + _LL, t)
+    if not m or not pos:
+        raise ValueError("not an RSMC La Reunion warning")
+    adv = _mf_time(pos.group(1), issued) or issued
+    lat, lon = _mf_ll(*pos.groups()[1:])
+    w = re.search(r"MAX(?:IMUM)? AVERAGE WIND SPEED[^:\n]*:\s*(\d{2,3})\s*KT", t)
+    past = [{"t": adv, "lat": lat, "lon": lon, "wind_kt": int(w.group(1)) if w else 25}]
+    fcst = []
+    for fm in re.finditer(r"\b\d{1,3}H\s*:\s*(20\d\d/\d\d/\d\d\s+\d\d(?:\d\d)?\s*UTC)\s*:\s*" + _LL +
+                          r"[^\n]*?MAX WIND\s*=\s*(\d{2,3})\s*KT", t):
+        ft = _mf_time(fm.group(1), None)
+        if ft and ft > adv:
+            la, lo = _mf_ll(*fm.groups()[1:5])
+            fcst.append({"t": ft, "lat": la, "lon": lo, "wind_kt": int(fm.group(6))})
+    last = re.search(r"LAST (?:WARNING|BULLETIN)|LAST WARNING", t)
+    name = (m.group(3) or "").strip().title() or f"Disturbance {int(m.group(2)):02d}"
+    return {"number": f"{int(m.group(2)):02d}", "name": name, "stage": " ".join(m.group(1).split()).title(),
+            "advisory": adv, "past": past, "fcst": fcst, "final": bool(last),
+            "max_wind_kmh": round(past[-1]["wind_kt"] * KT)}
+
+
+def fetch_mf(save_dir=None):
+    """(outlook systems, warning track or None). Either part may be missing."""
+    outlook = _get(MF_OUTLOOK).decode("utf-8", "ignore")
+    warning = None
+    try:
+        warning = _get(MF_WARNING).decode("utf-8", "ignore")
+    except Exception:
+        pass
+    if save_dir:
+        open(f"{save_dir}/mf_outlook.txt", "w").write(outlook)
+        if warning:
+            open(f"{save_dir}/mf_warning.txt", "w").write(warning)
+    track = None
+    if warning:
+        try:
+            track = parse_mf_warning(warning)
+        except ValueError:
+            track = None
+    return parse_mf_outlook(outlook), track
+
+
 # ------------------------------------------------------------ Mauritius Met Services
 
 ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4}
