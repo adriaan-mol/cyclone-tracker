@@ -486,15 +486,17 @@ def build_live(now):
     except Exception as e:
         errors.append(f"Mauritius Meteorological Services: {e}")
         status["mms"] = "error"
-    mf_watch, mf_track = [], None
+    mf_watch, mf_tracks = [], []
     try:
-        mf_watch, mf_track = S.fetch_mf(os.path.join(ROOT, "data"))
+        mf_watch, mf_tracks = S.fetch_mf(os.path.join(ROOT, "data"))
         status["mf"] = "ok"
     except Exception as e:
         errors.append(f"Meteo-France La Reunion: {e}")
         status["mf"] = "error"
-    if mf_track and not mf_track["final"] and now - mf_track["advisory"] < dt.timedelta(hours=18) \
-            and in_region(mf_track["past"][-1]["lat"], mf_track["past"][-1]["lon"]):
+    for mf_track in mf_tracks:
+        if mf_track["final"] or now - mf_track["advisory"] > dt.timedelta(hours=18) \
+                or not in_region(mf_track["past"][-1]["lat"], mf_track["past"][-1]["lon"]):
+            continue
         cur = mf_track["past"][-1]
         if storms is None:
             storms = []

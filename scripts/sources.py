@@ -147,7 +147,8 @@ def fetch_jtwc_disturbances(save_to=None):
 #                long before GDACS or JTWC carry it
 #   WTIO30 FMEE  warning for a system it has taken charge of, with the forecast track
 MF_OUTLOOK = "https://tgftp.nws.noaa.gov/data/raw/aw/awio20.fmee..txt"
-MF_WARNING = "https://tgftp.nws.noaa.gov/data/raw/wt/wtio30.fmee..txt"
+MF_WARNINGS = ["https://tgftp.nws.noaa.gov/data/raw/wt/wtio30.fmee..txt",   # first active system
+               "https://tgftp.nws.noaa.gov/data/raw/wt/wtio31.fmee..txt"]   # second one, when two run
 MF_STAGES = ("ZONE OF DISTURBED WEATHER", "TROPICAL DISTURBANCE", "TROPICAL DEPRESSION",
              "MODERATE TROPICAL STORM", "SEVERE TROPICAL STORM", "TROPICAL CYCLONE",
              "INTENSE TROPICAL CYCLONE", "VERY INTENSE TROPICAL CYCLONE", "SUBTROPICAL DEPRESSION",
@@ -252,22 +253,21 @@ def parse_mf_warning(text):
 def fetch_mf(save_dir=None):
     """(outlook systems, warning track or None). Either part may be missing."""
     outlook = _get(MF_OUTLOOK).decode("utf-8", "ignore")
-    warning = None
-    try:
-        warning = _get(MF_WARNING).decode("utf-8", "ignore")
-    except Exception:
-        pass
     if save_dir:
         open(f"{save_dir}/mf_outlook.txt", "w").write(outlook)
-        if warning:
-            open(f"{save_dir}/mf_warning.txt", "w").write(warning)
-    track = None
-    if warning:
+    tracks = []
+    for i, url in enumerate(MF_WARNINGS):
         try:
-            track = parse_mf_warning(warning)
+            raw = _get(url).decode("utf-8", "ignore")
+        except Exception:
+            continue
+        if save_dir:
+            open(f"{save_dir}/mf_warning{'' if i == 0 else i}.txt", "w").write(raw)
+        try:
+            tracks.append(parse_mf_warning(raw))
         except ValueError:
-            track = None
-    return parse_mf_outlook(outlook), track
+            pass
+    return parse_mf_outlook(outlook), tracks
 
 
 # ------------------------------------------------------------ Mauritius Met Services
