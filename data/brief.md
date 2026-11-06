@@ -1,5 +1,5 @@
 # Cyclone watch: Disturbance 02 closing in
 
-_Checked Fri 06 Nov 2026 12:45 Mauritius time._
+_Checked Fri 06 Nov 2026 17:46 Mauritius time._
 
-- Disturbance 02 (zone of disturbed weather, max wind 46 km/h) is 769 km from Mauritius. Forecast landfall: Madagascar near Vohemar, Mon 09 Nov ~01:30 Mauritius time (in 61 h). Closest to Mauritius: 700 km, Fri 06 Nov ~22:00 (in 9 h).
+- Disturbance 02 (zone of disturbed weather, max wind 56 km/h) is 777 km from Mauritius. Forecast landfall: Madagascar near Vohemar, Sun 08 Nov ~23:00 Mauritius time (in 53 h). Closest to Mauritius: 771 km, Sat 07 Nov ~06:00 (in 12 h).

@@ -1,29 +1,29 @@
-AWIO20 FMEE 051219
+AWIO20 FMEE 061100
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/05 A 1200 UTC
+DATE: 2026/11/06 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
 
 
-Nil, but the Zone of Disturbed Weather 02-20262027 will be monitored by RSMC La Reunion from 12 UTC.
+Bulletin WTIO30 002/02 issued at 06 UTC sur la Zone Perturbee 02-20262027. Next bulletins issued at 12 UTC.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The short and temporary monsoon trough branch associated with the tropical low off the south-east of the Seychelles is still present this Thursday but is gradually moving away from the near-equatorial area and fed by weaker trans-equatorial flow near the equator. Convective activity is moderate to strong in the vicinity of the tropical low centered east-southeast of Agalega, which is now being monitored by RSMC La Reunion starting this Thursday 5 November at 12 UTC (Zone of Disturbed Weather 02-20262027). Convection is also weak to moderate elsewhere in the areas of trade winds deceleration.
+With the southwestward progression of zone of disturbed weather No. 02-20262027, the basin no longer contains any particular pattern. Convective activity is weak to moderate on either side of a low-pressure trough extending from the Seychelles to No. 02-20262027, monitored by the RSMC. Additionally, weak to moderate convection is observed in the area of trade wind deceleration near the Chagos and further east.
 
-Over the western part of the basin, enhanced vorticity and moisture content from the Rossby wave connected with the tropical low which is currently monitored will gradually shift westward then move away. Further east, equatorial easterly wind anomalies over the eastern part of the basin (influence from El Nino and weak positive IOD) are expected to recede in the coming days as an equatorial westerly wind burst is triggered by various equatorial waves.This enhancement of equatorial westerlies should indeed be favoured by the MJO regenerating over the basin, then by a Kelvin wave moving across between November 10th and 13th. An Equatorial Rossby wave should also move in from the east of the basin from November 11 or 12th, contributing to this westerly surge.This should enable a Near-Equatorial Trough (NET) pattern to settle over a large part of the basin from Sunday or Monday onwards, initially weak then getting better defined by the middle of next week.
+For the next 5 days, over the western side of the basin, the vorticity and moisture ccontent from the Rossby wave associated with the currently monitored low-pressure system will gradually shift westward and then move away. Over the eastern side of the basin, the equatorial easterly wind anomalies (influenced by El Nino and a weak positive IOD) continue to create unfavorable conditions for cyclogenesis. However, early next week, the passage of a Kelvin wave in the North Indian Ocean, coupled with the regeneration of the MJO, could lead to the formation of a Near-Equatorial Trough (NET) over the eastern side of the basin.
 
-Zone of Disturbed Weather 02-20262027 : Information at 09 UTC : Estimated position : 10.8S / 59.0EMovement : south-west, 10 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1008 hPaFor further information, please refer to bulletins WTIO22 and WTIO30 issued at 12 UTC and following.
+Zone of Disturbed Weather 02-20262027 : Information at 09 UTC : Estimated position : 13.6S / 55.7EMovement : west-south-west, 13 ktMaximum wind speed (averaged over 10 minutes) : 30 ktEstimated central pressure : 1007 hPaFor further information, please refer to bulletins WTIO22 and WTIO30 issued at 12 UTC and following.
 
 Apart from the cyclogenesis risk associated with system 02-20262027, there is no risk of tropical storm development elsewhere over the next 5 days.
 
 10-day outlook:
-By mid-November, the NET pattern should strengthen further more. A new tropical low pressure area could form somewhere between the centre or the east of the basin. Ensemble models hint a possibility of tropical storm formation, which will need to be confirmed.
+The NET pattern should continue to strengthen under the influence of a Kelvin Wave crossing the basin around mid-November.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
@@ -31,4 +31,5 @@ Very low: less than 10%      Moderate: 30% to 60%      Very high: over 90%
 Low: 10% to 30%              High: 60% to 90%
 
 The Southwestern Indian ocean basin extends from the Equator to 40S and from the african coastlines to 90E.
+
 
