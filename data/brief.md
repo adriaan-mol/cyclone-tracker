@@ -1,5 +1,5 @@
-# No cyclones yet; watching 1 disturbance (Disturbance 02)
+# Cyclone watch: Disturbance 02 closing in
 
-_Checked Fri 06 Nov 2026 10:09 Mauritius time._
+_Checked Fri 06 Nov 2026 12:45 Mauritius time._
 
-- Watching Disturbance 02 near 10.8°S 59.0°E, winds 46 km/h, moving south-west at 19 km/h: 1,053 km from Mauritius, 1,526 km from Antananarivo. Monitored by Meteo-France La Reunion.
+- Disturbance 02 (zone of disturbed weather, max wind 46 km/h) is 769 km from Mauritius. Forecast landfall: Madagascar near Vohemar, Mon 09 Nov ~01:30 Mauritius time (in 61 h). Closest to Mauritius: 700 km, Fri 06 Nov ~22:00 (in 9 h).
