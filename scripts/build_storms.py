@@ -494,7 +494,9 @@ def build_live(now):
         errors.append(f"Meteo-France La Reunion: {e}")
         status["mf"] = "error"
     for mf_track in mf_tracks:
-        if mf_track["final"] or now - mf_track["advisory"] > dt.timedelta(hours=18) \
+        # Weak systems get one warning a day ("NEXT WARNING TOMORROW AT 0600Z") and the relay
+        # lags ~1-3 h, so keep a warning for 30 h; a newer one replaces it on the next pass.
+        if mf_track["final"] or now - mf_track["advisory"] > dt.timedelta(hours=30) \
                 or not in_region(mf_track["past"][-1]["lat"], mf_track["past"][-1]["lon"]):
             continue
         cur = mf_track["past"][-1]
