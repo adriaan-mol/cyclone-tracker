@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-07T07:58Z",
- "generated_mut": "Sat 07 Nov 2026 11:58",
+ "generated": "2026-11-07T13:59Z",
+ "generated_mut": "Sat 07 Nov 2026 17:59",
  "closing_in": true,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,7 +14,7 @@
   {
    "name": "Disturbance 02",
    "closing_in": true,
-   "summary": "Disturbance 02 (tropical depression, max wind 56 km/h) is 824 km from Mauritius. Forecast landfall: Madagascar near Antsiranana, Mon 09 Nov ~13:00 Mauritius time (in 49 h). Mauritius: closest point already passed, moving away."
+   "summary": "Disturbance 02 (tropical depression, max wind 56 km/h) is 821 km from Mauritius. Forecast landfall: Madagascar near Antsiranana, Mon 09 Nov ~07:30 Mauritius time (in 38 h). Mauritius: closest point already passed, moving away."
   }
  ],
  "disturbances": [],
