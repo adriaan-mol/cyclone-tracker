@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-06T19:24Z",
- "generated_mut": "Fri 06 Nov 2026 23:24",
+ "generated": "2026-11-07T02:26Z",
+ "generated_mut": "Sat 07 Nov 2026 06:26",
  "closing_in": true,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,7 +14,7 @@
   {
    "name": "Disturbance 02",
    "closing_in": true,
-   "summary": "Disturbance 02 (zone of disturbed weather, max wind 46 km/h) is 801 km from Mauritius. Forecast landfall: Madagascar near Vohemar, Mon 09 Nov ~01:30 Mauritius time (in 50 h). Closest to Mauritius: 779 km, Sat 07 Nov ~10:00 (in 11 h)."
+   "summary": "Disturbance 02 (zone of disturbed weather, max wind 46 km/h) is 848 km from Mauritius. Forecast landfall: Madagascar near Vohemar, Mon 09 Nov ~00:30 Mauritius time (in 42 h). Mauritius: closest point already passed, moving away."
   }
  ],
  "disturbances": [],
