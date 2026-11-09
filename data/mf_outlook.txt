@@ -1,33 +1,33 @@
-AWIO20 FMEE 081245
+AWIO20 FMEE 091211
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/08 A 1200 UTC
+DATE: 2026/11/09 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
 
 
-Bulletins WTIO30 010/02 and WTIO22 009/02 issued at 06 UTC sur la Depression Tropicale 02-20262027. Next bulletins issued at 12 UTC.
+Nil.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-Apart from Tropical Depression No. 02-20262027 northeast of Madagascar, the basin no longer contains any other systems. However, a poorly defined near-equatorial trough (NET) extends between 60oE and 80oE along 04oS. Convective activity is moderate within 02-20262027, as monitored by the CMRS, and moderate in the far northeast of the basin, within a zone of trade wind convergence.
+A near-equatorial trough (NET) is now extending between 52 and 82oE, along 3 to 6oS, and has become slightly better defined and widespread compared to previous days, due to a westerly wind burst along the equator. Convective activity is moderate near the NET.System 02-20262027 is gradually filling and is no longer monitored by RSMC La Reunion. Its exposed vortex is drifting between Madagascar's northern tip and the Seychelles Outer islands. Moderate convection persists locally in its southern periphery far from the centre, between northern Madagascar and the Comoros archipelago.
 
-The El Nino context, coupled with a weak positive IOD, maintains easterly low-frequency anomalies over the eastern part of the basin. The westerly wind anomaly initiated by the humid MJO, which will cross the basin over the next 5 days, is not sufficient to reverse this easterly anomaly. The interaction of Rossby-Kelvin-MRG-MJO waves in the western part of the basin creates favorable conditions for Tropical Depression 02-2026227, currently being tracked, by enhancing vorticity and convection. However, this will not be sufficient to withstand the strong deep-layer shear. Further east, the westerly push from the MJO and the passage of a Kelvin wave help improve the structure of the NET by mid-next week.
+The El Nino background, coupled with a weak positive IOD, maintains easterly low-frequency anomalies over the eastern part of the basin. However, an active moist phase of the MJO currently moving over the Indian ocean is triggering a powerful westerly wind burst along the equator. Two successive Kelvin waves also contribute to this westerly anomaly, one moving across the basin between November 9 and 11th and another one expected between November 15 and 16th. This should enable further strengthening of the NET pattern in the coming days. Moreover, a cyclonic vorticity anomaly linked with a new equatorial Rossby wave should move in from the east of the basin from November 16th (between the equator and 5oS), which could enhance vorticity. However, the resulting equatorial flow could be slightly tilted towards the northern hemisphere (slightly west-southwesterly flow) which could limit convergence within the south-hemispheric NET and favor rotation over the Bay of Bengal rather than over our basin.
 
-Tropical Depression 02-20262027 : Information at 09h30 UTC : Estimated position :  12.2S / 50.9EMovement : North-NorthWest, 11ktMaximum wind speed (averaged over 10 minutes) : 30 ktEstimated central pressure : 1010 hPaFor further information, please refer to bulletins WTIO22 and WTIO30 issued at 12 UTC and following.
+Remnant Low 02-20262027 : Information at 10UTC : Estimated position :  10.2S / 48.7EMovement : NNW, 6 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1011 hPaThe remnant vortex should drift west-northwestwards, passing near Aldabra on Tuesday with winds near 20 kt in its southern periphery, between the northern tip of Madagascar and Glorieuses. It should completely dissipate by Wednesday night within a weak trough off the coast of Tanzania.
 
-Some members of the ensemble models suggest a cyclogenesis near Diego Garcia in an area where vertical wind shear tends to decrease and where the NET could strengthen. However, the low-level convergence is still too weak to allow for a closed circulation. Additionally, AI models do not support this cyclogenesis scenario. Thus, the risk of cyclogenesis is assessed as very low near Diego Garcia.
+Possible formation of a new suspect area between the centre and the northeast of the basinStrengthening of the NET pattern in the coming days should enhance vorticity and convective activity over the eastern half of the basin, especially over the extreme northeast from the coming weekend. However, equatorial wave activity seems to slightly favor rotation in the Bay of Bengal where a newly formed vortex could attract low-level convergence away from a possible competing twin suspect area over our basin. Deterministic models do not forecast any tropical storm formation in the next 5 days. Only a few isolated members of ensemblist models suggest development and probabilites remain non-significant until this weekend.
 
-The risk of a moderate tropical storm forming becomes very low starting from Wenesday, November 11, near Diego Garcia.
+There is no risk of tropical storm development during the next 5 days.
 
 
 
 10-day outlook:
-The NET configuration is expected to re-establish itself, driven by a Kelvin wave traveling across the basin around mid-November.
+The NET configuration is expected to strengthen during next week starting November 16th. Ensemble models have an increasing number of members reaching tropical storm strength, as well as some deterministic models (GFS, GEM), hence an increasing risk of cyclogenesis within the next 10 days over the central or eastern part of the basin, although details remain uncertain.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
