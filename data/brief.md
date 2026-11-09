@@ -1,5 +1,5 @@
-# Cyclone watch: Three closing in
+# No cyclones yet; watching 1 disturbance (Disturbance 02)
 
-_Checked Mon 09 Nov 2026 22:14 Mauritius time._
+_Checked Tue 10 Nov 2026 02:21 Mauritius time._
 
-- Three (tropical depression (jtwc estimate), max wind 46 km/h) is 1,237 km from Mauritius, moving NNW at 13 km/h. Closest to Madagascar's coast: 118 km, Mon 09 Nov ~06:00 (16 h ago). Mauritius: closest point already passed, moving away.
+- Watching Disturbance 02 near 10.2°S 48.7°E, winds 46 km/h, moving nnw at 11 km/h: 1,454 km from Mauritius, 974 km from Antananarivo. Monitored by Meteo-France La Reunion.

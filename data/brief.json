@@ -1,22 +1,22 @@
 {
- "generated": "2026-11-09T18:14Z",
- "generated_mut": "Mon 09 Nov 2026 22:14",
- "closing_in": true,
+ "generated": "2026-11-09T22:21Z",
+ "generated_mut": "Tue 10 Nov 2026 02:21",
+ "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
  "warning_lines": [],
- "storm_count": 1,
+ "storm_count": 0,
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "Cyclone watch: Three closing in",
- "storms": [
+ "headline": "No cyclones yet; watching 1 disturbance (Disturbance 02)",
+ "storms": [],
+ "disturbances": [
   {
-   "name": "Three",
-   "closing_in": true,
-   "summary": "Three (tropical depression (jtwc estimate), max wind 46 km/h) is 1,237 km from Mauritius, moving NNW at 13 km/h. Closest to Madagascar's coast: 118 km, Mon 09 Nov ~06:00 (16 h ago). Mauritius: closest point already passed, moving away."
+   "id": "02-20262027",
+   "chance": "unknown",
+   "summary": "Watching Disturbance 02 near 10.2\u00b0S 48.7\u00b0E, winds 46 km/h, moving nnw at 11 km/h: 1,454 km from Mauritius, 974 km from Antananarivo. Monitored by Meteo-France La Reunion."
   }
  ],
- "disturbances": [],
  "feed_errors": []
 }
