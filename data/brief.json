@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-09T06:11Z",
- "generated_mut": "Mon 09 Nov 2026 10:11",
+ "generated": "2026-11-09T12:12Z",
+ "generated_mut": "Mon 09 Nov 2026 16:12",
  "closing_in": true,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,7 +14,7 @@
   {
    "name": "Three",
    "closing_in": true,
-   "summary": "Three (tropical depression (jtwc estimate), max wind 46 km/h) is 1,237 km from Mauritius, moving NNW at 13 km/h. Closest to Madagascar's coast: 118 km, Mon 09 Nov ~06:00 (4 h ago). Mauritius: closest point already passed, moving away."
+   "summary": "Three (tropical depression (jtwc estimate), max wind 46 km/h) is 1,237 km from Mauritius, moving NNW at 13 km/h. Closest to Madagascar's coast: 118 km, Mon 09 Nov ~06:00 (10 h ago). Mauritius: closest point already passed, moving away."
   }
  ],
  "disturbances": [],
