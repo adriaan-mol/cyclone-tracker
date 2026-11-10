@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-09T22:21Z",
- "generated_mut": "Tue 10 Nov 2026 02:21",
+ "generated": "2026-11-10T08:24Z",
+ "generated_mut": "Tue 10 Nov 2026 12:24",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -18,5 +18,7 @@
    "summary": "Watching Disturbance 02 near 10.2\u00b0S 48.7\u00b0E, winds 46 km/h, moving nnw at 11 km/h: 1,454 km from Mauritius, 974 km from Antananarivo. Monitored by Meteo-France La Reunion."
   }
  ],
- "feed_errors": []
+ "feed_errors": [
+  "GDACS feed: HTTP Error 503: Service Unavailable"
+ ]
 }
