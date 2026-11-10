@@ -1,28 +1,28 @@
-AWIO20 FMEE 091211
+AWIO20 FMEE 101303
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/09 A 1200 UTC
+DATE: 2026/11/10 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
-
-
-Nil.
+NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-A near-equatorial trough (NET) is now extending between 52 and 82oE, along 3 to 6oS, and has become slightly better defined and widespread compared to previous days, due to a westerly wind burst along the equator. Convective activity is moderate near the NET.System 02-20262027 is gradually filling and is no longer monitored by RSMC La Reunion. Its exposed vortex is drifting between Madagascar's northern tip and the Seychelles Outer islands. Moderate convection persists locally in its southern periphery far from the centre, between northern Madagascar and the Comoros archipelago.
+The basin has a near-equatorial trough (NET) pattern between 55E and 80E along 6S. Convective activity is moderate on the equatorial side of the NET, especially north of the Chagos Archipelago. In the northern part of the Mozambique Channel, system 02-20262027 is slowly dissipating and is no longer being monitored by the CMRS. The exposed residual vortex is moving near the northeast of Aldabra, with weak and scattered convection on the southern periphery of the circulation. A baroclinic low is also moving across the southern part of the Mozambique Channel but does not have the potential to develop into a subtropical storm
 
 The El Nino background, coupled with a weak positive IOD, maintains easterly low-frequency anomalies over the eastern part of the basin. However, an active moist phase of the MJO currently moving over the Indian ocean is triggering a powerful westerly wind burst along the equator. Two successive Kelvin waves also contribute to this westerly anomaly, one moving across the basin between November 9 and 11th and another one expected between November 15 and 16th. This should enable further strengthening of the NET pattern in the coming days. Moreover, a cyclonic vorticity anomaly linked with a new equatorial Rossby wave should move in from the east of the basin from November 16th (between the equator and 5oS), which could enhance vorticity. However, the resulting equatorial flow could be slightly tilted towards the northern hemisphere (slightly west-southwesterly flow) which could limit convergence within the south-hemispheric NET and favor rotation over the Bay of Bengal rather than over our basin.
 
-Remnant Low 02-20262027 : Information at 10UTC : Estimated position :  10.2S / 48.7EMovement : NNW, 6 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1011 hPaThe remnant vortex should drift west-northwestwards, passing near Aldabra on Tuesday with winds near 20 kt in its southern periphery, between the northern tip of Madagascar and Glorieuses. It should completely dissipate by Wednesday night within a weak trough off the coast of Tanzania.
-
-Possible formation of a new suspect area between the centre and the northeast of the basinStrengthening of the NET pattern in the coming days should enhance vorticity and convective activity over the eastern half of the basin, especially over the extreme northeast from the coming weekend. However, equatorial wave activity seems to slightly favor rotation in the Bay of Bengal where a newly formed vortex could attract low-level convergence away from a possible competing twin suspect area over our basin. Deterministic models do not forecast any tropical storm formation in the next 5 days. Only a few isolated members of ensemblist models suggest development and probabilites remain non-significant until this weekend.
+Possible formation of a new suspect area between the centre and the northeast of the basinStrengthening of the NET pattern in the coming days should enhance vorticity and convective activity over the eastern half of the basin, especially over the extreme northeast from the coming weekend. However, equatorial wave activity seems to slightly favor rotation in the Bay of Bengal where a newly formed vortex could attract low-level convergence away from a possible competing twin suspect area over our basin. The signal in our basin remains insignificant, even though the U.S. ensemble model (GEFS) suggests a very low risk of a tropical storm forming in the far northeast of the basin over the weekend.
 
 There is no risk of tropical storm development during the next 5 days.
+
+Baroclinic low over the souther part of the Mozambique Channel :A baroclinic low is currently located in the southern part of the Mozambique Channel near 23S/41E, approximately 100 km south of Europa and 300 km west of Toliara. Last night's ASCAT-B swath showed maximum winds reaching 35 kt in the southwestern quadrant of the circulation, with isolated convection far from the surface center in the southern semicircle of the circulation. The surface center remained exposed today, with winds measured at around 25 kt over Europa this afternoon. Environmental conditions are highly unfavorable for a potential subtropical transition of this baroclinic low due to strong vertical wind shear and a very dry mid level environment.  This circulation is therefore expected to gradually dissipate over the next few days while slowly moving northward.
+
+For the next 5 days, there is no potential for this suspect area to develop into a subtropical storm.
 
 
 
@@ -35,4 +35,5 @@ Very low: less than 10%      Moderate: 30% to 60%      Very high: over 90%
 Low: 10% to 30%              High: 60% to 90%
 
 The Southwestern Indian ocean basin extends from the Equator to 40S and from the african coastlines to 90E.
+
 
