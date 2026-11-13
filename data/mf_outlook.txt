@@ -1,10 +1,10 @@
-AWIO20 FMEE 111232
+AWIO20 FMEE 121201
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/11 A 1200 UTC
+DATE: 2026/11/12 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,22 +12,18 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin is approaching a Near-Equatorial Trough (NET) pattern east of 55E, although the equatorial westerly flow remains deflected toward the Northern Hemisphere. Convective activity is concentrated mainly around the NET, where it is moderate, it is weaker elsewhere. A baroclinic low-pressure system remains over the southern part of the Mozambique Channel.
+The basin shows a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is moderate at the eastern end of the basin near this NET. The baroclinic depression circulation is still present over the southern Mozambique Channel, while weakening.
 
-The El Nino background, coupled with a weak positive IOD, maintains easterly low-frequency anomalies over the eastern part of the basin. However, an active moist phase of the MJO, coupled with a Kelvin wave, is currently generating a strong westerly burst along the equator and, consequently, favor the NET structure. Initially, the pattern remains biased towards the Northern Hemisphere, where a cyclogenesis is expected to occur.
+The active wet phase of the MJO coupled with a Kelvin wave remains modest but supports the Near-Equatorial Trough (NET) structure, which is expected to consolidate over the coming days. In this context, the persistence of this NET could gradually favor the development of low-level vorticity.
 
-East of the basin :The NET pattern, oriented toward the Northern Hemisphere, remains unfavorable for cyclogenesis, with limited convergence on the equatorial side. Convective activity will struggle to produce a lasting closed circulation within the NET over the next 5 days. Some ensemble models (EPS, GEFS, AIFS-ENS, etc.) nevertheless suggest a low risk, though it appears to be of little significance at this time.
-
-There is no risk of tropical storm development during the next 5 days.
-
-Over the souther part of the Mozambique Channel :The circulation over the southern part of the Canal still shows no significant convective activity, with an exposed center located near 21.5S / 40.5E. Despite sufficient oceanic potential, weak surface convergence on both the polar and equatorial sides, as well as the presence of a very dry air mass, are limiting this area's potential for development. The models do not indicate a significant risk of tropical transition. This low-pressure system is expected to dissipate by next Monday.
+Over the souther part of the Mozambique Channel :The circulation over the southern Mozambique Channel, located near 21.0oS / 38.7oE, still shows no significant convective activity. In a dry environment, convective activity cannot develop, and the system's primarily baroclinic structure persists. In this context, the system cannot transition into a subtropical or tropical structure and will dissipate within the next 24-48 hours off the Mozambican coast.
 
 For the next 5 days, there is no potential for this suspect area to develop into a subtropical/tropical storm.
 
 
 
 10-day outlook:
-Early next week, after the passage of a second Kelvin wave and, more importantly, with the arrival of a vorticity anomaly associated with an equatorial Rossby wave from the east, the NET pattern could become more pronounced, with increased vorticity. Cyclogenesis then cannot be ruled out.
+Early next week, after the passage of a second Kelvin wave and, more importantly, with the arrival of a vorticity anomaly associated with an equatorial Rossby wave from the east, the NET pattern could become more pronounced, with increased vorticity. A cyclogenesis is then not ruled out by mid-next week.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
