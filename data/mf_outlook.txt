@@ -1,10 +1,10 @@
-AWIO20 FMEE 121201
+AWIO20 FMEE 131154
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/12 A 1200 UTC
+DATE: 2026/11/13 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,18 +12,18 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin shows a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is moderate at the eastern end of the basin near this NET. The baroclinic depression circulation is still present over the southern Mozambique Channel, while weakening.
+The basin shows a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is moderate on either side of this NET, at the eastern end of the basin as well as between the Chagos and Seychelles archipelagos. The baroclinic disturbance continues to evolve over the southern Mozambique Channel while weakening near the coast of Mozambique.
 
-The active wet phase of the MJO coupled with a Kelvin wave remains modest but supports the Near-Equatorial Trough (NET) structure, which is expected to consolidate over the coming days. In this context, the persistence of this NET could gradually favor the development of low-level vorticity.
+The active wet phase of the MJO coupled with the end of a Kelvin wave passage, which persists a little longer over the North Indian Ocean, supports the NET structure, which is expected to persist over the coming days.The current passage of an MRG wave within the NET, followed by another in the middle of next week, could gradually favor the development of low-level vorticity. The MRG wave next week may also be accompanied by a northerly contribution from the arrival of a Rossby wave over the eastern part of the basin.
 
-Over the souther part of the Mozambique Channel :The circulation over the southern Mozambique Channel, located near 21.0oS / 38.7oE, still shows no significant convective activity. In a dry environment, convective activity cannot develop, and the system's primarily baroclinic structure persists. In this context, the system cannot transition into a subtropical or tropical structure and will dissipate within the next 24-48 hours off the Mozambican coast.
+Suspect area to the northeast of the South-Western Ocean Indian :The Oceansat-3 image at 0647 UTC and the ASCAT-C swath at 0426 UTC clearly show the ongoing equatorial westerly push over the eastern part of the basin. The region also exhibits good polar-side convergence in the Oceansat-3 image. In this area, convective activity is moderate to locally strong, with no signs of cyclonic curvature or organization, but satellite imagery suggests early small-scale vorticity precursors, likely linked to the passage of a Mixed Rossby-Gravity Wave (MRG wave).Although convergence and oceanic heat content are favorable, the proximity to the equator and the presence of deep-layer shear from the northeast do not support cyclogenesis in the next 5 days. Additionally, a competing cyclogenesis over the North Indian Ocean could soon divert the equatorial convergence.Most models indicate that this precursor will migrate eastward to 90oE on Saturday, following the equatorial westerly push.Physical Ensemble Forecast Systems (EPS, GEFS) suggest cyclogenesis via a minority of members, while AI-trained models show a few highly isolated members. In its latest forecasts, the American model, GFS manages to generate a tropical storm by mid-next week, with a precursor that succed to migrate further south.
 
-For the next 5 days, there is no potential for this suspect area to develop into a subtropical/tropical storm.
+The likelihood of the formation of a moderate tropical storm becomes very low from Monday, 16th over the northeastern part of the basin.
 
 
 
 10-day outlook:
-Early next week, after the passage of a second Kelvin wave and, more importantly, with the arrival of a vorticity anomaly associated with an equatorial Rossby wave from the east, the NET pattern could become more pronounced, with increased vorticity. A cyclogenesis is then not ruled out by mid-next week.
+The Rossby wave passage over the eastern part of the basin will be closely monitored in the middle and late next week. The NET pattern could become clearer with enhanced vorticity. Subsequently, cyclogenesis cannot be ruled out in the middle and late next week.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
