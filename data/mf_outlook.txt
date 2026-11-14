@@ -1,10 +1,10 @@
-AWIO20 FMEE 131154
+AWIO20 FMEE 141312
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/13 A 1200 UTC
+DATE: 2026/11/14 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,18 +12,18 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin shows a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is moderate on either side of this NET, at the eastern end of the basin as well as between the Chagos and Seychelles archipelagos. The baroclinic disturbance continues to evolve over the southern Mozambique Channel while weakening near the coast of Mozambique.
+The basin displays a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is generally weak to moderate near this NET, but locally intense at its eastern tip, near a low-pressure area located near the border with the Indonesian area of responsibility. In the Mozambique Channel, thunderstorm activity is ongoing in the vicinity of a small low pressure area located between Mozambique's coast and Europa island.
 
-The active wet phase of the MJO coupled with the end of a Kelvin wave passage, which persists a little longer over the North Indian Ocean, supports the NET structure, which is expected to persist over the coming days.The current passage of an MRG wave within the NET, followed by another in the middle of next week, could gradually favor the development of low-level vorticity. The MRG wave next week may also be accompanied by a northerly contribution from the arrival of a Rossby wave over the eastern part of the basin.
+The active wet phase of the MJO coupled with a Kelvin wave favours the current NET pattern, which is expected to persist in the coming days. An equatorial Rossby wave is also moving in from the east of the Indian ocean, with a symmetry axis slightly tilted towards the northern hemisphere. This set-up favours the formation of two slightly asymmetrical twin vortices : one at the border between our basin and the Indonesian region, very close to the equator, while the other is located further north in the Bay of Bengal, which currently benefits from enhanced vorticity and convergence given that the equatorial flow is tilted towards the northeast. However, the westward shift of this Rossby wave by the middle or end of next week should gradually enhance the near-equatorial flow's northerly component (with a little help from a MRG wave temporarily), thus increasing vorticity over the east of our area of responsibility.
 
-Suspect area to the northeast of the South-Western Ocean Indian :The Oceansat-3 image at 0647 UTC and the ASCAT-C swath at 0426 UTC clearly show the ongoing equatorial westerly push over the eastern part of the basin. The region also exhibits good polar-side convergence in the Oceansat-3 image. In this area, convective activity is moderate to locally strong, with no signs of cyclonic curvature or organization, but satellite imagery suggests early small-scale vorticity precursors, likely linked to the passage of a Mixed Rossby-Gravity Wave (MRG wave).Although convergence and oceanic heat content are favorable, the proximity to the equator and the presence of deep-layer shear from the northeast do not support cyclogenesis in the next 5 days. Additionally, a competing cyclogenesis over the North Indian Ocean could soon divert the equatorial convergence.Most models indicate that this precursor will migrate eastward to 90oE on Saturday, following the equatorial westerly push.Physical Ensemble Forecast Systems (EPS, GEFS) suggest cyclogenesis via a minority of members, while AI-trained models show a few highly isolated members. In its latest forecasts, the American model, GFS manages to generate a tropical storm by mid-next week, with a precursor that succed to migrate further south.
+Suspect area to the northeast of the South-West Indian Ocean :This Saturday's animated satellite imagery suggest the presence of a weak closed low-pressure circulation near 0.5oS/90oE or slightly to the east, almost in the Indonesian area of responsibility and very near the equator. Associated moderate to strong convective activity is a little more organized than yesterday but remains very much offset to the west and south of the centre because of wind shear. The partial 0405Z ASCAT-C pass to the west of the suspect area shows southwesterly trans-equatorial winds near 25-30 kt, which confirms that convergence is being diverted towards the competing cyclogenesis in the Bay of Bengal. Although oceanic heat content is favorable, proximity to the equator, lack of convergence and deep-layer northeasterly shear do not support cyclogenesis in the short term. By the middle or end of next week, convergence should gradually improve and the suspect area should move away from the equator. Northeasterly wind shear should still be present but slightly weakening. Environmental conditions are expected to be mixed although a bit less unfavourable from mid-week onwards. Ensemble models mostly suggest a low probability of cyclogenesis via a minority of members. In its latest runs, the GFS still manages to generate a tropical storm by the end of next week.
 
-The likelihood of the formation of a moderate tropical storm becomes very low from Monday, 16th over the northeastern part of the basin.
+The risk of tropical storm development over the northeast of the basin becomes very low from Tuesday 17th then low from Thursday, November 19th.
 
 
 
 10-day outlook:
-The Rossby wave passage over the eastern part of the basin will be closely monitored in the middle and late next week. The NET pattern could become clearer with enhanced vorticity. Subsequently, cyclogenesis cannot be ruled out in the middle and late next week.
+As the Rossby wave moves further west in the following days, convergence within the NET should strengthen over the central part of the basin. Another suspect area could form further west from the week starting on November 23rd somewhere to the east of the Seychelles or Agalega.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 

@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-13T19:41Z",
- "generated_mut": "Fri 13 Nov 2026 23:41",
+ "generated": "2026-11-14T13:23Z",
+ "generated_mut": "Sat 14 Nov 2026 17:23",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -18,5 +18,7 @@
    "summary": "Watching Invest 96S near 2.1\u00b0S 86.7\u00b0E, winds 43-52 km/h: 3,752 km from Mauritius, 4,655 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low."
   }
  ],
- "feed_errors": []
+ "feed_errors": [
+  "JTWC: not a JTWC track file"
+ ]
 }
