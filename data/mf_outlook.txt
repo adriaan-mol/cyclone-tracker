@@ -1,10 +1,10 @@
-AWIO20 FMEE 141312
+AWIO20 FMEE 151313
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/14 A 1200 UTC
+DATE: 2026/11/15 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,13 +12,13 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin displays a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is generally weak to moderate near this NET, but locally intense at its eastern tip, near a low-pressure area located near the border with the Indonesian area of responsibility. In the Mozambique Channel, thunderstorm activity is ongoing in the vicinity of a small low pressure area located between Mozambique's coast and Europa island.
+The basin displays a Near-Equatorial Trough (NET) configuration east of 60oE. Convective activity is generally weak to moderate near this NET, but locally intense at its eastern tip, near a low-pressure area located near 0.5S/91E within the Indonesian area of responsibility.
 
-The active wet phase of the MJO coupled with a Kelvin wave favours the current NET pattern, which is expected to persist in the coming days. An equatorial Rossby wave is also moving in from the east of the Indian ocean, with a symmetry axis slightly tilted towards the northern hemisphere. This set-up favours the formation of two slightly asymmetrical twin vortices : one at the border between our basin and the Indonesian region, very close to the equator, while the other is located further north in the Bay of Bengal, which currently benefits from enhanced vorticity and convergence given that the equatorial flow is tilted towards the northeast. However, the westward shift of this Rossby wave by the middle or end of next week should gradually enhance the near-equatorial flow's northerly component (with a little help from a MRG wave temporarily), thus increasing vorticity over the east of our area of responsibility.
+The active phase of the MJO and the passage of a Kelvin wave early next week are likely to help sustain the strong westerly wind surge observed along the equator and the current NET pattern. The arrival of an equatorial Rossby wave over the eastern part of the basin is also promoting the formation of two twin vortices on either side of the equator: one in the Bay of Bengal and another very close to the equator near 0.5S/91E. Over the next few days, the gradual westward shift of this Rossby wave (combined temporarily with an MRG wave) is expected to strengthen the northerly component of the near-equatorial flow, thereby promoting greater vorticity over the far northeast of our area of responsibility.
 
-Suspect area to the northeast of the South-West Indian Ocean :This Saturday's animated satellite imagery suggest the presence of a weak closed low-pressure circulation near 0.5oS/90oE or slightly to the east, almost in the Indonesian area of responsibility and very near the equator. Associated moderate to strong convective activity is a little more organized than yesterday but remains very much offset to the west and south of the centre because of wind shear. The partial 0405Z ASCAT-C pass to the west of the suspect area shows southwesterly trans-equatorial winds near 25-30 kt, which confirms that convergence is being diverted towards the competing cyclogenesis in the Bay of Bengal. Although oceanic heat content is favorable, proximity to the equator, lack of convergence and deep-layer northeasterly shear do not support cyclogenesis in the short term. By the middle or end of next week, convergence should gradually improve and the suspect area should move away from the equator. Northeasterly wind shear should still be present but slightly weakening. Environmental conditions are expected to be mixed although a bit less unfavourable from mid-week onwards. Ensemble models mostly suggest a low probability of cyclogenesis via a minority of members. In its latest runs, the GFS still manages to generate a tropical storm by the end of next week.
+Invest area in the far northeast of the Southwestern Indian Ocean basin:Scatterometric swaths from the past 24 hours and animated satellite imagery from this Sunday suggest the presence of a low-pressure circulation near 0.5S/91E at the border of our area of responsibility, within the Indonesian area of responsibility. The ASCAT-C swath at 0345 UTC shows a closed circulation with maximum winds reaching 20 to 25 kt, despite its proximity to the equator and the presence of a competing cyclogenesis in the Bay of Bengal. Conditions for the development of this circulation are currently uncertain, with good oceanic potential and a moist environment but limited surface convergence efficiency due to proximity to the equator and moderate to strong northeasterly wind shear at the western boundary of the invest area. Over the next few days, the invest area is expected to track slowly south-southwestward and return within our area of responsibility. Surface convergence is expected to improve; however, northeasterly wind shear is expected to remain moderate to strong over this period. Conditions for intensification thus remain uncertain, with a relatively weak signal of development with most models, except for the European Ensemble Model (EPS), which shows a moderate to strong signal over the next five days.
 
-The risk of tropical storm development over the northeast of the basin becomes very low from Tuesday 17th then low from Thursday, November 19th.
+The risk of tropical storm development over the far northeastern part of the basin becomes low from Tuesday November17th.
 
 
 
