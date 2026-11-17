@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-17T17:08Z",
- "generated_mut": "Tue 17 Nov 2026 21:08",
+ "generated": "2026-11-17T20:55Z",
+ "generated_mut": "Wed 18 Nov 2026 00:55",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -9,14 +9,10 @@
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No cyclones yet; watching 1 disturbance (Invest 96S)",
+ "headline": "No active cyclones in the South-West Indian Ocean",
  "storms": [],
- "disturbances": [
-  {
-   "id": "96S",
-   "chance": "medium",
-   "summary": "Watching Invest 96S near 2.1\u00b0S 91.5\u00b0E, winds 52-61 km/h: 4,201 km from Mauritius, 5,137 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: medium."
-  }
- ],
- "feed_errors": []
+ "disturbances": [],
+ "feed_errors": [
+  "JTWC: not a JTWC track file"
+ ]
 }
