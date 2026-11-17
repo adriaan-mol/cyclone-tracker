@@ -1,10 +1,10 @@
-AWIO20 FMEE 161249
+AWIO20 FMEE 171242
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/16 A 1200 UTC
+DATE: 2026/11/17 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,18 +12,22 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin exhibits a Near-Equatorial Trough (NET) pattern east of 60E. Convective activity is generally weak in the western part of the NET, but it is much more pronounced near the eastern edge, in the vicinity of a low-pressure system located within the Indonesian area of responsibility near 1S/92E.
+The basin exhibits a Near-Equatorial Trough (NET) pattern east of 55E. Convective activity is generally weak in the western part of the NET, but is moderate near a new suspect area located north of the Chagos archipelago, and is locally strong at the extreme eastern edge of the basin in the vicinity of the Zone of Disturbed Weather located near the Indonesian area of responsibility.
 
-The combination of an active MJO phase, the passage of a Kelvin wave, and the arrival of the Equatorial Rossby wave from the east has led to the development of a strong westerly flow and two twin circulations on either side of the equator.Over the next few days, the active MJO context should maintain the NET over the central basin, while the gradual westward shift of the Rossby wave should promote a good equatorial feed over the far northeast of our area of responsibility.
+The current equatorial westerly wind surge should keep on going in the coming days, due to the combination of the westerly anomaly in the wake of the active MJO, and to the contribution of a westward-moving equatorial Rossby wave between the east and the centre of the basin. This set-up brings increasing convergence within the NET and a better equatorial feed over the north-east of the basin.
 
-Suspect area in the Indonesian AoR : The 0302UTC ASCAT-B pass indicates the presence of a large closed circulation with maximum winds approaching 30 kt, despite its proximity to the equator. The significant convective activity observed this morning has since weakened considerably. The circulation is currently moving southward. It could turn southwestward and enter our area of responsibility sometime tomorrowConditions are currently still unfavorable for its development due to strong easterly wind shear and its proximity to the equator. Equatorial and polar convergence, however, remains fairly good. As the system shifts southward, this environment should improve, notably with an increase in upper-level divergence and a decrease in wind shear. That said, northerly mid-level wind shear could remain sufficiently strong (particularly on Wednesday) to limit the system's development. On Thursday, the decrease of the wind shear could once again allow the system to intensify before a likely definitive increase in westerly to northwesterly deep-level shear.Numerical models are in relative agreement regarding the possible transition of this system into our area of responsibility by tomorrow evening. However, they disagree on the potential for intensification, particularly in the short term. In the longer term, most models agree on a low to moderate risk, as shown by certain ensembles.
+Suspect area in the Indonesian AoR : This Tuesday's 0304Z ASCAT-C pass indicates a well-defined but rather elongated circulation centered near 4.3oS/90.8oE at the north-eastern edge of an area of deep convection. Winds reach locally 30 kt. A 0754Z AMSR3 pass enables to estimate the centre near 4.9oS/90.5oE and shows a moderately organized structure, still insufficient for a classification as Tropical Depression : it is still considered as a Zone of Disturbed Weather, with Dvorak T-number at 2.0. At 1200Z, the centre's position is estimated near 5.4oS/90.4oE. It should move southwestward and thus enter our area of responsibility overnight. Conditions are currently still mixed for its development due to easterly to northeasterly wind shear in excess of 20 kt, while low-level convergence and moisture content remain fairly good. As the system shifts southward, conditions should improve, especially with increasing upper-level divergence and decreasing wind shear. That said, northerly mid-layer shear could remain sufficiently high (particularly on Wednesday) to delay the system's development. On Thursday or Friday, weaker wind shear could once again allow the system to intensify before a likely final increase in westerly to northwesterly deep-layer shear between Saturday and Sunday.Numerical models show a weak to moderate potential for development, with an opportunity window for intensification between Wednesday night and Saturday morning, then shutting itself again. Also note that it is possible that the system moves once again east of 90oE from Friday or Saturday into the Australian AoR, which increases uncertainty about cyclogenesis within our basin.
 
-The risk of a tropical storm entering/developing over the far northeastern part of the basin becomes low from Tuesday November 17th and moderate from Thursday November 19th.
+The risk of a tropical storm entering/developing over the far eastern part of the basin is expected to be low from Tuesday night then becoming moderate from Thursday November 19th.
+
+Low-pressure area located near the Chagos archipelago :A clockwise circulation is present north of Diego Garcia, nested within the NET. Associated convection is weak to moderate and pretty much fluctuating, without displaying any particular organization although low-level cloud curvature has improved since yesterday. This Tuesday morning's 0423Z ASCAT-B pass shows a rather well-defined centre near 3.9oS/70.9oE with winds near 20 kt in the northern semi-circle and 10-to-15 kt to its south. In the coming days, convergence could slightly improve as the trades remain well-established to its south due to a solid subtropical high over the southeast of the basin, and on the other hand, as the northwesterly equatorial flow increases gradually (incoming equatorial Rossby wave). Sea-surface temperatures are abnormaly high in the area (near 30C). Upper-level divergence is very good and vertical wind shear is rather low. There however remain uncertainties about how efficient the low-level convergence will be in sustaining localised the current vorticity precursor, whcih may also have to compete with other vorticity areas within the NET. Some deterministic models (ICON, GEM, and to a lesser extent ARPEGE) suggest some development starting this weekend, while most other deterministic models are less reactive. Ensemble models show a mixed bag of cyclogenesis potential, with higher probabilites according to the EPS or some AI ensembles, and lower probabilities according to GEFS, with some uncertainty about the timing of possible development which could be more or less delayed.
+
+The risk of tropical storm development near the Chagos archipelago is expected to become low from Sunday November 22nd.
 
 
 
 10-day outlook:
-As the Rossby wave moves further west in the following days, vorticity within the NET should strengthen over the central part of the basin. Another suspect area could thus form further west starting Sunday November 22 somewhere to the east of Agalega.
+As the Rossby wave moves further west in the following days, vorticity within the NET should strengthen over the central part of the basin. The aforementioned suspect area located near the Chagos archipelago should thus benefit from better conditions for its development, while drifting southwestward, between the Chagos and Agalega.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
