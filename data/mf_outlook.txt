@@ -1,10 +1,10 @@
-AWIO20 FMEE 191053
+AWIO20 FMEE 201330
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/19 A 1200 UTC
+DATE: 2026/11/20 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,22 +12,22 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The Near-Equatorial Trough (NET) is rebuilding east of 60oE, ending with the circulation present over the eastern part of the basin, within our area of responsibility. Convection is moderate to strong over the basin, both on the southern side of the NET near Diego Garcia and near the system in the eastern part of the basin, mainly in the southern sector of the circulation.
+The basin is gradually taking on a monsoon trough (MT) pattern between 60o and 80oE along 7oS. Convective activity is moderate to strong on both sides of the MT and in the southern semicircle of a low-pressure system located in the far east of the basin near 10oS/90oE.
 
-No change in the large-scale signal: the equatorial westerly surge, behind the active phase of the MJO and with the contribution of an equatorial Rossby wave, maintains the convergence within the NET. This slightly favors the development of vorticity over the central part of the basin.
+The wave pattern remains generally favorable for cyclogenesis over the central and eastern parts of the basin, with a persistent westerly wind surge following the active phase of the MJO. The northerly wind anomaly in the wake of the Equatorial Rosby wave also promotes good large scale convergence, favoring to the formation of a MT structure over the central part of the basin.
 
-Tropical disturbance in the northeastern part of the basin :The 0533 UTC KUSCAT pass this Thursday shows a fairly well-defined and sufficiently closed circulation to define a tropical disturbance of around 20-25 kt. The 0722 UTC GCOM-W pass is slightly more mixed, with a circulation that is still modest and less well closed. The lack of convection in the central part of the circulation allows the low-level vortex to be located near 8.8oE/89.2oS at 09 UTC. In a mixed environment, the intensification potential remains limited due to the presence of dry air in the northern part of the circulation and despite weakening shear. This, however, defines a short window for intensification overnight while keeping the system below 30 kt. Based on current guidance and due to the system's acceleration toward the south-southeast, the tropical disturbance is expected to enter the Australian area of responsibility starting Friday at 00 UTC, or later.
+Zone of disturbed weather in the northeastern part of the basin :This Friday morning's ASCAT swath shows a closed but elongated circulation with maximum winds around 25 kt, suggesting a transition back to an area of disturbed weather. Convection remains on the periphery of the low-level center in the southern semicircle of the circulation, according to the latest visible and infrared imagery, although a temporary increase in organization was observed last night in the SSMIS F17 microwave swath at 2350Z. The GCOM microwave swath at 0754Z shows a low level centrer near 9.8S/89.7E at the border of the Australian area of responsibility. Over the next 24 hours, the system is expected to continue tracking south-southeastward under the influence of an upper-level trough before turning west-southwest under the influence of a weak lower-tropospheric ridge moving further south.  The system is therefore expected to temporarily enter the Australian area of responsibility before returning to our basin on Sunday, likely at the stage of a residual low. Environmental conditions remain unfavorable for any intensification of this circulation due to moderate to strong west-northwest wind shear and dry intrusions into the middle troposphere in the northern semicircle of the circulation.
 
-The risk of a tropical storm developing over the far eastern part of the basin is expected to be moderate Friday November 20th.
+The risk of a tropical storm developing over the far eastern part of the basin is low over the next 48 hours then becomes very low.
 
-Low-pressure area located near the Chagos archipelago :The depression circulation that was present northwest of Diego Garcia with a very elongated structure yesterday is no longer notable.
+Areas of interest near the Chagos Archipelago:This morning's scatterometric swaths show a well-defined MT structure between 60o and 80oE along 7oS, with winds of 15 to 20 kt on either side of the MT, and a possible precursor near 07S/67E. The wave pattern is expected to sustain good large-scale convergence on both sides of the MT over the next few days; however, the presence of at least two precursorsas suggested by most ensemble and deterministic modelscould temporarily hinder small-scale convergence due to concurrent cyclogenesis. The European (IFS) and American (GFS) deterministic models suggest the formation of at least one tropical storm within the MT by the middle of next week. The signal for cyclogenesis is also moderate in the American GEFS ensemble, though slightly weaker in the European ensemble (EPS) and in the IA ensemble models (AIFS ensemble).
 
-There is no longer a risk of a tropical storm developing south of the Chagos over the next 5 days.
+The likelihood of the formation of a moderate tropical storm becomes low from monday november 23th.
 
 
 
 10-day outlook:
-As the Rossby wave moves further west in the following days, vorticity within the NET should strengthen over the central part of the basin. Furthermore, an interaction between this wave and a Kelvin wave around the middle to end of next week could create more favorable conditions for the development of the suspect area aforementioned near the Chagos, but whose vorticity has currently weakened.
+As the Rossby wave moves further west in the following days, vorticity within the MT should strengthen over the central part of the basin. Furthermore, an interaction between this wave and a Kelvin wave around the middle to end of next week could create even more favorable conditions for the development of at least on invest area  near the Chagos.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
@@ -35,4 +35,5 @@ Very low: less than 10%      Moderate: 30% to 60%      Very high: over 90%
 Low: 10% to 30%              High: 60% to 90%
 
 The Southwestern Indian ocean basin extends from the Equator to 40S and from the african coastlines to 90E.
+
 
