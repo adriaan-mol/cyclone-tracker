@@ -1,10 +1,10 @@
-AWIO20 FMEE 201330
+AWIO20 FMEE 211020
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/20 A 1200 UTC
+DATE: 2026/11/21 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,22 +12,22 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin is gradually taking on a monsoon trough (MT) pattern between 60o and 80oE along 7oS. Convective activity is moderate to strong on both sides of the MT and in the southern semicircle of a low-pressure system located in the far east of the basin near 10oS/90oE.
+A monsoon trough (MT) structure persists between 60oE and 80oE near 7oS. Convective activity is moderate to strong on both sides of the MT and in the southern semicircle of the depression minimum 01U, tracked by the Perth TCWC, located in the Australian area of responsibility near 11.6oS/91oE at 06 UTC.
 
-The wave pattern remains generally favorable for cyclogenesis over the central and eastern parts of the basin, with a persistent westerly wind surge following the active phase of the MJO. The northerly wind anomaly in the wake of the Equatorial Rosby wave also promotes good large scale convergence, favoring to the formation of a MT structure over the central part of the basin.
+The wave pattern remains generally favorable for cyclogenesis over the central and eastern parts of the basin, with a well-marked westerly wind surge behind the active phase of the MJO. This contributes to maintaining favorable conditions for the persistence of the MT structure over the central basin, within which low-level vorticity will consolidate.
 
-Zone of disturbed weather in the northeastern part of the basin :This Friday morning's ASCAT swath shows a closed but elongated circulation with maximum winds around 25 kt, suggesting a transition back to an area of disturbed weather. Convection remains on the periphery of the low-level center in the southern semicircle of the circulation, according to the latest visible and infrared imagery, although a temporary increase in organization was observed last night in the SSMIS F17 microwave swath at 2350Z. The GCOM microwave swath at 0754Z shows a low level centrer near 9.8S/89.7E at the border of the Australian area of responsibility. Over the next 24 hours, the system is expected to continue tracking south-southeastward under the influence of an upper-level trough before turning west-southwest under the influence of a weak lower-tropospheric ridge moving further south.  The system is therefore expected to temporarily enter the Australian area of responsibility before returning to our basin on Sunday, likely at the stage of a residual low. Environmental conditions remain unfavorable for any intensification of this circulation due to moderate to strong west-northwest wind shear and dry intrusions into the middle troposphere in the northern semicircle of the circulation.
+Area of disturbed weather near 90oE in the Australian area of responsibility:Monitored by the BOM, system 01U can be classified as an area of disturbed weather according to our basin's classification, with maximum winds of around 30/35 kt, following BOM's analysis. According to BOM forecasts, the system will re-enter our area of responsibility by Sunday, 22nd, shortly after 00 UTC. The system is expected to continue on a southward track over the next 12 hours, before turning west-southwestward under the influence of a weak low-level ridge transiting further south. According to their forecast, the system is expected to gradually weaken as it moves into our area, transitioning to a remnant low. In this context, the system will not be tracked by the RSMC of Reunion unless it reintensifies.
 
-The risk of a tropical storm developing over the far eastern part of the basin is low over the next 48 hours then becomes very low.
+The risk of a tropical storm developing over the far eastern part of the basin is low over the next 48 hours.
 
-Areas of interest near the Chagos Archipelago:This morning's scatterometric swaths show a well-defined MT structure between 60o and 80oE along 7oS, with winds of 15 to 20 kt on either side of the MT, and a possible precursor near 07S/67E. The wave pattern is expected to sustain good large-scale convergence on both sides of the MT over the next few days; however, the presence of at least two precursorsas suggested by most ensemble and deterministic modelscould temporarily hinder small-scale convergence due to concurrent cyclogenesis. The European (IFS) and American (GFS) deterministic models suggest the formation of at least one tropical storm within the MT by the middle of next week. The signal for cyclogenesis is also moderate in the American GEFS ensemble, though slightly weaker in the European ensemble (EPS) and in the IA ensemble models (AIFS ensemble).
+Area of interest near the Chagos Archipelago:Within the MT structure defined between 60oE and 80oE along 7oS, scatterometer data indicate a clearer development of low-level vorticity near 76oE/7oS. Both deterministic and ensemble models suggest that this circulation could intensify into a tropical storm within the MT by mid-next week.
 
-The likelihood of the formation of a moderate tropical storm becomes low from monday november 23th.
+The likelihood of the formation of a moderate tropical storm remains low from tuesday november 24th.
 
 
 
 10-day outlook:
-As the Rossby wave moves further west in the following days, vorticity within the MT should strengthen over the central part of the basin. Furthermore, an interaction between this wave and a Kelvin wave around the middle to end of next week could create even more favorable conditions for the development of at least on invest area  near the Chagos.
+Nothing to report
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
