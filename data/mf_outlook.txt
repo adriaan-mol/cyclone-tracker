@@ -1,10 +1,10 @@
-AWIO20 FMEE 211020
+AWIO20 FMEE 221152
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/21 A 1200 UTC
+DATE: 2026/11/22 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
@@ -12,22 +12,22 @@ NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-A monsoon trough (MT) structure persists between 60oE and 80oE near 7oS. Convective activity is moderate to strong on both sides of the MT and in the southern semicircle of the depression minimum 01U, tracked by the Perth TCWC, located in the Australian area of responsibility near 11.6oS/91oE at 06 UTC.
+The basin displays a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 7oS. Convective activity is moderate to strong within the MT, particularly in its eastern part near a suspect area east of Diego Garcia. Convective activity is also present near the remnants of system 01U, which was previously monitored by the BOM and has re-entered our area of responsibility.
 
-The wave pattern remains generally favorable for cyclogenesis over the central and eastern parts of the basin, with a well-marked westerly wind surge behind the active phase of the MJO. This contributes to maintaining favorable conditions for the persistence of the MT structure over the central basin, within which low-level vorticity will consolidate.
+Overall, conditions remain favorable for cyclogenesis over the central and eastern parts of the basin in the short term, with a still-pronounced westward wind surge persisting behind the MJO's active phase, reinforced by a powerful Equatorial Rossby wave and significant mixed Rossby-Gravity activity.
 
-Area of disturbed weather near 90oE in the Australian area of responsibility:Monitored by the BOM, system 01U can be classified as an area of disturbed weather according to our basin's classification, with maximum winds of around 30/35 kt, following BOM's analysis. According to BOM forecasts, the system will re-enter our area of responsibility by Sunday, 22nd, shortly after 00 UTC. The system is expected to continue on a southward track over the next 12 hours, before turning west-southwestward under the influence of a weak low-level ridge transiting further south. According to their forecast, the system is expected to gradually weaken as it moves into our area, transitioning to a remnant low. In this context, the system will not be tracked by the RSMC of Reunion unless it reintensifies.
+Remnant low, east of the basin :System 01U, previously monitored by the BOM, has re-entered our area of responsibility this morning. However, the 0303Z ASCAT-C pass confirms the absence of a well-defined center, with an elongated circulation. Maximum winds still reached 30 kt in the southern semicircle. Convective activity still present in the eastern semicircle has, over the past few hours, begun to decouple from the maximum vorticity due to deep wind shear. In all likelihood, this system will continue moving west-southwest while weakening over the next few days.
 
-The risk of a tropical storm developing over the far eastern part of the basin is low over the next 48 hours.
+For the next 5 days, there is no potential for this suspect area to develop into a moderate tropical storm.
 
-Area of interest near the Chagos Archipelago:Within the MT structure defined between 60oE and 80oE along 7oS, scatterometer data indicate a clearer development of low-level vorticity near 76oE/7oS. Both deterministic and ensemble models suggest that this circulation could intensify into a tropical storm within the MT by mid-next week.
+Suspect area, east of Diego-Garcia :The latest observations, notably the 0442Z ASCAT-C pass, show the presence of a still elongated but closed broad surface circulation, located near 6.7S / 76.5E around 10Z. Maximum winds exceed 25 kt.This system will continue to evolve over the next few days in an environment conducive to its development, with a good equatorial feed, within a zone of low wind shear and good upper-level divergenceparticularly on the polar sideand strong oceanic potential. The most limiting factor remains the polar side low-level convergence, which could be hindered by the presence of the remnants of the system to the east.In this environment, the models show an increasing signal of cyclogenesis, ranging from weak to moderate for the IA ensemble models (possibly due to the system's size) to high for the EPS and GEFS models over the next few days. The latest deterministic models (IFS, HAFS, HWRF) also suggest that this system will reach the stage of a moderate tropical storm as early as Monday to Tuesday night or Tuesday daytime.
 
-The likelihood of the formation of a moderate tropical storm remains low from tuesday november 24th.
+The likelihood of the formation of a moderate tropical storm becomes moderate tomorrow Monday November 23th and high from Tuesday 24th.
 
 
 
 10-day outlook:
-Nothing to report
+The return of easterly wind anomalies, particularly those associated with the dry phase of the MJO, is expected to significantly limit the risk of cyclogenesis through early December
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 
