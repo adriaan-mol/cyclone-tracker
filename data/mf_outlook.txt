@@ -1,28 +1,32 @@
-AWIO20 FMEE 221152
+AWIO20 FMEE 231228
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/22 A 1200 UTC
+DATE: 2026/11/23 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
-NIL.
+
+
+Nil, but system 03-20262027 will be monitored by RSMC La Reunion from 12 UTC.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin displays a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 7oS. Convective activity is moderate to strong within the MT, particularly in its eastern part near a suspect area east of Diego Garcia. Convective activity is also present near the remnants of system 01U, which was previously monitored by the BOM and has re-entered our area of responsibility.
+The basin displays a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 8oS. Convective activity is moderate to strong within the MT, particularly in its eastern part near a tropical disturbance east of Diego Garcia, for which the RSMC will be issuing bulletins from 12 UTC onwards (system number 03-20262027). Convective activity is also present near the remnants of system 01U over the eastern part of the basin.
 
-Overall, conditions remain favorable for cyclogenesis over the central and eastern parts of the basin in the short term, with a still-pronounced westward wind surge persisting behind the MJO's active phase, reinforced by a powerful Equatorial Rossby wave and significant mixed Rossby-Gravity activity.
+Equatorial wave activity remains mostly conducive for cyclogenesis over the central and eastern parts of the basin in the short term. The westerly wind surge in the wake of the moist MJO is still ongoing over the extreme east of the basin but will move away by the end of the week as the MJO's dry phase sets in. The prevailing contribution comes from an Equatorial Rossby wave which strongly enhances northwesterly winds over a large central part of the basin, thus increasing convergence on the northern side of the MT. Besides, mixed Rossby-gravity wave activity remains favorable until Wednesday, then should become more unfavorable or neutral at the end of the week.
 
-Remnant low, east of the basin :System 01U, previously monitored by the BOM, has re-entered our area of responsibility this morning. However, the 0303Z ASCAT-C pass confirms the absence of a well-defined center, with an elongated circulation. Maximum winds still reached 30 kt in the southern semicircle. Convective activity still present in the eastern semicircle has, over the past few hours, begun to decouple from the maximum vorticity due to deep wind shear. In all likelihood, this system will continue moving west-southwest while weakening over the next few days.
+Tropical Disturbance 03-20262027 :Information at 09 UTC : Estimated position : 8.1S / 77.6EMovement : S, 05 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1006 hPaFor further information, please refer to bulletins WTIO20 and WTIO30 incoming at 12 UTC and following.
 
-For the next 5 days, there is no potential for this suspect area to develop into a moderate tropical storm.
+Remnant low over the east of the basin :System 01U, previously monitored by the BOM, is currently over the east of the basin. Satellite imagery shows a well-defined cloud vortex in the southern part of a low-level trough, with a centre estimated near 14.5oS/85.5oE. Estimated winds are very asymmetrical, reaching near 25 kt in the southern semi-circle in the pressure gradient and due to convection, but only near 10 kt in its northern part. Strong westerly to northwesterly wind shear maintains convection displaced to the southeast of the vortex, limiting odds of reintensification. This low should keep moving westward while gradually filling in the coming days.
 
-Suspect area, east of Diego-Garcia :The latest observations, notably the 0442Z ASCAT-C pass, show the presence of a still elongated but closed broad surface circulation, located near 6.7S / 76.5E around 10Z. Maximum winds exceed 25 kt.This system will continue to evolve over the next few days in an environment conducive to its development, with a good equatorial feed, within a zone of low wind shear and good upper-level divergenceparticularly on the polar sideand strong oceanic potential. The most limiting factor remains the polar side low-level convergence, which could be hindered by the presence of the remnants of the system to the east.In this environment, the models show an increasing signal of cyclogenesis, ranging from weak to moderate for the IA ensemble models (possibly due to the system's size) to high for the EPS and GEFS models over the next few days. The latest deterministic models (IFS, HAFS, HWRF) also suggest that this system will reach the stage of a moderate tropical storm as early as Monday to Tuesday night or Tuesday daytime.
+For the next 5 days, there is no potential for this suspect area to develop into a tropical storm.
 
-The likelihood of the formation of a moderate tropical storm becomes moderate tomorrow Monday November 23th and high from Tuesday 24th.
+Low-pressure area to the west of Diego-Garcia :A broad area of low-pressure is located within the western half of the MT, west of Diego-Garcia, with a centre located near 6oS/67oE this Monday. This morning's ASCAT passes do not show a well-defined circulation. Convection is moderate to the northeast of the low, without particular organisation. This area should benefit from good low-level inflow from the monsoon flow to its north, as wind shear remains low to moderate, and with good upper divergence and high oceanic heat content. However, cyclogenesis potential could suffer from a lack of convergence on its southern side, especially due to the presence of system no03-20262027 to its south then southeast.Models mostly suggest a low cyclogenesis potential, or up to moderate according to the EPS. Some rare deterministic model runs suggest tropical storm development by the end of the week.
+
+The risk of tropical storm development to the west or southwest of Diego-Garcia is expected to be low from Friday November 27th.
 
 
 
