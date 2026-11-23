@@ -1,4 +1,4 @@
-AWIO20 FMEE 231228
+AWIO20 FMEE 231244
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
@@ -31,7 +31,7 @@ The risk of tropical storm development to the west or southwest of Diego-Garcia 
 
 
 10-day outlook:
-The return of easterly wind anomalies, particularly those associated with the dry phase of the MJO, is expected to significantly limit the risk of cyclogenesis through early December
+During early December, despite the dry phase of the MJO, a new crossing between a Kelvin wave and a new equatorial Rossby wave at the eastern edge of the basin could enhance equatorial westerlies and enable the formation of a new low-pressure area near 90oE or in the Indonesian area of responsibility. According to some models, this low could then move west of 90oE while more or less developing.
 
 NOTA BENE: The likelihood is an estimate of the chance of genesis of a moderate tropical storm over the basin within the next five days:
 

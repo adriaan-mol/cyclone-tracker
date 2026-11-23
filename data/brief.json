@@ -1,23 +1,23 @@
 {
- "generated": "2026-11-23T12:38Z",
- "generated_mut": "Mon 23 Nov 2026 16:38",
+ "generated": "2026-11-23T13:39Z",
+ "generated_mut": "Mon 23 Nov 2026 17:39",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
  "warning_lines": [],
- "storm_count": 0,
+ "storm_count": 1,
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No cyclones yet; watching 1 disturbance (Disturbance 03)",
- "storms": [],
- "disturbances": [
+ "headline": "No cyclone threatening Mauritius or Madagascar",
+ "storms": [
   {
-   "id": "03-20262027",
-   "chance": "unknown",
-   "summary": "Watching Disturbance 03 near 8.1\u00b0S 77.6\u00b0E, winds 46 km/h, moving s at 9 km/h: 2,544 km from Mauritius, 3,460 km from Antananarivo. Monitored by Meteo-France La Reunion."
+   "name": "Disturbance 03",
+   "closing_in": false,
+   "summary": "Disturbance 03 (tropical disturbance, max wind 46 km/h) is 2,532 km from Mauritius. Closest to Madagascar's coast: 1,624 km, Sat 28 Nov ~16:00 (in 118 h). Closest to Mauritius: 1,065 km, Sat 28 Nov ~16:00 (in 118 h)."
   }
  ],
+ "disturbances": [],
  "feed_errors": [
   "JTWC: not a JTWC track file"
  ]
