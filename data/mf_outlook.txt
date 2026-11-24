@@ -1,32 +1,32 @@
-AWIO20 FMEE 231244
+AWIO20 FMEE 241221
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/23 A 1200 UTC
+DATE: 2026/11/24 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
 
 
-Nil, but system 03-20262027 will be monitored by RSMC La Reunion from 12 UTC.
+Bulletins WTIO20 and WTIO30 004/03 issued at 06 UTC sur la Depression Tropicale 03-20262027
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin displays a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 8oS. Convective activity is moderate to strong within the MT, particularly in its eastern part near a tropical disturbance east of Diego Garcia, for which the RSMC will be issuing bulletins from 12 UTC onwards (system number 03-20262027). Convective activity is also present near the remnants of system 01U over the eastern part of the basin.
+The basin exhibits a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 10oS. Convective activity is moderate to strong within the MT, particularly in its eastern portion near tropical disturbance 03-20262027 southeast of Diego Garcia, but also further west around another suspect area and, to a lesser extent, around the remnants of Australian system 01U.
 
-Equatorial wave activity remains mostly conducive for cyclogenesis over the central and eastern parts of the basin in the short term. The westerly wind surge in the wake of the moist MJO is still ongoing over the extreme east of the basin but will move away by the end of the week as the MJO's dry phase sets in. The prevailing contribution comes from an Equatorial Rossby wave which strongly enhances northwesterly winds over a large central part of the basin, thus increasing convergence on the northern side of the MT. Besides, mixed Rossby-gravity wave activity remains favorable until Wednesday, then should become more unfavorable or neutral at the end of the week.
+The wave environment remains generally favorable for cyclogenesis over the central and eastern parts of the basin in the short term. Indeed, the tail of the westerly wind burst associated with the active MJO, the powerful equatorial Rossby wave, and the mixed Rossby-gravity wave activity have contributed to the persistence of the Monsoon Trough.
 
-Tropical Disturbance 03-20262027 :Information at 09 UTC : Estimated position : 8.1S / 77.6EMovement : S, 05 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1006 hPaFor further information, please refer to bulletins WTIO20 and WTIO30 incoming at 12 UTC and following.
+Tropical Disturbance 03-20262027 :Information at 09 UTC : Estimated position : 9.6S / 78.3EMovement : S, 07 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1006 hPaFor further information, please refer to bulletins WTIO20 and WTIO30  issued at 06Z and following.
 
-Remnant low over the east of the basin :System 01U, previously monitored by the BOM, is currently over the east of the basin. Satellite imagery shows a well-defined cloud vortex in the southern part of a low-level trough, with a centre estimated near 14.5oS/85.5oE. Estimated winds are very asymmetrical, reaching near 25 kt in the southern semi-circle in the pressure gradient and due to convection, but only near 10 kt in its northern part. Strong westerly to northwesterly wind shear maintains convection displaced to the southeast of the vortex, limiting odds of reintensification. This low should keep moving westward while gradually filling in the coming days.
+Remnant low over the east of the basin :System 01U, previously monitored by the BOM, continues to move across the eastern part of the basin, with an estimated center at approximately 16.9oS/83.4oE at 10Z. The 0403Z ASCAT-C pass shows that the estimated associated winds are highly asymmetrical, reaching 25 to 30 kt in the southern semicircle due to the pressure gradient, while much weaker on the northern side. Strong westerly to northwesterly wind shear is keeping convection offset to the southeast of the vortex. This system will continue moving westward while gradually filling in over the next few days.
 
 For the next 5 days, there is no potential for this suspect area to develop into a tropical storm.
 
-Low-pressure area to the west of Diego-Garcia :A broad area of low-pressure is located within the western half of the MT, west of Diego-Garcia, with a centre located near 6oS/67oE this Monday. This morning's ASCAT passes do not show a well-defined circulation. Convection is moderate to the northeast of the low, without particular organisation. This area should benefit from good low-level inflow from the monsoon flow to its north, as wind shear remains low to moderate, and with good upper divergence and high oceanic heat content. However, cyclogenesis potential could suffer from a lack of convergence on its southern side, especially due to the presence of system no03-20262027 to its south then southeast.Models mostly suggest a low cyclogenesis potential, or up to moderate according to the EPS. Some rare deterministic model runs suggest tropical storm development by the end of the week.
+Suspect area west of Diego-Garcia :A low-pressure system is still present in the western half of the MT, currently centered approximately near 7.1oS/68.6oE, west of Diego Garcia. The latest satellite data (classical and microwave imagery) show increased signs of curvature. However, the cloud tops remain fairly warm. The latest partial ASCAT passes do not appear to show winds exceeding 25/30kt.Over the next two days, this area will benefit from a strong equatorial feed in the lower levels, with wind shear expected to remain rather weak to moderate, along with good upper-level divergence and strong oceanic potential. The most limiting factor is likely a lack of convergence on the southern flank, particularly due to the presence of system 03-20262027 to the southeast. Starting Friday and especially Saturday, the gradual strengthening of westerly to northwesterly wind shear is expected to lead to a weakening of the system.A generally weak-to-moderate cyclogenesis signal is observed across the various ensembles, with the AI models lagging slightly behind the physical models.
 
-The risk of tropical storm development to the west or southwest of Diego-Garcia is expected to be low from Friday November 27th.
+The risk of tropical storm development to the southwest of the Chagos archipelago is expected to be low from tomorrow Wednesday November 25th and moderate from Thursday November 26th.
 
 
 
@@ -39,5 +39,4 @@ Very low: less than 10%      Moderate: 30% to 60%      Very high: over 90%
 Low: 10% to 30%              High: 60% to 90%
 
 The Southwestern Indian ocean basin extends from the Equator to 40S and from the african coastlines to 90E.
-
 
