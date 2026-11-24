@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-24T13:56Z",
- "generated_mut": "Tue 24 Nov 2026 17:56",
+ "generated": "2026-11-24T17:57Z",
+ "generated_mut": "Tue 24 Nov 2026 21:57",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,7 +14,7 @@
   {
    "name": "Disturbance 03",
    "closing_in": false,
-   "summary": "Disturbance 03 (tropical disturbance, max wind 46 km/h) is 2,414 km from Mauritius. Closest to Madagascar's coast: 1,731 km, Sat 28 Nov ~04:00 (in 82 h). Closest to Mauritius: 1,146 km, Sat 28 Nov ~04:00 (in 82 h)."
+   "summary": "Disturbance 03 (tropical disturbance, max wind 46 km/h) is 2,414 km from Mauritius. Closest to Madagascar's coast: 1,731 km, Sat 28 Nov ~04:00 (in 78 h). Closest to Mauritius: 1,146 km, Sat 28 Nov ~04:00 (in 78 h)."
   }
  ],
  "disturbances": [
