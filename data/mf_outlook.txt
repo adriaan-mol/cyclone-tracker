@@ -1,32 +1,28 @@
-AWIO20 FMEE 241221
+AWIO20 FMEE 251257
 TROPICAL CYCLONE CENTER / RSMC LA REUNION / METEO-FRANCE
 
 BULLETIN FOR CYCLONIC ACTIVITY AND SIGNIFICANT TROPICAL WEATHER
 IN THE SOUTHWEST INDIAN OCEAN
 
-DATE: 2026/11/24 A 1200 UTC
+DATE: 2026/11/25 A 1200 UTC
 
 PART 1: WARNING SUMMARY
 
-
-
-Bulletins WTIO20 and WTIO30 004/03 issued at 06 UTC sur la Depression Tropicale 03-20262027
+NIL.
 
 PART 2 : TROPICAL WEATHER DISCUSSION:
 
-The basin exhibits a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 10oS. Convective activity is moderate to strong within the MT, particularly in its eastern portion near tropical disturbance 03-20262027 southeast of Diego Garcia, but also further west around another suspect area and, to a lesser extent, around the remnants of Australian system 01U.
+The basin exhibits a Monsoon Trough (MT) pattern between 55 and 80oE along 5 to 10oS. Convective activity is light to moderate within the MT or near the residual low-pressure system 03-20262027 southeast of Diego Garcia, but locally strong near another invest area west of Diego Garcia.
 
 The wave environment remains generally favorable for cyclogenesis over the central and eastern parts of the basin in the short term. Indeed, the tail of the westerly wind burst associated with the active MJO, the powerful equatorial Rossby wave, and the mixed Rossby-gravity wave activity have contributed to the persistence of the Monsoon Trough.
 
-Tropical Disturbance 03-20262027 :Information at 09 UTC : Estimated position : 9.6S / 78.3EMovement : S, 07 ktMaximum wind speed (averaged over 10 minutes) : 25 ktEstimated central pressure : 1006 hPaFor further information, please refer to bulletins WTIO20 and WTIO30  issued at 06Z and following.
+Residual low ex-03-20262027 :Despite a temporary flare-up last night and this morning, convection has once again weakened in the latest satellite imagery, with an exposed surface center. The 0345Z ASCAT-C swath shows maximum winds in the range of 25 to 30 kt, with a circulation that remains closed and fairly symmetrical, whose center can be estimated at approximately 10.7S/77.9E. The residual trough from the remnants of the Australian system 01U is currently limiting surface convergence on the souhern flank. Convergence on the equatorial side is also expected to decrease as 03-20262027 tracks toward the invest area further to the west. This lack of surface convergence is the main factor limiting the development of this system, and most models forecast that it will fill in over the next 24 hours as 03-20262027 shifts west-southwestward and merges with the invest area further west.
 
-Remnant low over the east of the basin :System 01U, previously monitored by the BOM, continues to move across the eastern part of the basin, with an estimated center at approximately 16.9oS/83.4oE at 10Z. The 0403Z ASCAT-C pass shows that the estimated associated winds are highly asymmetrical, reaching 25 to 30 kt in the southern semicircle due to the pressure gradient, while much weaker on the northern side. Strong westerly to northwesterly wind shear is keeping convection offset to the southeast of the vortex. This system will continue moving westward while gradually filling in over the next few days.
+For the next 5 days, there is no potential for this suspect area to develop into a moderate tropical storm.
 
-For the next 5 days, there is no potential for this suspect area to develop into a tropical storm.
+Invest area west of Diego-Garcia :A low-pressure system is still present in the western half of the MT, currently centered approximately near 8.8oS/68.5oE, west of Diego Garcia. Over the past 24 hours, convection has remained scattered and disorganized, despite a slight pickup over the past 6 hours. The most recent ASCAT swaths occurred along the western edge of the circulation center; however, maximum winds can be estimated to be close to 25 kt.Over the next two days, this area will benefit from a strong equatorial feed in the lower levels, with wind shear expected to remain rather weak to moderate, along with good upper-level divergence and strong oceanic potential. The most limiting factor is likely a lack of convergence on the southern flank, particularly due to the presence of system 03-20262027 to the southeast. Starting Saturday and especially Sunday, the gradual strengthening of westerly to northwesterly wind shear and lower oceanic potential is expected to lead to a weakening of the system.Cyclogenesis signal has weakened over the last 24 hours across the various ensembles, with the AI models remaining behind the physical models.
 
-Suspect area west of Diego-Garcia :A low-pressure system is still present in the western half of the MT, currently centered approximately near 7.1oS/68.6oE, west of Diego Garcia. The latest satellite data (classical and microwave imagery) show increased signs of curvature. However, the cloud tops remain fairly warm. The latest partial ASCAT passes do not appear to show winds exceeding 25/30kt.Over the next two days, this area will benefit from a strong equatorial feed in the lower levels, with wind shear expected to remain rather weak to moderate, along with good upper-level divergence and strong oceanic potential. The most limiting factor is likely a lack of convergence on the southern flank, particularly due to the presence of system 03-20262027 to the southeast. Starting Friday and especially Saturday, the gradual strengthening of westerly to northwesterly wind shear is expected to lead to a weakening of the system.A generally weak-to-moderate cyclogenesis signal is observed across the various ensembles, with the AI models lagging slightly behind the physical models.
-
-The risk of tropical storm development to the southwest of the Chagos archipelago is expected to be low from tomorrow Wednesday November 25th and moderate from Thursday November 26th.
+The risk of tropical storm development to the southwest of the Chagos archipelago is expected to be low until Sunday November 29th then almost inexistant.
 
 
 
@@ -39,4 +35,5 @@ Very low: less than 10%      Moderate: 30% to 60%      Very high: over 90%
 Low: 10% to 30%              High: 60% to 90%
 
 The Southwestern Indian ocean basin extends from the Equator to 40S and from the african coastlines to 90E.
+
 

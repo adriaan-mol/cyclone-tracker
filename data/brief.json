@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-25T08:33Z",
- "generated_mut": "Wed 25 Nov 2026 12:33",
+ "generated": "2026-11-25T13:33Z",
+ "generated_mut": "Wed 25 Nov 2026 17:33",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -9,14 +9,9 @@
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No cyclones yet; watching 2 disturbances (Disturbance 03, Invest 97S)",
+ "headline": "No cyclones yet; watching 1 disturbance (Invest 97S)",
  "storms": [],
  "disturbances": [
-  {
-   "id": "03-20262027",
-   "chance": "unknown",
-   "summary": "Watching Disturbance 03 near 9.6\u00b0S 78.3\u00b0E, winds 46 km/h, moving s at 13 km/h: 2,521 km from Mauritius, 3,469 km from Antananarivo. Monitored by Meteo-France La Reunion."
-  },
   {
    "id": "97S",
    "chance": "medium",
