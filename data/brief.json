@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-25T18:34Z",
- "generated_mut": "Wed 25 Nov 2026 22:34",
+ "generated": "2026-11-26T12:17Z",
+ "generated_mut": "Thu 26 Nov 2026 16:17",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -9,18 +9,13 @@
  "image_url": "https://adriaan-mol.github.io/cyclone-tracker/latest.png",
  "image_raw_url": "https://raw.githubusercontent.com/adriaan-mol/cyclone-tracker/main/latest.png",
  "tracker_url": "https://adriaan-mol.github.io/cyclone-tracker/",
- "headline": "No cyclones yet; watching 2 disturbances (Invest 97S, Invest 98S)",
+ "headline": "No cyclones yet; watching 1 disturbance (Invest 97S)",
  "storms": [],
  "disturbances": [
   {
    "id": "97S",
    "chance": "medium",
-   "summary": "Watching Invest 97S near 8.7\u00b0S 68.6\u00b0E, winds 43-52 km/h: 1,745 km from Mauritius, 2,539 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: medium."
-  },
-  {
-   "id": "98S",
-   "chance": "low",
-   "summary": "Watching Invest 98S near 11.0\u00b0S 78.0\u00b0E, winds 50-59 km/h: 2,417 km from Mauritius, 3,385 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low."
+   "summary": "Watching Invest 97S near 9.3\u00b0S 67.4\u00b0E, winds 43-52 km/h: 1,609 km from Mauritius, 2,392 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: medium."
   }
  ],
  "feed_errors": []
