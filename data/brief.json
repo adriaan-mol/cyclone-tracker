@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-27T14:38Z",
- "generated_mut": "Fri 27 Nov 2026 18:38",
+ "generated": "2026-11-27T17:38Z",
+ "generated_mut": "Fri 27 Nov 2026 21:38",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -14,8 +14,8 @@
  "disturbances": [
   {
    "id": "97S",
-   "chance": "medium",
-   "summary": "Watching Invest 97S near 9.2\u00b0S 67.3\u00b0E, winds 43-52 km/h: 1,610 km from Mauritius, 2,388 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: medium."
+   "chance": "low",
+   "summary": "Watching Invest 97S near 8.7\u00b0S 68.6\u00b0E, winds 33-43 km/h: 1,745 km from Mauritius, 2,539 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low."
   }
  ],
  "feed_errors": []
