@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-27T13:35Z",
- "generated_mut": "Fri 27 Nov 2026 17:35",
+ "generated": "2026-11-27T13:36Z",
+ "generated_mut": "Fri 27 Nov 2026 17:36",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -19,6 +19,6 @@
   }
  ],
  "feed_errors": [
-  "GDACS feed: HTTP Error 400: Bad Request"
+  "GDACS feed: The read operation timed out"
  ]
 }
