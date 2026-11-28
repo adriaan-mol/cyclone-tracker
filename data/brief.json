@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-28T02:19Z",
- "generated_mut": "Sat 28 Nov 2026 06:19",
+ "generated": "2026-11-28T03:19Z",
+ "generated_mut": "Sat 28 Nov 2026 07:19",
  "closing_in": false,
  "mauritius_warning": null,
  "rodrigues_warning": null,
@@ -18,7 +18,5 @@
    "summary": "Watching Invest 97S near 8.7\u00b0S 68.6\u00b0E, winds 33-43 km/h: 1,745 km from Mauritius, 2,539 km from Antananarivo. JTWC chance of becoming a tropical cyclone within 24 h: low."
   }
  ],
- "feed_errors": [
-  "GDACS feed: HTTP Error 400: Bad Request"
- ]
+ "feed_errors": []
 }
